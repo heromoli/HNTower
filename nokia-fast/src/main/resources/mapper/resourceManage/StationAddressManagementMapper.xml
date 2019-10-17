@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nokia.modules.workflow.dao.StationAddressManagementDao">
+
+	<select id="queryByParams" parameterType="map" resultType="com.nokia.modules.workflow.entity.StationAddressManagement">
+		select ID,STATION_NAME,CITY,ADDRESS,LONGITUDE,LATITUDE from STATION_ADDRESS_MANAGEMENT
+		where param_key = #{paramKey}
+	</select>
+
+	<select id="selectCounty"  resultType="string">
+		select distinct(COUNTY) from STATION_ADDRESS_MANAGEMENT
+	</select>
+
+	<select id="selectSanyaAmount"  resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select  '三亚市' as city,sum(amount) as amount from
+			 (select t.county,count(*) amount from STATION_ADDRESS_MANAGEMENT t group by t.county )
+		where county in ('崖州区','吉阳区','天涯区','海棠区')
+	</select>
+
+	<select id="selectHaikouAmount"  resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select  '海口市' as city,sum(amount) as amount from
+			(select t.county,count(*) amount from STATION_ADDRESS_MANAGEMENT t group by t.county )
+		where county in ('美兰区','琼山区','龙华区','秀英区')
+	</select>
+
+	<select id="selectHainanAmount"  resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.county,count(*) amount from STATION_ADDRESS_MANAGEMENT t
+		group by t.county
+	</select>
+
+
+
+
+</mapper>

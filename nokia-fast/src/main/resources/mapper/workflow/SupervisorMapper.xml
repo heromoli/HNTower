@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nokia.modules.workflow.dao.SupervisorDao">
+
+	<select id="querySupervisorById" resultType="com.nokia.modules.workflow.entity.Supervisor">
+		SELECT * FROM supervisor WHERE id = #{id} order by id asc
+	</select>
+
+    <select id="queryYDSequence" resultType="String">
+		SELECT YDB_SEQUENCE.NEXTVAL FROM dual
+	</select>
+
+    <select id="queryLTSequence" resultType="String">
+		SELECT LTB_SEQUENCE.NEXTVAL FROM dual
+	</select>
+
+    <select id="queryDXSequence" resultType="String">
+		SELECT DXB_SEQUENCE.NEXTVAL FROM dual
+	</select>
+
+	<select id="countCityNum" resultType="String">
+		SELECT COUNT(1) FROM supervisor WHERE branch_company = #{branchCompany}
+	</select>
+
+</mapper>

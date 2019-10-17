@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nokia.modules.workflow.dao.StationAddressInfoDao">
+
+	<select id="queryByParams" parameterType="map" resultType="com.nokia.modules.workflow.entity.StationAddressInfo">
+		select ID,STATION_NAME,CITY,ADDRESS,LONGITUDE,LATITUDE from STATION_ADDRESS_INFO
+		where param_key = #{paramKey}
+	</select>
+
+	<select id="selectRegion"  resultType="String">
+		select distinct(region) from STATION_ADDRESS_INFO
+	</select>
+
+</mapper>

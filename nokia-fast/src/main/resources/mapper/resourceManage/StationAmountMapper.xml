@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nokia.modules.resourceManage.dao.StationAmountDao">
+
+    <select id="selectSanyaAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select  '三亚市' as name,sum(amount) as value from
+			 (select t.county,count(*) amount from STATION_ADDRESS_MANAGEMENT t group by t.county )
+		where county in ('崖州区','吉阳区','天涯区','海棠区')
+	</select>
+
+    <select id="selectHaikouAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select  '海口市' as name,sum(amount) as value from
+			(select t.county,count(*) amount from STATION_ADDRESS_MANAGEMENT t group by t.county )
+		where county in ('美兰区','琼山区','龙华区','秀英区')
+	</select>
+
+    <select id="selectQundaoAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select  '南海诸岛' as name,sum(amount) as value from
+			(select t.county,count(*) amount from STATION_ADDRESS_MANAGEMENT t group by t.county )
+		where county in ('西沙群岛','南沙群岛')
+	</select>
+
+    <select id="selectHainanAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.county name,count(*) value from STATION_ADDRESS_MANAGEMENT t
+			where t.county in ('五指山市','琼中黎族苗族自治县','临高县','乐东黎族自治县','儋州市','白沙黎族自治县'
+			,'保亭黎族自治县','琼海市','万宁市','屯昌县','文昌市','澄迈县','东方市','陵水黎族自治县','定安县','昌江黎族自治县')
+		group by t.county
+	</select>
+
+	<select id="selectCountyAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.county name,count(*) value from STATION_ADDRESS_MANAGEMENT t
+      		where t.county in ('龙华区','美兰区','秀英区','琼山区','崖州区','吉阳区','天涯区','海棠区','琼海市','儋州市')
+    	group by t.county
+	</select>
+
+    <select id="selectChanquanAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select property_nature as name,count(property_nature) as value from
+       		(select nvl(t.property_nature, '其他') property_nature  from STATION_ADDRESS_MANAGEMENT t)
+		group by property_nature
+	</select>
+
+    <select id="selectCityStationAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+    	select substr(t.city,0,2) name,count(city) value from STATION_ADDRESS_MANAGEMENT t
+            group by city
+	</select>
+
+    <select id="selectStationShareAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.if_operator_share name,count(t.if_operator_share) value from STATION_ADDRESS_MANAGEMENT t
+            group by t.if_operator_share
+	</select>
+
+    <select id="selectBizSceneAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+        select t.biz_scene name,count(t.biz_scene) value from STATION_ADDRESS_MANAGEMENT t
+   			group by t.biz_scene
+   		union (select '室分' as name,count(*) value from STATION_ADDRESS_MANAGEMENT t
+                 where t.biz_scene like '%室分%')
+  		order by name
+	</select>
+
+    <select id="selectStationAmountByYear" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+   		select nvl(name, '未知') name, value
+			from (select substr(t.delivery_time,0,4) name,count(*) value from STATION_ADDRESS_MANAGEMENT t
+				group by substr(t.delivery_time,0,4) order by name)
+	</select>
+
+	<select id="selectStationAmountByMonth" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+   		select nvl(name, '未知') name, value
+			from (select substr(t.delivery_time,0,7) name,count(*) value from STATION_ADDRESS_MANAGEMENT t
+				group by substr(t.delivery_time,0,7) order by name)
+	</select>
+
+    <select id="selectStationSourceAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+        select t.station_source name,count(1) value from STATION_ADDRESS_MANAGEMENT t
+			group by t.station_source
+	</select>
+
+    <select id="calculateShareRate" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+         select #{name} as name,1 -
+            (select count(t.if_operator_share)  from STATION_ADDRESS_MANAGEMENT t
+              where t.if_operator_share = #{name})/
+            (select count(t.if_operator_share)  from STATION_ADDRESS_MANAGEMENT t
+              where t.if_operator_share like concat(concat('%',#{name}),'%') ) as value
+          from dual
+	</select>
+
+	<select id="selectOperatorStationAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.operator name,sum(site_equity_num) value from OPERATOR_STATION_INFO t
+		group by operator
+	</select>
+
+    <select id="selectCountyStation5GAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.county name,count(*) value from STATION5G_DEMAND t
+        group by t.county
+        order by value desc
+	</select>
+
+
+    <select id="selectMonthlyStation5GAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select to_char(to_date(t.delivery_time,'yyyy-mm-dd'),'yyyy-mm') name ,count(t.station_name) value
+		from STATION5G_DEMAND t
+		where t.delivery_time is not null
+		group by to_char(to_date(t.delivery_time,'yyyy-mm-dd'),'yyyy-mm')
+		order by name
+	</select>
+
+
+
+</mapper>

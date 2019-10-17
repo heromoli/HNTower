@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nokia.modules.workflow.dao.BuildOrderConfirmDao">
+
+	<select id="querySupervisorById" resultType="com.nokia.modules.workflow.entity.BuildOrderConfirm">
+		select * from supervisor where id = #{id} order by id asc
+	</select>
+
+</mapper>
