@@ -128,8 +128,6 @@ public class zhzyglController extends BaseController {
             yearList[(int) i - 1] = localYear;
         }
 
-        logger.info("" + yearList);
-
         for (StationInfoAmount stationInfoAmount : dataList) {
             if (stationInfoAmount.getName().equals(yearList[0])) {
                 amountList.add(stationInfoAmount);

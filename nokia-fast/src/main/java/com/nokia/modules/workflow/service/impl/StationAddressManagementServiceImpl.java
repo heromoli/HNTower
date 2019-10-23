@@ -9,6 +9,7 @@ import com.nokia.modules.workflow.entity.StationAddressManagement;
 import com.nokia.modules.workflow.service.StationAddressManagementService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,13 +37,25 @@ public class StationAddressManagementServiceImpl extends ServiceImpl<StationAddr
                 }
             }
         }
-        IPage<PMS> page = this.page(new Query<StationAddressManagement>().getPage(pageParams), queryWrapper);
+        IPage<StationAddressManagement> page = this.page(new Query<StationAddressManagement>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }
 
     @Override
     public List<String> getStationCounty() {
         return baseMapper.selectCounty();
+    }
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
+        String key = (String)params.get("key");
+
+        IPage<StationAddressManagement> page = this.page(
+                new Query<StationAddressManagement>().getPage(params),
+                new QueryWrapper<StationAddressManagement>().like(StringUtils.isNotBlank(key),"station_name", key)
+        );
+
+        return new PageUtils(page);
     }
 
 }

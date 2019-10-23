@@ -105,7 +105,7 @@ public class ProcessesTest {
 //     repositoryService.deleteDeployment(deploymentId);
 
         /**级联删除：不管流程是否启动，都能可以删除（emmm大概是一锅端）*/
-        repositoryService.deleteDeployment(deploymentId, true);
+//        repositoryService.deleteDeployment(deploymentId, true);
         System.out.println("删除成功！");
     }
 

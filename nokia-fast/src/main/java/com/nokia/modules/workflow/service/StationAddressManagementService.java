@@ -9,8 +9,10 @@ import java.util.Map;
 
 public interface StationAddressManagementService extends IService<StationAddressManagement> {
 
-    public PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams);
+    PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams);
 
-    public List<String> getStationCounty();
+    List<String> getStationCounty();
+
+    PageUtils queryPage(Map<String, Object> params);
 
 }

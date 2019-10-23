@@ -2,7 +2,7 @@
     <div class="mod-log">
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-                <el-input v-model="dataForm.key" placeholder="用户名／用户操作" clearable></el-input>
+                <el-input v-model="dataForm.key" placeholder="站址名称" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button @click="getDataList()">查询</el-button>
@@ -22,52 +22,53 @@
                     label="ID">
             </el-table-column>
             <el-table-column
-                    prop="username"
+                    prop="stationName"
                     header-align="center"
                     align="center"
-                    label="用户名">
+                    label="站点名称">
             </el-table-column>
             <el-table-column
-                    prop="operation"
+                    prop="city"
                     header-align="center"
                     align="center"
-                    label="用户操作">
+                    label="区县">
             </el-table-column>
             <el-table-column
-                    prop="method"
+                    prop="address"
                     header-align="center"
                     align="center"
-                    width="150"
+                    width="250"
                     :show-overflow-tooltip="true"
-                    label="请求方法">
+                    label="地址">
             </el-table-column>
             <el-table-column
-                    prop="params"
+                    prop="longitude"
                     header-align="center"
                     align="center"
-                    width="150"
+                    width="100"
                     :show-overflow-tooltip="true"
-                    label="请求参数">
+                    label="经度">
             </el-table-column>
             <el-table-column
-                    prop="time"
+                    prop="latitude"
                     header-align="center"
                     align="center"
-                    label="执行时长(毫秒)">
+                    width="100"
+                    label="纬度">
             </el-table-column>
             <el-table-column
-                    prop="ip"
+                    prop="ifOperatorShare"
                     header-align="center"
                     align="center"
                     width="150"
-                    label="IP地址">
+                    label="共享情况">
             </el-table-column>
             <el-table-column
-                    prop="createDate"
+                    prop="备注"
                     header-align="center"
                     align="center"
                     width="180"
-                    label="创建时间">
+                    label="备注">
             </el-table-column>
         </el-table>
         <el-pagination
@@ -112,7 +113,7 @@
             getDataList() {
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/sys/log/list'),
+                    url: this.$http.adornUrl('/api/wf/stationAddressManagementList'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,

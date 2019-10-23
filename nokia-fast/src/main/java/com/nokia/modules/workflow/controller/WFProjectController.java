@@ -860,7 +860,6 @@ public class WFProjectController extends BaseController {
     public RData queryStationAddressInfo(@RequestParam Map<String, Object> params) {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
-        logger.info(queryParams.toString());
 
         PageUtils page = stationAddressInfoService.selectDataByParam(params, queryParams);
 
@@ -873,6 +872,12 @@ public class WFProjectController extends BaseController {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         PageUtils page = stationManageService.selectDataByParam(params, queryParams);
+        return RData.ok().put("page", page);
+    }
+
+    @GetMapping("/stationAddressManagementList")
+    public RData stationAddressManagementList(@RequestParam Map<String, Object> params) {
+        PageUtils page = stationManageService.queryPage(params);
         return RData.ok().put("page", page);
     }
 

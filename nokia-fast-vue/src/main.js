@@ -45,18 +45,6 @@ Vue.use(VueHighcharts);
 Vue.prototype.$http = httpRequest; // ajax请求方法
 Vue.prototype.isAuth = isAuth;     // 权限方法
 
-import Vue2Leaflet from 'vue2-leaflet'
-import 'leaflet/dist/leaflet.css';
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
-});
-
-import axios from 'axios';  //天气控件
-Vue.prototype.$axios=axios;   //把对象挂载在vue中
-
 // 保存整站vuex本地储存初始状态
 // window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
 
