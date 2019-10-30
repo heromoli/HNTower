@@ -12,10 +12,7 @@ import com.nokia.utils.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by wow on 2019/6/8.
@@ -43,6 +40,27 @@ public class ProjectWorkflowGroupServiceImpl extends ServiceImpl<ProjectWorkflow
     }
 
     @Override
+    public void saveOrUpdate(Long userId, List<Long> groupIdList) {
+        //先删除用户与分组关系
+        Map<String,Object> map = new HashMap<>();
+        map.put("user_id", userId);
+        this.removeByMap(map);
+
+        if(groupIdList == null || groupIdList.size() == 0){
+            return ;
+        }
+
+        //保存用户与分组关系
+        for(Long groupId : groupIdList){
+            ProjectWorkflowGroupEntity entity = new ProjectWorkflowGroupEntity();
+            entity.setUserId(userId);
+            entity.setGroupId(groupId);
+
+            this.save(entity);
+        }
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(ProjectWorkflowGroupEntity config) {
         this.updateById(config);
@@ -65,7 +83,7 @@ public class ProjectWorkflowGroupServiceImpl extends ServiceImpl<ProjectWorkflow
         List<String> l = new ArrayList<>();
         if(list != null){
             for(ProjectWorkflowGroupEntity projectWorkflowGroupEntity:list){
-                l.add(projectWorkflowGroupEntity.getGroupId());
+                l.add(projectWorkflowGroupEntity.getGroupId().toString());
             }
         }
         return l;

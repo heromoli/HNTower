@@ -42,8 +42,8 @@
         data () {
             return {
                 dataForm: {
-                    userName: 'admin',
-                    password: 'admin',
+                    userName: '',
+                    password: '',
                     uuid: '',
                     captcha: ''
                 },

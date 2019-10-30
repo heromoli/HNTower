@@ -147,8 +147,8 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="是否共享" prop="ifShare">
-                                <el-select v-model="dataForm.ifShare" placeholder="请选择" style="width: 100%">
+                            <el-form-item label="能否形成订单" prop="ifCanOrder">
+                                <el-select v-model="dataForm.ifCanOrder" placeholder="请选择" style="width: 100%">
                                     <el-option
                                             v-for="item in shareOptions"
                                             :key="item.value"
@@ -159,62 +159,302 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-
+                    <el-row>
+                        <el-col :span="24">
+                            <el-form-item label="不能形成订单的原因" prop="cantOrderReason">
+                                <el-input type="text" v-model="dataForm.cantOrderReason"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                     <el-collapse>
-                        <el-collapse-item title="表4字段" name="1">
+                        <el-collapse-item title="候选站点填写" name="1">
                             <div class="el-main" id="showOrHide">
                                 <el-row>
                                     <el-col :span="24">
-                                        <el-form-item></el-form-item>
+                                        <el-form-item><span>候补站点1</span></el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
                                     <el-col :span="6">
-                                        <el-form-item label="共享存量站址产权归属方" prop="shareStationBelong">
-                                            <el-input type="text" v-model="dataForm.shareStationBelong"></el-input>
+                                        <el-form-item label="站点名称" prop="hx1StationName">
+                                            <el-input type="text" v-model="dataForm.hx1StationName"></el-input>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-form-item label="原有运营商数" prop="oldOperatorNum">
-                                            <el-input type="text" v-model="dataForm.oldOperatorNum"></el-input>
+                                        <el-form-item label="站点编号" prop="hx1StationNum">
+                                            <el-input type="text" v-model="dataForm.hx1StationNum"></el-input>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-form-item label="原有运营商" prop="oldOperator">
-                                            <el-input type="text" v-model="dataForm.oldOperator"></el-input>
+                                        <el-form-item label="经度" prop="hx1Longitude">
+                                            <el-input type="text" v-model="dataForm.hx1Longitude"></el-input>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-form-item label="新增运营商数" prop="newOperatorNum">
-                                            <el-input type="text" v-model="dataForm.newOperatorNum"></el-input>
+                                        <el-form-item label="纬度" prop="hx1Latitude">
+                                            <el-input type="text" v-model="dataForm.hx1Latitude"></el-input>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
-
                                     <el-col :span="6">
-                                        <el-form-item label="新增运营商" prop="newOperator">
-                                            <el-input type="text" v-model="dataForm.newOperator"></el-input>
+                                        <el-form-item label="详细地址" prop="hx1Address">
+                                            <el-input type="text" v-model="dataForm.hx1Address"></el-input>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-form-item label="铁塔种类" prop="towerType">
-                                            <el-input type="text" v-model="dataForm.towerType"></el-input>
+                                        <el-form-item label="是否共享已有站址" prop="hx1IfShare">
+                                            <el-input type="text" v-model="dataForm.hx1IfShare"></el-input>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-form-item label="铁塔细分种类" prop="towerTypeDetail">
-                                            <el-input type="text" v-model="dataForm.towerTypeDetail"></el-input>
+                                        <el-form-item label="共享存量站址产权归属方" prop="hx1ShareStationBelong">
+                                            <el-input type="text" v-model="dataForm.hx1ShareStationBelong"></el-input>
                                         </el-form-item>
                                     </el-col>
                                     <el-col :span="6">
-                                        <el-form-item label="建设方式" prop="buildType">
-                                            <el-input type="text" v-model="dataForm.buildType"></el-input>
+                                        <el-form-item label="原有运营商数(户)" prop="hx1OldOperatorNum">
+                                            <el-input type="text" v-model="dataForm.hx1OldOperatorNum"></el-input>
                                         </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
-                                    <el-col :span="18">
+                                    <el-col :span="6">
+                                        <el-form-item label="原有具体运营商" prop="hx1OldOperator">
+                                            <el-input type="text" v-model="dataForm.hx1OldOperator"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="本次新增运营商数(户)" prop="hx1NewOperatorNum">
+                                            <el-input type="text" v-model="dataForm.hx1NewOperatorNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="新增具体运营商" prop="hx1NewOperator">
+                                            <el-input type="text" v-model="dataForm.hx1NewOperator"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="天线挂高范围" prop="hx1AntennaHeight">
+                                            <el-input type="text" v-model="dataForm.hx1AntennaHeight"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="铁塔类型" prop="hx1TowerType">
+                                            <el-input type="text" v-model="dataForm.hx1TowerType"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="铁塔细分种类" prop="hx1TowerTypeDetail">
+                                            <el-input type="text" v-model="dataForm.hx1TowerTypeDetail"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="机房类型" prop="hx1RoomType">
+                                            <el-input type="text" v-model="dataForm.hx1RoomType"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="建设方式" prop="hx1BuildType">
+                                            <el-input type="text" v-model="dataForm.hx1BuildType"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1名称" prop="hx1Gjf1Name">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf1Name"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1需求站点名称" prop="hx1Gjf1StationName">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf1StationName"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1需求站点编号" prop="hx1Gjf1StationNum">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf1StationNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1需求来源批次" prop="hx1Gjf1SourceBatch">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf1SourceBatch"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2名称" prop="hx1Gjf2Name">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf2Name"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2需求站点名称" prop="hx1Gjf2StationName">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf2StationName"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2需求站点编号" prop="hx1Gjf2StationNum">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf2StationNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2需求来源批次" prop="hx1Gjf2SourceBatch">
+                                            <el-input type="text" v-model="dataForm.hx1Gjf2SourceBatch"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="24">
+                                        <el-form-item><span>候补站点2</span></el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="站点名称" prop="hx2StationName">
+                                            <el-input type="text" v-model="dataForm.hx2StationName"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="站点编号" prop="hx2StationNum">
+                                            <el-input type="text" v-model="dataForm.hx2StationNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="经度" prop="hx2Longitude">
+                                            <el-input type="text" v-model="dataForm.hx2Longitude"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="纬度" prop="hx2Latitude">
+                                            <el-input type="text" v-model="dataForm.hx2Latitude"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="详细地址" prop="hx2Address">
+                                            <el-input type="text" v-model="dataForm.hx2Address"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="是否共享已有站址" prop="hx2IfShare">
+                                            <el-input type="text" v-model="dataForm.hx2IfShare"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共享存量站址产权归属方" prop="hx2ShareStationBelong">
+                                            <el-input type="text" v-model="dataForm.hx2ShareStationBelong"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="原有运营商数(户)" prop="hx2OldOperatorNum">
+                                            <el-input type="text" v-model="dataForm.hx2OldOperatorNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="原有具体运营商" prop="hx2OldOperator">
+                                            <el-input type="text" v-model="dataForm.hx2OldOperator"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="本次新增运营商数(户)" prop="hx2NewOperatorNum">
+                                            <el-input type="text" v-model="dataForm.hx2NewOperatorNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="新增具体运营商" prop="hx2NewOperator">
+                                            <el-input type="text" v-model="dataForm.hx2NewOperator"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="天线挂高范围" prop="hx2AntennaHeight">
+                                            <el-input type="text" v-model="dataForm.hx2AntennaHeight"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="铁塔类型" prop="hx2TowerType">
+                                            <el-input type="text" v-model="dataForm.hx2TowerType"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="铁塔细分种类" prop="hx2TowerTypeDetail">
+                                            <el-input type="text" v-model="dataForm.hx2TowerTypeDetail"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="机房类型" prop="hx2RoomType">
+                                            <el-input type="text" v-model="dataForm.hx2RoomType"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="建设方式" prop="hx2BuildType">
+                                            <el-input type="text" v-model="dataForm.hx2BuildType"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1名称" prop="hx2Gjf1Name">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf1Name"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1需求站点名称" prop="hx2Gjf1StationName">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf1StationName"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1需求站点编号" prop="hx2Gjf1StationNum">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf1StationNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方1需求来源批次" prop="hx2Gjf1SourceBatch">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf1SourceBatch"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2名称" prop="hx2Gjf2Name">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf2Name"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2需求站点名称" prop="hx2Gjf2StationName">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf2StationName"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2需求站点编号" prop="hx2Gjf2StationNum">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf2StationNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共建方2需求来源批次" prop="hx2Gjf2SourceBatch">
+                                            <el-input type="text" v-model="dataForm.hx2Gjf2SourceBatch"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="6">
+                                        <el-form-item label="站点级别" prop="stationLevel">
+                                            <el-input type="text" v-model="dataForm.stationLevel"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="共享用户数" prop="shareUserNum">
+                                            <el-input type="text" v-model="dataForm.shareUserNum"></el-input>
+                                        </el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
                                         <el-form-item label="备注" prop="remarks">
                                             <el-input type="text" v-model="dataForm.remarks"></el-input>
                                         </el-form-item>

@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 @TableName("supervisor")
 public class CustomerDemandCollection extends RowModel implements Serializable {
-
+//表3
     @TableId
     private Long id;
 

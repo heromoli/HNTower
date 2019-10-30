@@ -121,7 +121,7 @@
                                 </el-col>
                                 <el-col :span="24" :style="'height:'+centerHeight1+'px'">
                                     <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
-                                        累计修复6条
+                                        累计修复55条
                                     </div>
                                 </el-col>
 
@@ -461,15 +461,15 @@
                 pData = {
                     unit:'%',
                     title:{
-                        text:'87.58%',
+                        text:'96.5%',
                         subtext:'修复率',
 
                     },
                     series:{
                         name: '修复率',
                         data: [
-                            {value: 87.58, name: '已修复'},
-                            {value: 12.42, name: '未修复'},
+                            {value: 96.5, name: '已修复'},
+                            {value: 3.5, name: '未修复'},
 
                         ]
                     }
@@ -478,7 +478,7 @@
 
                 pData = {
                     title:{
-                        text:'100',
+                        text:'57',
                         subtext:'中断数',
                         textStyle:{
                             color:'#FFF',

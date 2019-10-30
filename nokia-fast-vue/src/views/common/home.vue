@@ -97,14 +97,14 @@
         display: block;
     }
 
-    .clearfix:before,
-    .clearfix:after {
-        display: table;
-        content: "";
-    }
+    /*.clearfix:before,*/
+    /*.clearfix:after {*/
+        /*display: table;*/
+        /*content: "";*/
+    /*}*/
 
-    .clearfix:after {
-        clear: both
-    }
+    /*.clearfix:after {*/
+        /*clear: both*/
+    /*}*/
 </style>
 

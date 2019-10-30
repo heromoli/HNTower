@@ -19,11 +19,12 @@ public interface ProjectWorkflowGroupService extends IService<ProjectWorkflowGro
      */
     public void saveConfig(ProjectWorkflowGroupEntity config);
 
+    public void saveOrUpdate(Long userId, List<Long> groupIdList);
+
     /**
      * 更新配置信息
      */
     public void update(ProjectWorkflowGroupEntity config);
-
 
 
     /**

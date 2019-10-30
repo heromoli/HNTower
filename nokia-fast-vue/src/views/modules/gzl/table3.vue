@@ -167,7 +167,7 @@
                 pageSize: 10,
                 totalPage: 0,
                 dataListLoading: false,
-                showProcessesVisible: false,
+                 showProcessesVisible: false,
                 showChangeConfirmVisible: false,
                 uploadVisible: false,
                 selectionDataList: []

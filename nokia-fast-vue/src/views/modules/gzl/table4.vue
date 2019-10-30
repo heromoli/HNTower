@@ -1,6 +1,6 @@
-<script src="../../../../../../../Tomcat8.5/webapps/flow/modules.js"></script>
 <template>
     <div class="mod-log">
+
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
                 <el-input size="mini" v-model="dataForm.param" placeholder="用户名／用户操作" clearable></el-input>
@@ -68,66 +68,58 @@
                     width="150"
                     label="站点名称">
             </el-table-column>
-            <el-table-column align="center" label="站点位置及要求">
-                <el-table-column
-                        fixed
-                        prop="longitude"
-                        header-align="center"
-                        align="center"
-                        width="90"
-                        label="经度">
-                </el-table-column>
-                <el-table-column
-                        fixed
-                        prop="latitude"
-                        header-align="center"
-                        align="center"
-                        width="90"
-                        label="纬度">
-                </el-table-column>
-                <el-table-column
-                        fixed
-                        prop="address"
-                        header-align="center"
-                        align="center"
-                        width="200"
-                        :show-overflow-tooltip=true
-                        label="详细地址">
-                </el-table-column>
+            <!--<el-table-column align="left" label="站点位置及要求">-->
+            <el-table-column
+                    fixed
+                    prop="longitude"
+                    header-align="center"
+                    align="center"
+                    width="90"
+                    label="经度">
             </el-table-column>
-            <el-table-column align="center" label="共享共建信息">
-                <el-table-column
-                        fixed
-                        prop="ifShare"
-                        header-align="center"
-                        align="center"
-                        width="80"
-                        label="是否共享">
-                </el-table-column>
-                <el-table-column
-                        fixed
-                        prop="towerType"
-                        header-align="center"
-                        align="center"
-                        width="150"
-                        label="铁塔类型">
-                </el-table-column>
-                <el-table-column
-                        fixed
-                        prop="buildType"
-                        header-align="center"
-                        align="center"
-                        width="80"
-                        label="建设方式">
-                </el-table-column>
+            <el-table-column
+                    fixed
+                    prop="latitude"
+                    header-align="center"
+                    align="center"
+                    width="90"
+                    label="纬度">
             </el-table-column>
+            <el-table-column
+                    fixed
+                    prop="address"
+                    header-align="center"
+                    align="center"
+                    width="200"
+                    :show-overflow-tooltip=true
+                    label="详细地址">
+            </el-table-column>
+            <!--</el-table-column>-->
+            <!--<el-table-column align="center" label="共享共建信息">-->
+            <el-table-column
+                    fixed
+                    prop="ifCanOrder"
+                    header-align="center"
+                    align="center"
+                    width="80"
+                    label="能否形成订单">
+            </el-table-column>
+            <el-table-column
+                    fixed
+                    prop="不能形成订单原因"
+                    header-align="center"
+                    align="center"
+                    width="150"
+                    label="不能形成订单原因">
+            </el-table-column>
+            <!--</el-table-column>-->
             <el-table-column
                     fixed="right"
                     header-align="center"
                     align="center"
                     label="操作"
                     width="230">
-                <template>
+                <template size="mini" slot-scope="{row,$index}">
                     <el-button type="primary" size="small" @click.native="showProcessesHiList(row)">查看</el-button>
                     <el-button size="small" @click.native="cancelProcess(row)">不同意</el-button>
                     <el-button type="success" size="small" @click.native="submitProcess(row)">同意</el-button>
@@ -173,7 +165,7 @@
                 dataListLoading: false,
                 showProcessesVisible: false,
                 showChangeConfirmVisible: false,
-                selectionDataList: [],
+                selectionDataList: []
             }
         },
         created() {
@@ -200,7 +192,8 @@
                 }).then(({data}) => {
                     if (data.page != null && data.code === 0) {
                         this.dataList = data.page.list;
-                        this.totalPage = data.page.totalCount
+                        this.totalPage = data.page.totalCount;
+                        console.log(this.dataList);
                     } else {
                         this.dataList = [];
                         this.totalPage = 0
@@ -228,23 +221,29 @@
             submitProcess(row) {
                 row.approve = '1';
                 row.groupId = '4';
-                this.$http({
-                    url: this.$http.adornUrl('/api/wf/complete'),
-                    method: 'post',
-                    data: this.$http.adornData(row)
-                }).then(({data}) => {
-                    if (data && data.code === 0) {
-                        this.$message({
-                            message: '操作成功',
-                            type: 'success',
-                            duration: 1500,
-                            onClose: () => {
-                                this.getDataList();
-                            }
-                        })
-                    } else {
-                        this.$message.error(data.msg)
-                    }
+                this.$confirm('确定提交工单?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http({
+                        url: this.$http.adornUrl('/api/wf/complete'),
+                        method: 'post',
+                        data: this.$http.adornData(row)
+                    }).then(({data}) => {
+                        if (data && data.code === 0) {
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success',
+                                duration: 1500,
+                                onClose: () => {
+                                    this.getDataList();
+                                }
+                            })
+                        } else {
+                            this.$message.error(data.msg)
+                        }
+                    })
                 })
             },
             cancelProcess(row) {
@@ -255,6 +254,7 @@
                 })
             },
             showProcessesHiList(row) {
+                console.log(row);
                 this.showProcessesVisible = true;
                 this.$nextTick(() => {
                     this.$refs.showProcesses.init(row);

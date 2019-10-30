@@ -16,10 +16,9 @@ public class ProjectWorkflowGroupEntity {
     @TableId
     private Long id;
     @NotBlank(message="用户不能为空")
-    private int userId;
+    private Long userId;
     @NotBlank(message="分组ID")
-    private String groupId;
-    @NotBlank(message="分组名称")
+    private Long groupId;
     private String groupName;
 
     @TableField(exist=false)

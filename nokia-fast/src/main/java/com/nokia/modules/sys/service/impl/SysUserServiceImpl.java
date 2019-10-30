@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nokia.common.exception.RRException;
 import com.nokia.modules.sys.dao.SysUserDao;
 import com.nokia.modules.sys.entity.SysUserEntity;
+import com.nokia.modules.sys.service.ProjectWorkflowGroupService;
 import com.nokia.modules.sys.service.SysRoleService;
 import com.nokia.modules.sys.service.SysUserRoleService;
 import com.nokia.modules.sys.service.SysUserService;
@@ -33,6 +34,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     private SysUserRoleService sysUserRoleService;
     @Autowired
     private SysRoleService sysRoleService;
+    @Autowired
+    private ProjectWorkflowGroupService pwfgService;
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -96,6 +100,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
         //保存用户与角色关系
         sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+        //保存用户与分组关系
+        pwfgService.saveOrUpdate(user.getUserId(),user.getGroupIdList());
     }
 
     @Override

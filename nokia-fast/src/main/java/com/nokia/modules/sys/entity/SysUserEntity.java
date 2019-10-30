@@ -75,4 +75,10 @@ public class SysUserEntity implements Serializable {
 	 */
 	private Date createTime;
 
+	/**
+	 * 分组列表
+	 */
+	@TableField(exist=false)
+	private List<Long> groupIdList;
+
 }
