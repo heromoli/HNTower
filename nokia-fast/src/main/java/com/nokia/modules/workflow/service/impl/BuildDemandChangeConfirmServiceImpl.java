@@ -33,6 +33,8 @@ public class BuildDemandChangeConfirmServiceImpl extends ServiceImpl<BuildDemand
         if (prcList != null && prcList.size() > 0 && (processInstanceId != null && processInstanceId.size() > 0)) {
             QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
 //            queryWrapper.in("ACT_PROC_STATUS", "3","5","7");
+            String queryParam = (String) params.get("param");
+            queryWrapper.like("STATION_NAME",queryParam);
             IPage<BuildDemandChangeConfirm> page = this.page(new Query<BuildDemandChangeConfirm>().getPage(params), queryWrapper);
             return new PageUtils(page);
         }

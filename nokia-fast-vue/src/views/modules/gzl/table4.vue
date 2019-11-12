@@ -3,7 +3,7 @@
 
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-                <el-input size="mini" v-model="dataForm.param" placeholder="用户名／用户操作" clearable></el-input>
+                <el-input size="mini" v-model="dataForm.param" placeholder="站点名称" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button size="mini" @click="getDataList()">查询</el-button>
@@ -37,7 +37,7 @@
                     label="ID">
             </el-table-column>
             <el-table-column
-                    fixed
+
                     prop="demandNum"
                     header-align="center"
                     align="center"
@@ -45,7 +45,7 @@
                     label="需求编号">
             </el-table-column>
             <el-table-column
-                    fixed
+
                     prop="operatorName"
                     header-align="center"
                     align="center"
@@ -53,7 +53,7 @@
                     label="电信企业">
             </el-table-column>
             <el-table-column
-                    fixed
+
                     prop="branchCompany"
                     header-align="center"
                     align="center"
@@ -61,43 +61,51 @@
                     label="分公司">
             </el-table-column>
             <el-table-column
-                    fixed
+
                     prop="stationName"
                     header-align="center"
                     align="center"
                     width="150"
                     label="站点名称">
             </el-table-column>
-            <!--<el-table-column align="left" label="站点位置及要求">-->
-            <el-table-column
-                    fixed
-                    prop="longitude"
-                    header-align="center"
-                    align="center"
-                    width="90"
-                    label="经度">
-            </el-table-column>
-            <el-table-column
-                    fixed
-                    prop="latitude"
-                    header-align="center"
-                    align="center"
-                    width="90"
-                    label="纬度">
-            </el-table-column>
-            <el-table-column
-                    fixed
-                    prop="address"
-                    header-align="center"
-                    align="center"
-                    width="200"
-                    :show-overflow-tooltip=true
-                    label="详细地址">
-            </el-table-column>
+            <!--<el-table-column fixed align="center" label="站点位置及要求">-->
+                <el-table-column
+
+                        prop="longitude"
+                        header-align="center"
+                        align="center"
+                        width="90"
+                        label="经度">
+                </el-table-column>
+                <el-table-column
+
+                        prop="latitude"
+                        header-align="center"
+                        align="center"
+                        width="90"
+                        label="纬度">
+                </el-table-column>
+                <el-table-column
+
+                        prop="address"
+                        header-align="center"
+                        align="center"
+                        width="250"
+                        :show-overflow-tooltip=true
+                        label="详细地址">
+                </el-table-column>
+                <el-table-column
+
+                        prop="deviateRadius"
+                        header-align="center"
+                        align="center"
+                        width="100"
+                        label="允许偏离半径">
+                </el-table-column>
             <!--</el-table-column>-->
             <!--<el-table-column align="center" label="共享共建信息">-->
             <el-table-column
-                    fixed
+
                     prop="ifCanOrder"
                     header-align="center"
                     align="center"
@@ -105,11 +113,11 @@
                     label="能否形成订单">
             </el-table-column>
             <el-table-column
-                    fixed
-                    prop="不能形成订单原因"
+
+                    prop="cantOrderReason"
                     header-align="center"
                     align="center"
-                    width="150"
+                    width="200"
                     label="不能形成订单原因">
             </el-table-column>
             <!--</el-table-column>-->
@@ -187,7 +195,8 @@
                         'page': this.pageIndex,
                         'limit': this.pageSize,
                         'key': this.dataForm.key,
-                        'groupId': this.dataForm.groupId
+                        'groupId': this.dataForm.groupId,
+                        'param': this.dataForm.param
                     })
                 }).then(({data}) => {
                     if (data.page != null && data.code === 0) {
@@ -248,10 +257,34 @@
             },
             cancelProcess(row) {
                 row.tableId = '4';
-                this.showChangeConfirmVisible = true;
-                this.$nextTick(() => {
-                    this.$refs.showChangeConfirm.init(row);
-                })
+                this.$confirm('该操作会中止本次需求申请，是否确定？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http({
+                        url: this.$http.adornUrl('/api/wf/shutDownProcess'),
+                        method: 'post',
+                        data: this.$http.adornData(row)
+                    }).then(({data}) => {
+                        if (data && data.code === 0) {
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success',
+                                duration: 1500,
+                                onClose: () => {
+                                    this.getDataList();
+                                }
+                            })
+                        } else {
+                            this.$message.error(data.msg)
+                        }
+                    })
+                });
+                // this.showChangeConfirmVisible = true;
+                // this.$nextTick(() => {
+                //     this.$refs.showChangeConfirm.init(row);
+                // })
             },
             showProcessesHiList(row) {
                 console.log(row);

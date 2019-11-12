@@ -3,7 +3,7 @@
 
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-                <el-input size="mini" v-model="dataForm.param" placeholder="用户名／用户操作" clearable></el-input>
+                <el-input size="mini" v-model="dataForm.param" placeholder="站点名称" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button size="mini" @click="getDataList()">查询</el-button>
@@ -84,7 +84,7 @@
                     width="100"
                     label="场景划分">
             </el-table-column>
-            <el-table-column header-align="center" align="center" label="站点位置及要求" >
+            <el-table-column header-align="center" align="center" label="站点位置及要求">
                 <el-table-column
                         fixed
                         prop="longitude"
@@ -158,8 +158,8 @@
                     actProcInstId: '',
                     actProcStatus: '',
                     approve: '',
-                    param :'',
-                    key:'usertask1',
+                    param: '',
+                    key: 'usertask1',
                     groupId: '3'
                 },
                 dataList: [],
@@ -167,7 +167,7 @@
                 pageSize: 10,
                 totalPage: 0,
                 dataListLoading: false,
-                 showProcessesVisible: false,
+                showProcessesVisible: false,
                 showChangeConfirmVisible: false,
                 uploadVisible: false,
                 selectionDataList: []
@@ -192,7 +192,8 @@
                         'page': this.pageIndex,
                         'limit': this.pageSize,
                         'key': this.dataForm.key,
-                        'groupId': this.dataForm.groupId
+                        'groupId': this.dataForm.groupId,
+                        'param': this.dataForm.param
                     })
                 }).then(({data}) => {
                     if (data.page != null && data.code === 0) {

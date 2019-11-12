@@ -170,8 +170,30 @@
                         <el-collapse-item title="候选站点填写" name="1">
                             <div class="el-main" id="showOrHide">
                                 <el-row>
-                                    <el-col :span="24">
+                                    <el-col :span="18">
                                         <el-form-item><span>候补站点1</span></el-form-item>
+
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="站点查询" prop="queryStation1">
+                                            <el-select v-model="queryStation1"
+                                                       filterable
+                                                       remote
+                                                       reserve-keyword
+                                                       placeholder="请输入站名"
+                                                       :remote-method="remoteData1"
+                                                       :loading="loading"
+                                                       no-data-text=""
+                                                       default-first-option
+                                                       @change="setHx1Value" style="width: 100%">
+                                                <el-option
+                                                        v-for="item in options1"
+                                                        :key="item.id"
+                                                        :label="item.stationName"
+                                                        :value="item">
+                                                </el-option>
+                                            </el-select>
+                                        </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
@@ -307,8 +329,29 @@
                                     </el-col>
                                 </el-row>
                                 <el-row>
-                                    <el-col :span="24">
+                                    <el-col :span="18">
                                         <el-form-item><span>候补站点2</span></el-form-item>
+                                    </el-col>
+                                    <el-col :span="6">
+                                        <el-form-item label="站点查询" prop="queryStation2">
+                                            <el-select v-model="queryStation2"
+                                                       filterable
+                                                       remote
+                                                       reserve-keyword
+                                                       placeholder="请输入站名"
+                                                       :remote-method="remoteData2"
+                                                       :loading="loading"
+                                                       no-data-text=""
+                                                       default-first-option
+                                                       @change="setHx2Value" style="width: 100%">
+                                                <el-option
+                                                        v-for="item in options2"
+                                                        :key="item.id"
+                                                        :label="item.stationName"
+                                                        :value="item">
+                                                </el-option>
+                                            </el-select>
+                                        </el-form-item>
                                     </el-col>
                                 </el-row>
                                 <el-row>
@@ -568,7 +611,12 @@
                     label: '建站进行中',
                     disabled: true
                 }],
+                options1: [],
+                options2: [],
                 dataRule: {},
+                queryStation1: '',
+                queryStation2: '',
+                loading: false,
                 processImgSrc: '',
                 activeNames: ['1']
             }
@@ -656,6 +704,69 @@
 //                }).then(({data}) => {
 //                    this.processImgSrc = data;
 //                })
+            },
+            remoteData1(query) {
+                if (query !== '') {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.$http({
+                            url: this.$http.adornUrl('/api/wf/stationAddressManagementList'),
+                            method: 'get',
+                            params: this.$http.adornParams({
+                                'key': query
+                            })
+                        }).then(({data}) => {
+                            if (data && data.code === 0) {
+                                this.options1 = data.page.list;
+                            } else {
+                                this.options1 = [];
+                            }
+                            this.loading = false;
+                        });
+                    }, 1000);
+
+                }
+            },
+            setHx1Value(value) {
+                // console.log(value);
+                this.dataForm.hx1StationName = value.stationName;
+                this.dataForm.hx1StationNum = value.stationNum;
+                this.dataForm.hx1Longitude = value.longitude;
+                this.dataForm.hx1Latitude = value.latitude;
+                this.dataForm.hx1Address = value.address;
+                this.dataForm.hx1IfShare = value.ifOperatorShare;
+                this.dataForm.hx1RoomType = value.roomType;
+            }, remoteData2(query) {
+                if (query !== '') {
+                    this.loading = true;
+                    setTimeout(() => {
+                        this.$http({
+                            url: this.$http.adornUrl('/api/wf/stationAddressManagementList'),
+                            method: 'get',
+                            params: this.$http.adornParams({
+                                'key': query
+                            })
+                        }).then(({data}) => {
+                            if (data && data.code === 0) {
+                                this.options2 = data.page.list;
+                            } else {
+                                this.options2 = [];
+                            }
+                            this.loading = false;
+                        });
+                    }, 1000);
+
+                }
+            },
+            setHx2Value(value) {
+                // console.log(value);
+                this.dataForm.hx2StationName = value.stationName;
+                this.dataForm.hx2StationNum = value.stationNum;
+                this.dataForm.hx2Longitude = value.longitude;
+                this.dataForm.hx2Latitude = value.latitude;
+                this.dataForm.hx2Address = value.address;
+                this.dataForm.hx2IfShare = value.ifOperatorShare;
+                this.dataForm.hx2RoomType = value.roomType;
             }
 
         }

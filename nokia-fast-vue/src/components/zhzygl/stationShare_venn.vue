@@ -60,44 +60,51 @@
                                     borderWidth: 1
                                 }
                             },
+                            // colors:['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'],
+                            colors:['#0085d0', '#e60000', '#0527af','#50B432', '#ED561B', '#DDDF00' ],
                             series: [{
                                 type: 'venn',
                                 name: '',
                                 dataLabels: {
                                     enabled: true,
-                                    inside: true,
+                                    inside: false,
                                     align: 'center',
-                                    format: '{point.sets}<br>{point.value}',
+                                    format: '{point.name}',
+                                    style: {
+                                        color: '#effffc',
+                                        fontFamily: 'Microsoft Yahei',
+                                        fontSize: '13px'
+                                    }
                                 },
                                 data: [
                                     {
-                                        name: '移动',
+                                        name: '移动 '+this.dataList[0],
                                         sets: ['移动'],
-                                        value: this.dataList[0]
+                                        value: 2
                                     }, {
-                                        name: '联通',
+                                        name: '联通 '+this.dataList[1],
                                         sets: ['联通'],
-                                        value: this.dataList[1]
+                                        value: 2
                                     }, {
-                                        name: '电信',
+                                        name: '电信 '+this.dataList[2],
                                         sets: ['电信'],
-                                        value: this.dataList[2]
+                                        value: 2
                                     }, {
-                                        name: '移动&联通',
+                                        name: this.dataList[3],
                                         sets: ['移动', '联通'],
-                                        value: this.dataList[3]
+                                        value: 1
                                     }, {
-                                        name: '移动&电信',
+                                        name: this.dataList[4],
                                         sets: ['移动', '电信'],
-                                        value: this.dataList[4]
+                                        value: 1
                                     }, {
-                                        name: '联通&电信',
+                                        name: this.dataList[5],
                                         sets: ['联通', '电信'],
-                                        value: this.dataList[5]
+                                        value: 1
                                     }, {
-                                        name: '移动&联通&电信',
+                                        name: this.dataList[6],
                                         sets: ['移动', '联通', '电信'],
-                                        value: this.dataList[6]
+                                        value: 1
                                     }
                                 ]
                             }],

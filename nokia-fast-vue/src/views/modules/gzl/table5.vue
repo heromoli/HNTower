@@ -139,8 +139,8 @@
                     width="230">
                 <template size="mini" slot-scope="{row,$index}">
                     <el-button type="primary" size="small" @click.native="showProcessesHiList(row)">查看</el-button>
-                    <el-button size="small" @click.native="cancelProcess(row)">不同意</el-button>
-                    <el-button type="success" size="small" @click.native="submitProcess(row)">同意</el-button>
+                    <el-button size="small" @click.native="cancelProcess(row)">变更</el-button>
+                    <el-button type="success" size="small" @click.native="submitProcess(row)">完成</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -205,7 +205,8 @@
                         'page': this.pageIndex,
                         'limit': this.pageSize,
                         'key': this.dataForm.key,
-                        'groupId': this.dataForm.groupId
+                        'groupId': this.dataForm.groupId,
+                        'param': this.dataForm.param
                     })
                 }).then(({data}) => {
                     if (data.page != null && data.code === 0) {

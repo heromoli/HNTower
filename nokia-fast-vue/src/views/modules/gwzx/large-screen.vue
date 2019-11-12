@@ -1,176 +1,182 @@
 <template>
     <div class="container-fluid">
-        <el-row :gutter="5" style="height:95px">
-            <el-col :span="3"><div class="grid-content bg-purple">
+        <el-row :gutter="5" :style="'height:'+headHeight+'px'">
+            <el-col :span="3"><div>
                 <template>
                     <!--<img :src="logo"  :width="200" :height="50" >-->
                     <h1 class="logo_style3">光网在线</h1>
                 </template>
             </div></el-col>
-            <el-col :span="2" :offset="1"><div class="grid-content bg-purple">
+            <el-col :span="2" :offset="1"><div >
                     <div class="head_card_up">
                         影响用户数
                     </div>
-                    <div class="head_card_down">
-                        18473
+                    <div class="head_card_down1">
+                        {{headData.影响用户数}}
                     </div>
             </div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple">
+            <el-col :span="2"><div >
                 <div class="head_card_up">
                     经济损失(万元)
                 </div>
-                <div class="head_card_down">
-                    10086
+                <div class="head_card_down1">
+                    {{headData.经济损失}}
                 </div>
             </div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple">
+            <el-col :span="2"><div >
                 <div class="head_card_up">
                     出动抢修人员
                 </div>
-                <div class="head_card_down">
-                    687
+                <div class="head_card_down1">
+                    {{headData.出动抢修人员}}
                 </div>
             </div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple">
+            <el-col :span="2"><div >
                 <div class="head_card_up">
                     出动抢修车辆
                 </div>
-                <div class="head_card_down">
-                    282
+                <div class="head_card_down1">
+                    {{headData.出动抢修车辆}}
                 </div>
             </div></el-col>
-            <el-col :span="3"><div class="grid-content bg-purple">
+            <el-col :span="3"><div >
                 <div class="head_card_up">
                     发送预警短信(万户)
                 </div>
-                <div class="head_card_down">
-                    202
+                <div class="head_card_down1">
+                    {{headData.发送预警短信}}
                 </div>
             </div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple">
+            <el-col :span="2"><div >
                 <div class="head_card_up">
                     卫星保障电话
                 </div>
-                <div class="head_card_down">
-                    80
+                <div class="head_card_down1">
+                    {{headData.卫星保障电话}}
                 </div>
             </div></el-col>
-            <el-col :span="2"><div class="grid-content bg-purple">
+            <el-col :span="2"><div >
                 <div class="head_card_up">
                     应急油机发电
                 </div>
-                <div class="head_card_down">
-                    1772
+                <div class="head_card_down1">
+                    {{headData.应急油机发电}}
                 </div>
             </div></el-col>
-            <el-col :span="5"><div class="grid-content bg-purple">
+            <el-col :span="5"><div >
                 <div class="head_card_tq">
-                    <iframe width="245" scrolling="no" height="18" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=1&color=%23FFFFFF&icon=1&py=haikou&wind=1&num=1&site=12"></iframe>
+                    <iframe width="358" scrolling="no" height="24" frameborder="0" allowtransparency="true" src="//i.tianqi.com/index.php?c=code&id=1&color=%23FFFFFF&icon=1&py=haikou&wind=1&num=1&site=12"></iframe>
                 </div>
             </div></el-col>
         </el-row>
 
         <el-row :gutter="0" :style="'height:'+centerHeight+'px'">
             <el-col :span="19">
-                <div class="grid-content bg-purple">
+                <div >
                     <el-row :gutter="0" :style="'height:'+centerHeight+'px'">
-                        <el-col :span="7"><div class="grid-content bg-purple">
+                        <el-col :span="8"><div >
                             <el-row :gutter="0" >
-                                <el-col :span="24" :style="'height:'+centerHeight1+'px'">
-                                    <div class="center_div_font">
-                                        产权基站
+
+                                <el-col :span="12" :style="'height:'+centerHeight2+'px'">
+                                        <div style="height: 60%;width: 100%" id="main70"></div>
+                                    <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
+                                        <table style="line-height: 12px;width: 100%">
+                                            <tr>
+                                                <td rowspan="3" class="td1">产权:</td>
+                                                <td class="td2">退服<span :style="'color:'+pieColor[1]+''" >{{cq.退服}}</span>个</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td2">停电<span :style="'color:'+pieColor[1]+''" >{{cq.停电}}</span>个</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td2">合计<span :style="'color:'+pieColor[1]+''" >{{cq.合计}}</span>个</td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </el-col>
                                 <el-col :span="12" :style="'height:'+centerHeight2+'px'">
-                                        <div style="height: 100%;width: 100%" id="main70"></div>
-                                </el-col>
-                                <el-col :span="12" :style="'height:'+centerHeight2+'px'">
-                                        <div style="height: 100%;width: 100%" id="main80"></div>
-                                </el-col>
-                                <el-col :span="12" :style="'height:'+centerHeight1+'px'">
+                                        <div style="height: 60%;width: 100%" id="main21"></div>
                                     <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
-                                        当前停电6个
-                                    </div>
-                                </el-col>
-                                <el-col :span="12" :style="'height:'+centerHeight1+'px'">
-                                    <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
-                                        累计停电退服16个
-                                    </div>
-                                </el-col>
-                                <el-col :span="24" :style="'height:'+centerHeight1+'px'">
-                                    <div class="center_div_font">
-                                        光缆
-                                    </div>
-                                </el-col>
-                                <el-col :span="12"  :style="'height:'+centerHeight2+'px'">
-                                    <div style="height: 100%;width: 100%" id="main21">2</div>
-                                    <!--<div class="center_div_font" :style="'height:'+centerHeight1+'px'">-->
-                                        <!--光缆-->
-                                    <!--</div>-->
-                                    <!--<el-col :span="24" :style="'height:'+centerHeight2+'px'">-->
-                                        <!--<div style="height: 100%;width: 100%" id="main21">2</div>-->
-                                    <!--</el-col>-->
-                                    <!--<el-col :span="24" :style="'height:'+centerHeight1+'px'">-->
-                                        <!--<div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">-->
-                                            <!--累计修复6条-->
-                                        <!--</div>-->
-                                    <!--</el-col>-->
-                                </el-col>
-                                <el-col  :span="12" :style="'height:'+centerHeight2+'px'">
-                                    <div style="height: 100%;width: 100%" id="main22">1</div>
-                                </el-col>
-                                <el-col :span="24" :style="'height:'+centerHeight1+'px'">
-                                    <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
-                                        累计修复55条
+                                        <!--光缆：中断57条<br/>修复55条-->
+                                        <table style="line-height: 12px;width: 100%">
+                                            <tr>
+                                                <td rowspan="2" class="td1">光缆:</td>
+                                                <td class="td2">中断<span :style="'color:'+pieColor[1]+''" >{{gl.中断}}</span>条</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td2">修复<span :style="'color:'+pieColor[1]+''" >{{gl.修复}}</span>条</td>
+                                            </tr>
+                                            <!--<tr>-->
+                                                <!--<td class="td2">合计55条</td>-->
+                                            <!--</tr>-->
+                                        </table>
                                     </div>
                                 </el-col>
 
-
-                            </el-row>
-                        </div></el-col>
-                        <el-col :span="9"><div class="grid-content bg-purple" :style="'width:100%;height:'+(centerHeightMap)+'px'" id="map">&nbsp;
-                            <!--地图-->
-                        </div></el-col>
-                        <el-col :span="7"><div class="grid-content bg-purple">
-                            <el-row :gutter="0" >
-                                <el-col :span="24"  :style="'height:'+centerHeight1+'px'">
-                                    <div class="center_div_font">
-                                        逻辑基站
-                                    </div>
-                                </el-col>
-                                <el-col :span="12"  :style="'height:'+centerHeight2+'px'">
-                                    <div style="height: 100%;width: 100%" id="main8"></div>
-
-                                </el-col>
-                                <el-col :span="12"  :style="'height:'+centerHeight2+'px'" >
-                                    <div style="height: 100%;width: 100%" id="main7"></div>
-
-                                </el-col>
-                                <el-col :span="12"  :style="'height:'+centerHeight1+'px'">
-                                    <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
-                                        累计修复124个
-                                    </div>
-                                </el-col>
-                                <el-col :span="12"  :style="'height:'+centerHeight1+'px'">
-                                    <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
-                                        当前退服72个
-                                    </div>
-                                </el-col>
-                                <el-col :span="24" class="center_div_mtop"  :style="'height:'+(centerHeight1*2+centerHeight2-10)+'px'">
+                                <el-col :span="24" class="center_div_mtop"  :style="'height:'+centerHeight4+'px'">
                                     <table class="bg-row1 center_div_mtop">
                                         <tr>
                                             <td><el-tag type="success" style="color:white">运营商</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">基站总数</el-tag></td>
+                                            <td><el-tag type="success" style="color:white">产权基站</el-tag></td>
+                                            <td><el-tag type="success" style="color:white">停电</el-tag></td>
+                                            <td><el-tag type="success" style="color:white">停电率</el-tag></td>
+                                            <td><el-tag type="success" style="color:white">退服</el-tag></td>
                                             <td><el-tag type="success" style="color:white">退服率</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">中断光缆数</el-tag></td>
+                                        </tr>
+
+                                        <tr v-for="item in tableData1">
+                                            <td>{{item.yys}}</td>
+                                            <td>{{item.cqjz}}</td>
+                                            <td>{{item.td}}</td>
+                                            <!--<td>{{item.tdl}}</td>-->
+                                            <td :style="'color:'+getColor(item.tdl)+''" >{{item.tdl}}</td>
+                                            <td>{{item.tf}}</td>
+                                            <td :style="'color:'+getColor(item.tfl)+''" >{{item.tfl}}</td>
+                                            <!--<td>{{item.tfl}}</td>-->
+                                        </tr>
+                                    </table>
+
+
+                                </el-col>
+                            </el-row>
+                        </div></el-col>
+                        <el-col :span="9"><div  :style="'width:100%;height:'+(centerHeightMap)+'px'" id="map">&nbsp;
+                            <!--地图-->
+                        </div></el-col>
+                        <el-col :span="6"><div >
+                            <el-row :gutter="0" >
+                                <el-col :span="24"  :style="'height:'+centerHeight2+'px'" >
+                                    <div style="height: 60%;width: 100%" id="main7"></div>
+                                    <div class="center_div_font1" :style="'margin-top: '+center_m_top+'px'">
+                                        <table style="line-height: 12px;width: 100%">
+                                            <tr>
+                                                <td rowspan="3" class="td11">逻辑:</td>
+                                                <td class="td2">退服<span :style="'color:'+pieColor[1]+''" >{{lj.退服}}</span>个</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td2">合计<span :style="'color:'+pieColor[1]+''" >{{lj.合计}}</span>个</td>
+                                            </tr>
+                                            <!--<tr>-->
+                                                <!--<td class="td2">合计55条</td>-->
+                                            <!--</tr>-->
+                                        </table>
+                                    </div>
+                                </el-col>
+                                <el-col :span="24" class="center_div_mtop"  :style="'height:'+centerHeight4+'px'">
+                                    <table class="bg-row1 center_div_mtop">
+                                        <tr>
+                                            <td><el-tag type="success" style="color:white">运营商</el-tag></td>
+                                            <td><el-tag type="success" style="color:white">逻辑基站</el-tag></td>
+                                            <td><el-tag type="success" style="color:white">退服率</el-tag></td>
+                                            <!--<td><el-tag type="success" style="color:white">中断光缆数</el-tag></td>-->
                                             <td><el-tag type="success" style="color:white">修复率</el-tag></td>
                                         </tr>
 
                                         <tr v-for="item in tableData">
                                             <td>{{item.yys}}</td>
                                             <td>{{item.jzzs}}</td>
-                                            <td>{{item.tfl}}</td>
-                                            <td>{{item.zdgls}}</td>
+                                            <td :style="'color:'+getColor(item.tfl)+''" >{{item.tfl}}</td>
+                                            <!--<td>{{item.zdgls}}</td>-->
                                             <td>{{item.xfl}}</td>
                                         </tr>
                                     </table>
@@ -182,18 +188,18 @@
                     </el-row>
                 </div>
             </el-col>
-            <el-col :span="5"><div class="grid-content bg-purple">
+            <el-col :span="5"><div >
 
                     <el-col :span="24"  style="padding-bottom: 1px">
                         <el-card class="box-card box-card-style" :style="'height:'+rightHeight+'px'">
-                            <div style="height: 100%;text-align: center">
+                            <div style="height: 100%;text-align: center;padding-top: 5px">
                                 台风信息
                             </div>
                         </el-card>
                     </el-col>
                     <el-col :span="24"  style="padding-bottom: 1px">
                         <el-card class="box-card box-card-style" :style="'height:'+rightHeight+'px'">
-                            <table class="bg-row2">
+                            <table class="bg-row2" @mouseover="tableMouseover()" @mouseleave="tableMouseleave()">
                                 <tr>
                                     <td><el-tag type="success" style="color:white;width:75px">站点名称</el-tag></td>
                                     <td><el-tag type="success" style="color:white;width:79px">加油站电话</el-tag></td>
@@ -210,7 +216,7 @@
                     </el-col>
                     <el-col :span="24">
                         <el-card class="box-card box-card-style" :style="'height:'+rightHeight+'px'">
-                            <div style="height: 100%;text-align: center">
+                            <div style="height: 100%;text-align: center;padding-top: 5px">
                                 其他应急信息
                             </div>
                         </el-card>
@@ -234,15 +240,47 @@
         name: "larg-screen",
         data() {
             return {
-                centerHeight:400,
-                centerHeight1:30,
-                centerHeight2:145,
-                centerHeight3:120,
-                center_m_top:-20,
+                headHeight:100,
+                centerHeight:730,
+                centerHeight2:442,
+                centerHeight3:221,
+                centerHeight4:240,
+                center_m_top:10,
+                headData:{
+                    '影响用户数':18473,
+                    '经济损失':816,
+                    '出动抢修人员':2651,
+                    '出动抢修车辆':1110,
+                    '发送预警短信':2682,
+                    '卫星保障电话':60,
+                    '应急油机发电':1775
+                },
+                cq:{
+                    '停电':'597',
+                    '退服':'403',
+                    '合计':'16829',
+                },
+                gl:{
+                    '中断':'57',
+                    '修复':'55',
+                },
+                lj:{
+                    '退服':'417',
+                    '合计':'26616',
+                },
+                color:['#81e602','#d8f600','#fec401','#ff3d00'],
+                pieColor:['#637dff','#ffa312'],
                 tableData:[
-                    {'yys':'移动','jzzs':'14785','tfl':'0.8%	','zdgls':'33','xfl':'97%'},
-                    {'yys':'联通','jzzs':'6395','tfl':'3.1%','zdgls':'19','xfl':'94.7%'},
-                    {'yys':'电信','jzzs':'5436','tfl':'2.0%','zdgls':'5','xfl':'100%'},
+                    {'yys':'移动','jzzs':'14785','tfl':'0.8%	','zdgls':'33','xfl':'85.9%'},
+                    {'yys':'联通','jzzs':'6395','tfl':'3.1%','zdgls':'19','xfl':'84.1%'},
+                    {'yys':'电信','jzzs':'5436','tfl':'2.0%','zdgls':'5','xfl':'91.1%'},
+                ],
+                tableData1:[
+                    {'yys':'移动','cqjz':'1118','td':'19','tdl':'1.7%','tf':'14','tfl':'1.3%'},
+                    {'yys':'联通','cqjz':'388','td':'25','tdl':'6.4%','tf':'10','tfl':'2.6%'},
+                    {'yys':'电信','cqjz':'716','td':'3','tdl':'0.4%','tf':'9','tfl':'1.3%'},
+                    {'yys':'铁塔','cqjz':'14607','td':'550','tdl':'3.8%','tf':'370','tfl':'2.5%'},
+                    {'yys':'合计','cqjz':'16829','td':'597','tdl':'3.5%','tf':'403','tfl':'2.4%'},
                 ],
                 rightTableData_num:0,
                 rightTableData_timer:null,
@@ -354,17 +392,16 @@
         },
         mounted() {
             let _self = this;
+            _self.cq['停电率'] = (_self.cq.停电/_self.cq.合计*100).toFixed(2);
+            _self.cq['退服率'] = (_self.cq.退服/_self.cq.合计*100).toFixed(2);
+            _self.gl['修复率'] = (_self.gl.修复/_self.gl.中断*100).toFixed(2);
+            _self.lj['退服率'] = (_self.lj.退服/_self.lj.合计*100).toFixed(2);
             _self.resize();
             window.onresize = function temp() {
                 _self.resize();
             };
-            this.rightTableData_timer = setInterval(function(){
-//                console.log("mounted",_self.rightTableData_num)
-                if(_self.rightTableData_num+1==_self.rightTableData.length){
-                    _self.rightTableData_num = 0;
-                }else{
-                    _self.rightTableData_num= _self.rightTableData_num + 1;
-                }
+            this.rightTableData_timer = setInterval(function (){
+                _self.rightRoll();
             }, 5000);
 
         },
@@ -376,7 +413,7 @@
                 return (this.centerHeight-2)/3;
             },
             rightTable1:function(){
-                let t = [],len=4;
+                let t = [],len=5;
 //                console.log("rightTable1",this.rightTableData_num)
                 if(this.rightTableData_num+len<this.rightTableData.length){
                     t = this.rightTableData.slice(this.rightTableData_num,this.rightTableData_num+len);
@@ -392,84 +429,50 @@
             clearInterval(this.rightTableData_timer);
         },
         methods: {
+
             resize:function(){
-                var height = window.innerHeight-95;
+                var height = window.innerHeight-this.headHeight;
                 this.centerHeight3 = height/4;
                 this.centerHeight = height-this.centerHeight3;
-                this.centerHeight2 = (this.centerHeight/2)-70;
-//                console.log(this.centerHeight3)
-//                console.log(this.centerHeight2)
-                if(this.centerHeight2<160){
-                    this.center_m_top = 0
-                }else if(this.centerHeight2<200){
-                    this.center_m_top = -50
-                }
-                else if(this.centerHeight2<250){
-                    this.center_m_top = -90
-                }
-                else if(this.centerHeight2<300){
-                    this.center_m_top = -150
-                }else{
-                    this.center_m_top = -150
-                }
-//                console.log(this.centerHeight2,this.center_m_top)
-                //this.center_m_top = -1*(this.centerHeight2/4);
+                this.centerHeight2 = this.centerHeight*0.6;
+                this.centerHeight4 = this.centerHeight*0.3;
                 this.init();
             },
             init(){
                 this.draw();
             },
             draw(){
+               let _self= this;
                let pData = {
                    unit:'%',
                    title:{
-                       text:'1.07%',
-                       subtext:'停电率',
+                       text:_self.cq.退服率+'%',
+                       subtext:'退服率',
 
                    },
                     series:{
-                        name: '停电率',
+                        name: '退服率',
                         data:[
-                            {value: 1.07, name: '停电'},
-                            {value: 98.93, name: '未停电'},
+                            {value: 100-_self.cq.退服率, name: '未退服'},
+                            {value: _self.cq.退服率, name: '退服'},
 
                         ]
                     }
                 }
                 this.drawPie(pData,"main70")
 
-
                 pData = {
                     unit:'%',
                     title:{
-                        text:'8.56%',
-                        subtext:'退服率',
-
-                    },
-                    series:{
-                        name: '退服率',
-                        data:[
-                            {value: 8.56, name: '退服'},
-                            {value: 91.44, name: '未退服'},
-
-                        ]
-                    }
-                }
-                this.drawPie(pData,"main80")
-
-
-                pData = {
-                    unit:'%',
-                    title:{
-                        text:'96.5%',
+                        text:_self.gl.修复率+'%',
                         subtext:'修复率',
 
                     },
                     series:{
                         name: '修复率',
                         data: [
-                            {value: 96.5, name: '已修复'},
-                            {value: 3.5, name: '未修复'},
+                            {value: _self.gl.修复率, name: '已修复'},
+                            {value: (100-_self.gl.修复率).toFixed(2), name: '未修复'},
 
                         ]
                     }
@@ -477,49 +480,9 @@
                 this.drawPie(pData,"main21")
 
                 pData = {
+                    unit:'%',
                     title:{
-                        text:'57',
-                        subtext:'中断数',
-                        textStyle:{
-                            color:'#FFF',
-                        }
-                    },
-                    series:{
-                        name: '中断数',
-                        radius:['0%', '80%'],
-                        data: [
-                            {value: 100, name: '中断数'},
-
-                        ]
-                    }
-                }
-                this.drawPie(pData,"main22")
-
-
-
-
-                pData = {
-                    title:{
-                        text:'66.32%',
-                        subtext:'修复率',
-                        textStyle:{
-                            color:'#FFF',
-                        }
-                    },
-                    series:{
-                        name: '修复率',
-                        data: [
-
-                            {value: 66.32, name: '修复'},
-                            {value: 33.68, name: '未修复'},
-
-                        ]
-                    }
-                }
-                this.drawPie(pData,"main8")
-                pData = {
-                    title:{
-                        text:'0.64%',
+                        text:_self.lj.退服率+'%',
                         subtext:'退服率',
                         textStyle:{
                             color:'#FFF',
@@ -528,17 +491,17 @@
                     series:{
                         name: '退服率',
                         data:[
-                            {value: 0.64, name: '退服'},
-                            {value: 99.36, name: '未退服'},
+                            {value: (100-_self.lj.退服率).toFixed(2), name: '未退服'},
+                            {value: _self.lj.退服率, name: '退服'},
 
                         ]
                     }
                 }
-                this.drawPie(pData,"main7")
+                this.drawPie(pData,"main7");
 
 
 
-                this.drawMap(this.initMap(),'map')
+                this.drawMap(this.initMap(),'map');
                 this.drawLine();
             },
             drawLine(){
@@ -573,11 +536,21 @@
                         //formatter:'{b}:{c}%'
                         formatter: function (params) {
                             // 假设此轴的 type 为 'time'。
-                            console.log(params)
+//                            console.log(params)
                             let [a,b] = params;
-                            let str = a.axisValue+'<br/>'+
-                                        '<div style="color: '+a.color+'">'+a.seriesName+':'+a.value+'</div>'+
-                                        '<div style="color: '+a.color+'">'+b.seriesName+':'+b.value+'%</div>';
+                            let total = 0;
+                            for(var i =0;i < _self.bottomData.length ; i++){
+                                var o = _self.bottomData[i];
+                                if(a.axisValue == o['name']){
+                                    total = o['total'];
+                                    break;
+                                }
+                            }
+
+                            let str = "<div style='font-weight: bold;font-size: 20px'>"+a.axisValue+'<br/>'+
+                                        '总站数:'+total+'<br/>'+
+                                        ''+a.seriesName+':'+a.value+'<br/>'+
+                                        ''+b.seriesName+':'+b.value+'%</div>';
                             return str;
                         }
                     },
@@ -586,13 +559,13 @@
                         top: "50px",
                         left: "15px",
                         right: "15px",
-                        bottom: "20px"
+                        bottom: "14%"
                     },
 
                     legend: {
-                        data: ['退服基站', '退服率'],
+                        data: ['退服数', '退服率'],
                         textStyle: {
-                            fontSize: 15,
+                            fontSize: 24,
                             color: '#F1F1F3'
                         }
                     },
@@ -603,8 +576,20 @@
                             lineStyle: {
                                 color: '#F1F1F3',
                                 width: 2
-                            }
+                            },
+
+//                            textStyle: {
+//                                fontSize: 18,
+//                                fontWeight: 'bold',
+////                                    color: 'red'
+//                            },
+
                         },
+                        axisLabel:{
+                            show:true,
+                            fontSize:18,
+                            fontWeight:'bold'
+                        }
                     },
                     yAxis: [{
                         show: false,
@@ -640,7 +625,7 @@
                     }],
                     series: [
                         {
-                            name: '退服基站',
+                            name: '退服数',
                             type: 'bar',
 //                            data: [10, 20, 20, 10, 10, 20, 10, 20, 10, 20, 20, 10, 10, 20, 10, 20],
                             data: _self.bottomData.map(v =>{return Number(v.back);}),
@@ -649,20 +634,26 @@
                                 normal: {
                                         color: function (params){
                                             let v = _self.bottomData[params.dataIndex].per;
-                                            let c = '';
-                                            if( v >= 4 )  c = '#f7390c';
-                                            else if( v < 4 && v >= 3 )  c = 'orange';
-                                            else if( v < 3 && v >= 2 )  c = 'yellow';
-                                            else c = '#0cf70c';
-                                            return c;
-                                        }
+//                                            let c = '';
+//                                            if( v >= 4 )  c = '#ff3d00';
+//                                            else if( v < 4 && v >= 3 )  c = '#fec401';
+//                                            else if( v < 3 && v >= 2 )  c = '#d8f600';
+//                                            else c = '#81e602';
+                                            return _self.getColor(v);
+                                        },
+
                                 }
                             },
                             label: {
                                 normal: {
                                     show: true,
                                     position: 'top',
-                                    color: '#e1f3d8'
+                                    color: '#e1f3d8',
+                                    textStyle: {
+                                        fontSize: 18,
+                                        fontWeight: 'bold',
+//                                    color: 'red'
+                                    },
                                 }
                             },
 
@@ -709,7 +700,7 @@
             },
 
             drawPie(pData,htmlId){
-
+                var _self = this;
                 var myChart8 = echarts.init(document.getElementById(htmlId));
 
                 // 指定图表的配置项和数据
@@ -717,30 +708,37 @@
                 var option = {
                     title:{
                         text:pData.title.text,
-                        left:'47%',
+                        left:'49%',
                         top:'38%',
                         textAlign:'center',
                         subtext:pData.title.subtext,
                         textStyle:{
                             color:pData.title.textStyle&&pData.title.textStyle.color?pData.title.textStyle.color:'#FFF',
+                            fontSize:28,
+                            lineHeight:28
+                        },
+                        subtextStyle:{
+                            fontSize:24,
+//                            lineHeight:28
                         }
                     },
                     tooltip: {
                         trigger: 'item',
                         position:'right',
-                        formatter: "{a} <br/>{b} : {c} ({d}"+(pData.unit?pData.unit:'')+")"
+                        formatter: "{a} <br/>{b} : {c} "+(pData.unit?pData.unit:'')+""
                     },
                     legend: {
                         show:false,
                         x: 'left',
                         data: []
                     },
+                    color:_self.pieColor,
                     calculable: true,
                     series: [
                         {
                             name: pData.series.name,
                             type: 'pie',
-                            radius: pData.series.radius?pData.series.radius:['50%', '70%'],
+                            radius: pData.series.radius?pData.series.radius:['60%', '80%'],
                             itemStyle: {
                                 normal: {
                                     label: {
@@ -748,7 +746,8 @@
                                     },
                                     labelLine: {
                                         show: false
-                                    }
+                                    },
+//                                    color:['#ff3d00','#81e602']
                                 },
 //                                emphasis: {
 //                                    label: {
@@ -776,7 +775,9 @@
 //                      console.log(v.back,v.total,v.per);
                       return {
                           name: v.name,
-                          value: v.per
+                          value: v.per,
+                          back:v.back,
+                          total:v.total
                       }
                   }),
 //                  max:max,
@@ -786,14 +787,14 @@
             },
             drawMap(mapData,htmlId){
 
-
+                var _self = this;
                 var name = 'hainan';
                 var myChart = echarts.init(document.getElementById(htmlId));
                 myChart.showLoading();
 
                 myChart.hideLoading();
 //                echarts.registerMap(name, geoJson);
-                  echarts.registerMap('hainan', hainan_json);
+                echarts.registerMap('hainan', hainan_json);
 
                 myChart.setOption({
                     backgroundColor: '#061d45',
@@ -809,27 +810,31 @@
                         formatter: function (params,ticket,callback){
                             // console.log(params,ticket)
                             if(params.name)
-                                return params.name+":"+params.value+'%';
+                                return "<div style='font-weight: bold;font-size: 20px'>"+params.name+"<br/>"+
+                                    "总站数:"+params.data.total+"<br/>"+
+                                    "退服数:"+params.data.back+"<br/>"+
+                                    "退服率:"+params.value+'%</div>';
                             else return "";
                         }
                     },
                     visualMap: {
                         show: true,
-                        min: mapData.min,
-                        max: mapData.max,
+//                        min: mapData.min,
+//                        max: mapData.max,
                         top: 'bottom',
                         type:'',
                         splitNumber:4,                      //对于连续型数据，自动平均切分成几段。默认为5段
                         pieces: [                           //自定义『分段式视觉映射组件（visualMapPiecewise）』的每一段的范围，以及每一段的文字，以及每一段的特别的样式
-                            {min: 4 , label: '退服率严重'  , color: '#f7390c'},
-                            {min: 3, max: 4 , label: '退服率一般'  , color: 'orange'},
-                            {min: 2, max: 3, label: '退服率很少'  , color: 'yellow'},
-                            {max: 2, label: '基本无退服'  , color: '#0cf70c'},
+                            {min: 4 , label: '≥4%'  , color: _self.color[3]},
+                            {min: 3, max: 4 , label: '≥3%'  , color: _self.color[2]},
+                            {min: 2, max: 3,  label: '≥2%'  , color: _self.color[1]},
+                            {max: 2, label: '<2%'  , color: _self.color[0]},
                         ],
 
                         textStyle: {
                             color: '#fff',
-                            fontSize: 12
+                            fontSize: 20,
+                            fontWeight: 'bold',
                         },
                         //align:'left',
                         //left: 'right',
@@ -849,28 +854,39 @@
                         mapType: name,
                         roam: false,//是否能被缩放 拖动
                         selectedMode:'single',
-                        left:'5%',
+                        left:'10%',
+                        top:'15%',
                         label: {
                             normal: {
-                                show: true
-                            },
-                            emphasis: {
                                 textStyle: {
-                                    color: '#fff'
-                                }
-                            }
-                        },
-                        itemStyle: {
+                                    fontSize: 18,
+                                    fontWeight: 'bold',
+//                                    color: 'red'
+                                },
+                                show:true,
 
-                            normal: {
-                                borderColor: '#389BB7',
-                                areaColor: '#fff',
-                            },
-                            emphasis: {
-                                areaColor: '#389BB7',
-                                borderWidth: 0
                             }
+//                            emphasis: {
+//                                textStyle: {
+//                                    color: '#fff',
+//                                    fontSize: 20
+//                                }
+//                            },
+//                            fontSize:
                         },
+//                        itemStyle: {
+//
+//                            normal: {
+//                                borderColor: '#b70f18',
+//                                areaColor: '#fff',
+//                                fontSize: 20
+//                            },
+//                            emphasis: {
+//                                areaColor: '#389bb7',
+//                                borderWidth: 0,
+//                                fontSize: 20
+//                            }
+//                        },
                         animation: true,
                         data: mapData.data,
 
@@ -899,7 +915,45 @@
 
             tableRowClassName({row, rowIndex}){
                 return 'bg-row';
-            }
+            },
+            getColor(num){
+                if(typeof(num)=='number'){
+                    let n = num;
+                    if(n>=4)return this.color[3];
+                    if(n>=3)return this.color[2];
+                    if(n>=2)return this.color[1];
+                    if(n<2)return this.color[0];
+                }else if(typeof(num)=='string'){
+                    try{
+                        if(num.indexOf('%')>-1){
+                            num = num.replace('%','');
+                            return this.getColor(Number(num));
+                        }else{
+                            return this.getColor(Number(num));
+                        }
+                    }catch (e){
+                        return this.color[0];
+                    }
+
+                }
+            },
+            rightRoll(){
+                let _self = this;
+                if(_self.rightTableData_num+1==_self.rightTableData.length){
+                    _self.rightTableData_num = 0;
+                }else{
+                    _self.rightTableData_num= _self.rightTableData_num + 1;
+                }
+            },
+            tableMouseleave:function(){
+                let _self = this;
+                this.rightTableData_timer = setInterval(function (){
+                    _self.rightRoll();
+                }, 5000);
+            },
+            tableMouseover:function(){
+                clearInterval(this.rightTableData_timer);
+            },
 
     }
 
@@ -907,6 +961,7 @@
 </script>
 
 <style lang="scss">
+
     .site-wrapper.site-page--not-found {
         position: absolute;
         top: 0;
@@ -970,21 +1025,24 @@
         width: 100%;
         text-align:center;
         padding: 5px;
+        line-height: 30px;
+        font-size: 20px;
+        /*color: #f71818;*/
 
     }
-    .head_card_down{
+    .head_card_down1{
         height: 70%;
         width: 100%;
         text-align:center;
-        font-size: 24px;
-        line-height: 2;
-        color: #0cf70c;
+        font-size: 40px;
+        line-height: 1;
+        color: #67f72c;
     }
     .head_card_tq{
         height: 100%;
         text-align: center;
-        line-height: 50px;
-        margin-top: 25px;
+        line-height: 40px;
+        margin-top: 20px;
 
     }
     .center_div_font{
@@ -996,7 +1054,7 @@
         font-size: 14px;
         line-height: 30px;
         text-align: center;
-        margin-top: -20px;
+        height: 40%;
     }
     .center_div_mtop{
         margin-top: 20px;
@@ -1033,7 +1091,7 @@
     .bg-row1 tr td{
         background-color: #061d46;
         padding: 2px;
-        text-align: center;
+        text-align: left;
         line-height: 30px;
     }
     .box-card-style{
@@ -1048,14 +1106,14 @@
         //background-color: #898181;
         width: 100%;
         height: 100%;
-        font-size: 10px;
+        font-size: 18px;
        // margin-left: -5%;
     }
     .bg-row2 tr td{
         background-color: #061d46;
         padding: 0px;
         text-align: center;
-        line-height: 16px;
+        line-height: 20px;
     }
     .el-card__body{
         padding: 0px !important;
@@ -1065,6 +1123,27 @@
         -webkit-box-orient: vertical; /*  -webkit-box-orient 必须结合的属性 ，设置或检索伸缩盒对象的子元素的排列方式  */
         -webkit-line-clamp: 2; /*  -webkit-line-clamp用来限制在一个块元素显示的文本的行数 */
         overflow: hidden;
-        max-height:38px;
+        max-height:42px;
+        min-height:30px;
+    }
+    .center_div_font1 table tr td{
+        line-height: 40px;
+        font-size: 24px;
+    }
+    .td1 {
+        text-align: right;
+        width:35%
+    }
+    .td11 {
+        text-align: right;
+        width:43%
+    }
+    .td2 {
+        text-align: left
+    }
+    .center_div_mtop table{
+        margin-left: 5px;
+        line-height: 30px;
+        font-size: 24px;
     }
 </style>

@@ -33,6 +33,8 @@ public class StationAddressCheckServiceImpl extends ServiceImpl<StationAddressCh
             QueryWrapper queryWrapper = getQueryWrapper(prcList);
 //            queryWrapper.eq("ACT_PROC_STATUS", "2");
             queryWrapper.in("ACT_PROC_INST_ID", processInstanceId);
+            String queryParam = (String) params.get("param");
+            queryWrapper.like("STATION_NAME",queryParam);
             IPage<StationAddressCheck> page = this.page(new Query<StationAddressCheck>().getPage(params), queryWrapper);
             return new PageUtils(page);
         }

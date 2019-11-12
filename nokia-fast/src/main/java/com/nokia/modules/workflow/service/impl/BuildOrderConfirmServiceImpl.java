@@ -34,6 +34,8 @@ public class BuildOrderConfirmServiceImpl extends ServiceImpl<
             QueryWrapper queryWrapper = getQueryWrapper(prcList);
 //            queryWrapper.eq("ACT_PROC_STATUS", "4");
             queryWrapper.in("ACT_PROC_INST_ID", processInstanceId);
+            String queryParam = (String) params.get("param");
+            queryWrapper.like("STATION_NAME",queryParam);
             IPage<BuildOrderConfirm> page = this.page(new Query<BuildOrderConfirm>().getPage(params), queryWrapper);
             return new PageUtils(page);
         }

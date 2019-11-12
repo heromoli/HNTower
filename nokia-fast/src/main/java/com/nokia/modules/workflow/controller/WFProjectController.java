@@ -574,16 +574,11 @@ public class WFProjectController extends BaseController {
         long user_id = sysUserEntity.getUserId();
         String userId = String.valueOf(user_id);
 
-        int currPage = Integer.parseInt(params.get("page").toString());
-        int pageSize = Integer.parseInt(params.get("limit").toString());
-
         List<String> procInstIdList = simpleHistoryService.queryHistoryFinishedProcByStartUserId(userId);
 
         Set<String> procInstIdSet = new HashSet<>(procInstIdList);
 
-        List<Supervisor> supervisorList = supervisorService.selectDataByInsIdSet(procInstIdSet);
-
-        PageUtils page = new PageUtils(supervisorList, supervisorList.size(), pageSize, currPage);
+        PageUtils page = supervisorService.selectDataByParam(params,procInstIdSet);
 
         return RData.ok().put("page", page);
     }

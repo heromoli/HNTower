@@ -228,7 +228,7 @@
 			<artifactId>easyexcel</artifactId>
 			<version>${easyexcel.version}</version>
 		</dependency>
-    </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>

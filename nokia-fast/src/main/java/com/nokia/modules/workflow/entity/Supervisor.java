@@ -161,6 +161,110 @@ public class Supervisor extends RowModel implements Serializable {
 
     private String payType;
 
+    private String ifCanOrder;
+
+    private String cantOrderReason;
+
+    private String hx1StationName;
+
+    private String hx1StationNum;
+
+    private String hx1Longitude;
+
+    private String hx1Latitude;
+
+    private String hx1Address;
+
+    private String hx1IfShare;
+
+    private String hx1ShareStationBelong;
+
+    private String hx1OldOperatorNum;
+
+    private String hx1OldOperator;
+
+    private String hx1NewOperatorNum;
+
+    private String hx1NewOperator;
+
+    private String hx1AntennaHeight;
+
+    private String hx1TowerType;
+
+    private String hx1TowerTypeDetail;
+
+    private String hx1RoomType;
+
+    private String hx1BuildType;
+
+    private String hx1Gjf1Name;
+
+    private String hx1Gjf1StationName;
+
+    private String hx1Gjf1StationNum;
+
+    private String hx1Gjf1SourceBatch;
+
+    private String hx1Gjf2Name;
+
+    private String hx1Gjf2StationName;
+
+    private String hx1Gjf2StationNum;
+
+    private String hx1Gjf2SourceBatch;
+
+    private String hx2StationName;
+
+    private String hx2StationNum;
+
+    private String hx2Longitude;
+
+    private String hx2Latitude;
+
+    private String hx2Address;
+
+    private String hx2IfShare;
+
+    private String hx2ShareStationBelong;
+
+    private String hx2OldOperatorNum;
+
+    private String hx2OldOperator;
+
+    private String hx2NewOperatorNum;
+
+    private String hx2NewOperator;
+
+    private String hx2AntennaHeight;
+
+    private String hx2TowerType;
+
+    private String hx2TowerTypeDetail;
+
+    private String hx2RoomType;
+
+    private String hx2BuildType;
+
+    private String hx2Gjf1Name;
+
+    private String hx2Gjf1StationName;
+
+    private String hx2Gjf1StationNum;
+
+    private String hx2Gjf1SourceBatch;
+
+    private String hx2Gjf2Name;
+
+    private String hx2Gjf2StationName;
+
+    private String hx2Gjf2StationNum;
+
+    private String hx2Gjf2SourceBatch;
+
+    private String shareUserNum;
+
+    private Date updateTime;
+
     //    @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     @JsonProperty("locationFinishTime")
     @JsonFormat(pattern="yyyy-MM-dd")

@@ -30,6 +30,8 @@ public class CustomerDemandCollectionServiceImpl extends ServiceImpl<
             QueryWrapper queryWrapper = getQueryWrapper(prcList);
 //            queryWrapper.eq("ACT_PROC_STATUS", "1");
             queryWrapper.in("ACT_PROC_INST_ID", processInstanceId);
+            String queryParam = (String) params.get("param");
+            queryWrapper.like("STATION_NAME",queryParam);
             IPage<CustomerDemandCollection> page = this.page(new Query<CustomerDemandCollection>().getPage(params), queryWrapper);
             return new PageUtils(page);
         }

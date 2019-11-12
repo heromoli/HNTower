@@ -31,6 +31,7 @@
                         trigger: 'item',
                         formatter: "{a} <br/>{b}: {c} ({d}%)"
                     },
+                    color:['#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#e311e5', '#FF9655', '#FFF263', '#6AF9C4'],
                     legend: {
                         orient: 'vertical',
                         x: 'left',

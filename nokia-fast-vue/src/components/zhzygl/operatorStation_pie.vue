@@ -24,34 +24,37 @@
                     title: {
                         text: '产权归属',
                         left: 'center',
-                        textStyle:{
-                            color:'#e1f3d8'
+                        textStyle: {
+                            color: '#e1f3d8'
                         }
                     },
                     tooltip: {
                         trigger: 'item',
                         formatter: "{a} <br/>{b}: {c} ({d}%)"
-                    },legend: {
+                    },
+
+                    legend: {
                         orient: 'vertical',
                         x: 'left',
-                        data:['移动','联通','电信','铁塔'],
-                        textStyle:{
-                            color:'#e1f3d8'
+                        data: ['移动', '联通', '电信', '铁塔'],
+                        textStyle: {
+                            color: '#e1f3d8'
                         }
                     },
                     series: [
                         {
-                            name:'访问来源',
-                            type:'pie',
+                            name: '访问来源',
+                            type: 'pie',
                             radius: ['30%', '75%'],
                             avoidLabelOverlap: false,
+                            color: ['#50B432', '#0527af', '#e60000', '#0085d0'],
                             label: {
                                 normal: {
                                     show: true,
                                     position: 'inner',
-                                    textStyle : {
-                                        fontWeight : 'normal' ,
-                                        fontSize : 13    //文字的字体大小
+                                    textStyle: {
+                                        fontWeight: 'normal',
+                                        fontSize: 13    //文字的字体大小
                                     },
                                     formatter: '{c}'
                                 },
@@ -68,12 +71,11 @@
                                     show: false
                                 }
                             },
-                            data:[
-                            ]
+                            data: []
                         }
                     ]
                 };
-                this.chartPie = echarts.init(document.getElementById('operatorStation_chartPie'), 'macarons');
+                this.chartPie = echarts.init(document.getElementById('operatorStation_chartPie'));
                 this.chartPie.setOption(option);
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/getOperatorStationAmount'),

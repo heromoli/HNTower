@@ -43,13 +43,13 @@ public class StationAddressManagement extends RowModel implements Serializable {
     private String operandmaintId;
 
     @ExcelProperty(value = {"经度(小数点后6位)"}, index = 9)
-    private String longitude;
+    private double longitude;
 
     @ExcelProperty(value = {"纬度(小数点后6位)"}, index = 10)
-    private String latitude;
+    private double latitude;
 
     @ExcelProperty(value = {"海拔高度"}, index = 11)
-    private String altitude;
+    private double altitude;
 
     @ExcelProperty(value = {"维护状态"}, index = 12)
     private String maintainStatus;

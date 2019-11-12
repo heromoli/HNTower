@@ -11,23 +11,25 @@ import java.util.Set;
 
 public interface SupervisorService extends IService<Supervisor> {
 
-    public Supervisor selectDataByInsId(String processInstanceId);
+    Supervisor selectDataByInsId(String processInstanceId);
 
-    public List<Supervisor> selectDataByInsIdSet(Set<String> processInstanceId);
+    List<Supervisor> selectDataByInsIdSet(Set<String> processInstanceId);
 
-    public PageUtils selectDataByParam(Map<String, Object> params);
+    PageUtils selectDataByParam(Map<String, Object> params);
 
-    public PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+    PageUtils selectDataByParam(Map<String, Object> pageParams, Set<String> processInstanceId);
 
-    public Integer findDataCount(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+    PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
 
-    public List<Supervisor> findDataAll(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+    Integer findDataCount(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
 
-    public String queryYDSequence();
+    List<Supervisor> findDataAll(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
 
-    public String queryLTSequence();
+    String queryYDSequence();
 
-    public String queryDXSequence();
+    String queryLTSequence();
+
+    String queryDXSequence();
 
     String countCityNum(String branchCompany);
 }

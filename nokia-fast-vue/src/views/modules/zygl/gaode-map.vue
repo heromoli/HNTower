@@ -2,11 +2,12 @@
     <div id="container" class="amap-page-container">
         <!--<img src="@/icons/base_station.png">-->
         <el-amap ref="map" vid="amapDemo" :amap-manager="amapManager" :center="center" :zoom="zoom" :plugin="plugin"
-                 :events="events" class="amap-demo" >
+                 :events="events" class="amap-demo">
         </el-amap>
-        <el-form :inline="true" :model="queryParam" ref="queryParam" @keyup.enter.native="localSearch()" :rules="dataRule" style="margin-left: 80px" >
+        <el-form :inline="true" :model="queryParam" ref="queryParam" @keyup.enter.native="localSearch()"
+                 :rules="dataRule" style="margin-left: 80px">
             <el-form-item label="   " prop="county">
-                <el-select size="mini" v-model="queryParam.county" placeholder="区县" value="" >
+                <el-select size="mini" v-model="queryParam.county" clearable  placeholder="区县" value="">
                     <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -16,20 +17,22 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="   " prop="address">
-                <el-input size="mini" v-model="queryParam.address" placeholder="地址" clearable suffix-icon="el-icon-search" ></el-input>
+                <el-input size="mini" v-model="queryParam.address" placeholder="地址" clearable
+                          suffix-icon="el-icon-search"></el-input>
             </el-form-item>
             <el-form-item label="   " prop="station_name">
                 <el-input size="mini" v-model="queryParam.station_name" placeholder="站点名称" clearable
-                          suffix-icon="el-icon-search" ></el-input>
+                          suffix-icon="el-icon-search"></el-input>
             </el-form-item>
             <el-form-item label="   " prop="longitude">
-                <el-input size="mini" type="number" v-model="queryParam.longitude" placeholder="经度" clearable ></el-input>
+                <el-input size="mini" type="number" v-model="queryParam.longitude" placeholder="经度"
+                          clearable></el-input>
             </el-form-item>
             <el-form-item label="   " prop="latitude">
-                <el-input size="mini" type="number" v-model="queryParam.latitude" placeholder="纬度" clearable ></el-input>
+                <el-input size="mini" type="number" v-model="queryParam.latitude" placeholder="纬度" clearable></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button size="mini" type="success" @click="localSearch()" >查询</el-button>
+                <el-button size="mini" type="success" @click="localSearch()">查询</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -167,6 +170,29 @@
                         this.totalPage = 0
                     }
                 });
+
+                if (this.queryParam.latitude != '' && this.queryParam.longitude != '') {
+                    var circle = new AMap.Circle({
+                        center: [this.queryParam.longitude, this.queryParam.latitude],
+                        radius: 110, //半径
+                        borderWeight: 3,
+                        strokeColor: "#FF33FF",
+                        strokeOpacity: 1,
+                        strokeWeight: 6,
+                        // strokeOpacity: 0.2,
+                        fillOpacity: 0.4,
+                        strokeStyle: 'dashed',
+                        strokeDasharray: [10, 10],
+                        // 线样式还支持 'dashed'
+                        fillColor: '#1791fc',
+                        zIndex: 50,
+                    });
+                    circle.setMap(map);
+                    map.setFitView();
+                }
+
+
+
             }
         }
     }

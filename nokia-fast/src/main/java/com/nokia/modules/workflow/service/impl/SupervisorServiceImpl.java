@@ -29,6 +29,7 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
         queryWrapper.in("act_proc_inst_id", processInstanceId);
         return this.list(queryWrapper);
+
     }
 
     @Override
@@ -38,6 +39,13 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
         return new PageUtils(page);
     }
 
+    @Override
+    public PageUtils selectDataByParam(Map<String, Object> pageParams, Set<String> processInstanceId) {
+        QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
+        queryWrapper.in("act_proc_inst_id", processInstanceId);
+        IPage<Supervisor> page = this.page(new Query<Supervisor>().getPage(pageParams), queryWrapper);
+        return new PageUtils(page);
+    }
 
     @Override
     public PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params) {
