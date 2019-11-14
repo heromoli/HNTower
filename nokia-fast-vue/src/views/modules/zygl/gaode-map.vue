@@ -7,12 +7,12 @@
         <el-form :inline="true" :model="queryParam" ref="queryParam" @keyup.enter.native="localSearch()"
                  :rules="dataRule" style="margin-left: 80px">
             <el-form-item label="   " prop="county">
-                <el-select size="mini" v-model="queryParam.county" clearable  placeholder="区县" value="">
+                <el-select size="mini" v-model="queryParam.county"  placeholder="区县">
                     <el-option
                             v-for="item in options"
                             :key="item.value"
                             :label="item.label"
-                            :value="item.label">
+                            :value="item.value">
                     </el-option>
                 </el-select>
             </el-form-item>
@@ -31,9 +31,23 @@
             <el-form-item label="   " prop="latitude">
                 <el-input size="mini" type="number" v-model="queryParam.latitude" placeholder="纬度" clearable></el-input>
             </el-form-item>
+            <el-form-item label="   " prop="rangeValue">
+                <el-select size="mini" v-model="queryParam.rangeValue"  placeholder="范围">
+                    <el-option
+                            v-for="item in rangeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item>
                 <el-button size="mini" type="success" @click="localSearch()">查询</el-button>
             </el-form-item>
+            <el-form-item>
+                <el-button type="primary" size="mini" @click="exportHandle()">导出</el-button>
+            </el-form-item>
+
         </el-form>
     </div>
 </template>
@@ -68,9 +82,20 @@
                     station_name: '',
                     address: '',
                     longitude: '',
-                    latitude: ''
+                    latitude: '',
+                    rangeValue: '300'
                 },
                 options: [],
+                rangeOptions: [{
+                    value: '300',
+                    label: '城区300米'
+                }, {
+                    value: '1000',
+                    label: '郊区1000米'
+                }, {
+                    value: '2000',
+                    label: '乡镇2000米'
+                }],
                 markerPosition: [],
                 dataRule: {
                     longitude: [
@@ -86,7 +111,7 @@
                 events: {
                     init: (o) => {
                         o.getCity(result => {
-                            console.log(result)
+                            // console.log(result)
                         })
                     },
                     'moveend': () => {
@@ -116,12 +141,13 @@
                     method: 'get'
                 }).then(({data}) => {
                     if (data.countyList != null && data.code === 0) {
-                        this.dataList = data.countyList;
+                        // this.dataList = data.countyList;
+                        this.options.push({value:"",label:"----全选----"});
                         for (var i = 0; i < data.countyList.length; i++) {
-                            this.options.push({label: data.countyList[i]})
+                            this.options.push({value: data.countyList[i],label: data.countyList[i]})
                         }
                     } else {
-                        this.dataList = [];
+                        this.options = [];
                     }
                 });
             },
@@ -135,7 +161,7 @@
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,
-                        'limit': this.pageSize,
+                        'limit': "100",
                         'queryParam': this.queryParam
                     })
                 }).then(({data}) => {
@@ -157,7 +183,9 @@
                                 info.push("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div> ");
                                 info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>" + element.stationName + "</b>");
                                 info.push("经度：" + element.longitude + " 纬度: " + element.latitude);
-                                info.push("地址： " + element.address + "</div></div>");
+                                info.push("地址： " + element.address);
+                                info.push("共享情况： " + element.ifOperatorShare );
+                                info.push("移动：" + element.mobileDeviceSystem + " 联通: " + element.unicomDeviceSystem + " 电信: " + element.telecomDeviceSystem+ "</div></div>");
                                 var infoWindow = new AMap.InfoWindow({
                                     content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容
                                 });
@@ -174,7 +202,7 @@
                 if (this.queryParam.latitude != '' && this.queryParam.longitude != '') {
                     var circle = new AMap.Circle({
                         center: [this.queryParam.longitude, this.queryParam.latitude],
-                        radius: 110, //半径
+                        radius: this.queryParam.rangeValue, //半径
                         borderWeight: 3,
                         strokeColor: "#FF33FF",
                         strokeOpacity: 1,
@@ -190,9 +218,23 @@
                     circle.setMap(map);
                     map.setFitView();
                 }
-
-
-
+            },
+            exportHandle() {
+                // var responseUrl = "";
+                // this.$http({
+                //     url: this.$http.adornUrl('/api/wf/exportStationAddress'),
+                //     method: 'get',
+                //     params: this.$http.adornParams({
+                //         'page': 1,
+                //         'limit': 10000,
+                //         'queryParam': this.queryParam
+                //     })
+                // }).then(function(response){
+                //     console.log(response);
+                //     responseUrl = response;
+                // });
+                // console.log(responseUrl);
+                window.location.href = this.$http.adornUrl(`/api/wf/exportStationAddress?county=${this.queryParam.county}&station_name=${this.queryParam.station_name}&address=${this.queryParam.address}&longitude=${this.queryParam.longitude}&latitude=${this.queryParam.latitude}&rangeValue=${this.queryParam.rangeValue}&token=${this.$cookie.get('token')}`)
             }
         }
     }

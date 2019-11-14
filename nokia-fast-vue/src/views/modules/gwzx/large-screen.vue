@@ -116,12 +116,12 @@
                                 <el-col :span="24" class="center_div_mtop"  :style="'height:'+centerHeight4+'px'">
                                     <table class="bg-row1 center_div_mtop">
                                         <tr>
-                                            <td><el-tag type="success" style="color:white">运营商</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">产权基站</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">停电</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">停电率</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">退服</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">退服率</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">运营商</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">产权基站</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">停电</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">停电率</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">退服</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">退服率</el-tag></td>
                                         </tr>
 
                                         <tr v-for="item in tableData1">
@@ -165,11 +165,11 @@
                                 <el-col :span="24" class="center_div_mtop"  :style="'height:'+centerHeight4+'px'">
                                     <table class="bg-row1 center_div_mtop">
                                         <tr>
-                                            <td><el-tag type="success" style="color:white">运营商</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">逻辑基站</el-tag></td>
-                                            <td><el-tag type="success" style="color:white">退服率</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">运营商</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">逻辑基站</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">退服率</el-tag></td>
                                             <!--<td><el-tag type="success" style="color:white">中断光缆数</el-tag></td>-->
-                                            <td><el-tag type="success" style="color:white">修复率</el-tag></td>
+                                            <td><el-tag type="success" style="color:white;font-size: 18px">修复率</el-tag></td>
                                         </tr>
 
                                         <tr v-for="item in tableData">
@@ -180,8 +180,6 @@
                                             <td>{{item.xfl}}</td>
                                         </tr>
                                     </table>
-
-
                                 </el-col>
                             </el-row>
                         </div></el-col>

@@ -578,7 +578,7 @@ public class WFProjectController extends BaseController {
 
         Set<String> procInstIdSet = new HashSet<>(procInstIdList);
 
-        PageUtils page = supervisorService.selectDataByParam(params,procInstIdSet);
+        PageUtils page = supervisorService.selectDataByParam(params, procInstIdSet);
 
         return RData.ok().put("page", page);
     }
@@ -880,6 +880,29 @@ public class WFProjectController extends BaseController {
     public RData getStationCounty() {
         List<String> countyList = stationManageService.getStationCounty();
         return RData.ok().put("countyList", countyList);
+    }
+
+    @GetMapping("/exportStationAddress")
+    public void exportStationAddress(@RequestParam("county") String county, @RequestParam("station_name") String station_name, @RequestParam("address") String address,
+                                     @RequestParam("longitude") String longitude, @RequestParam("latitude") String latitude, @RequestParam("rangeValue") String rangeValue,
+                                     HttpServletResponse response) {
+//        String queryParamString = params.get("queryParam").toString();
+//        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+        Map<String, Object> queryParams = new HashMap<>();
+        Map<String, Object> pageParams = new HashMap<>();
+        pageParams.put("page", "1");
+        pageParams.put("limit", "1000");
+
+        queryParams.put("county",county);
+        queryParams.put("station_name",station_name);
+        queryParams.put("address",address);
+        queryParams.put("longitude",longitude);
+        queryParams.put("latitude",latitude);
+        queryParams.put("rangeValue",rangeValue);
+
+        PageUtils page = stationManageService.selectDataByParam(pageParams, queryParams);
+        List<StationAddressManagement> checkList = BeanCopyUtils.convert(page.getList(), StationAddressManagement.class);
+        ExcelUtil.writeExcel(response, checkList, "stationManagement_export", "sheet1", ExcelTypeEnum.XLSX, StationAddressManagement.class);
     }
 
 }

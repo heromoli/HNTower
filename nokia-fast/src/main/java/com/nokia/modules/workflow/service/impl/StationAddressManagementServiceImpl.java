@@ -35,6 +35,7 @@ public class StationAddressManagementServiceImpl extends ServiceImpl<StationAddr
         String station_name = queryParams.get("station_name").toString().equals("") ? "" : queryParams.get("station_name").toString();
         double longitude = Double.valueOf(queryParams.get("longitude").toString().equals("") ? "0" : queryParams.get("longitude").toString());
         double latitude = Double.valueOf(queryParams.get("latitude").toString().equals("") ? "0" : queryParams.get("latitude").toString());
+        int rangeValue = queryParams.get("rangeValue").toString().equals("") ? 300 : Integer.valueOf(queryParams.get("rangeValue").toString()) ;
         double[] resultAround;
 
         if (!county.equals("")) {
@@ -50,29 +51,13 @@ public class StationAddressManagementServiceImpl extends ServiceImpl<StationAddr
         }
 
         if (longitude > 0 && latitude > 0) {
-            resultAround = GetAround(longitude, latitude, 100);
+            resultAround = GetAround(longitude, latitude, rangeValue);
             queryWrapper.le("longitude", resultAround[0]);
             queryWrapper.ge("longitude", resultAround[1]);
             queryWrapper.le("latitude", resultAround[2]);
             queryWrapper.ge("latitude", resultAround[3]);
         }
 
-//        for (String key : queryParams.keySet()) {
-//            if (key.equals("county") && !queryParams.get(key).equals("")) {
-//                queryWrapper.eq(key, queryParams.get(key));
-//            } else if (key.equals("address") && !queryParams.get(key).equals("")) {
-//                queryWrapper.like(key, queryParams.get(key));
-//            } else if (key.equals("station_name") && !queryParams.get(key).equals("")) {
-//                queryWrapper.like(key, queryParams.get(key));
-//            } else if (key.equals("longitude") && !queryParams.get(key).equals("")) {
-//                String value = (String) queryParams.get(key);
-//                if (value.length() > 0) {
-//                    value = value.substring(0, value.length() - 3);
-//                    queryWrapper.like(key, value);
-//                }
-//            } else if (key.equals("latitude") && !queryParams.get(key).equals("")) {
-//            }
-//        }
         IPage<StationAddressManagement> page = this.page(new Query<StationAddressManagement>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }
