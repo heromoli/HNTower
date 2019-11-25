@@ -19,27 +19,34 @@ Vue.use(common);
 // Vue.use(vueResource)
 Vue.config.productionTip = false;
 
-import BaiduMap from 'vue-baidu-map'
-Vue.use(BaiduMap,{
-    ak:'t8kjxQX0YzyotRuL4uzt84Nusvb1rlN5'
+// import BaiduMap from 'vue-baidu-map'
+//
+// Vue.use(BaiduMap, {
+//     ak: 't8kjxQX0YzyotRuL4uzt84Nusvb1rlN5'
+//
+// });
 
-});
-
-import VueAMap from 'vue-amap'
+import VueAMap from 'vue-amap';
+import { lazyAMapApiLoaderInstance } from 'vue-amap';
 Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
-    key:'2800cd2c93696eaab6f192523cc5271e',
-    plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType'],
-    v: '1.4.4'
+    key: '2800cd2c93696eaab6f192523cc5271e',
+    plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.MarkerClusterer'],
+    v: '1.4.4',
+    uiVersion: '1.0.11'
 });
+// lazyAMapApiLoaderInstance.load().then(() => {
+//      var map = new AMap.Map('container', {
+//         center: new AMap.LngLat(110.317312, 20.022712)
+//     });
+// });
 
+//echarts的引入
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts;
-
 //highcharts的引入
 import VueHighcharts from 'vue-highcharts';
 Vue.use(VueHighcharts);
-
 
 // 挂载全局
 Vue.prototype.$http = httpRequest; // ajax请求方法

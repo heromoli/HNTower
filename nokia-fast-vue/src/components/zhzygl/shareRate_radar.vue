@@ -79,7 +79,6 @@
                     method: 'get'
                 }).then(({data}) => {
                     if (data && data.code === 0) {
-                        console.log(data);
                         this.chartPie.setOption({
                             series: [{
                                 data: [{

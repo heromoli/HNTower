@@ -202,7 +202,6 @@
                     if (data.page != null && data.code === 0) {
                         this.dataList = data.page.list;
                         this.totalPage = data.page.totalCount;
-                        console.log(this.dataList);
                     } else {
                         this.dataList = [];
                         this.totalPage = 0
@@ -287,7 +286,6 @@
                 // })
             },
             showProcessesHiList(row) {
-                console.log(row);
                 this.showProcessesVisible = true;
                 this.$nextTick(() => {
                     this.$refs.showProcesses.init(row);
@@ -302,7 +300,6 @@
             },
             //导出
             exportHandle() {
-                // console.log(this)
                 window.location.href = this.$http.adornUrl(`/api/wf/export?groupId=${this.dataForm.groupId}&token=${this.$cookie.get('token')}`)
             }
         }

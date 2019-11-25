@@ -46,13 +46,7 @@ public class WFProjectController extends BaseController {
     private SimpleTaskService simpleTaskService;
 
     @Autowired
-    private SimpleRepositoryService simpleRepositoryService;
-
-    @Autowired
     private SimpleRuntimeService simpleRuntimeService;
-
-    @Autowired
-    private SimpleIdentityService simpleIdentityService;
 
     @Autowired
     private ProjectWorkflowGroupService projectWorkflowGroupService;
@@ -74,6 +68,9 @@ public class WFProjectController extends BaseController {
 
     @Autowired
     private SupervisorService supervisorService;
+
+    @Autowired
+    private SupervisionService supervisionService;
 
     @Autowired
     private BuildDemandChangeConfirmService bnccService;
@@ -497,8 +494,8 @@ public class WFProjectController extends BaseController {
     //获取表单填充数据
     @GetMapping("/fillSupervisorForm")
     public RData fillSupervisorForm(@RequestParam Map<String, Object> params) {
-        String actProcInstId = (String) params.get("processInstanceId");
-        Supervisor supervisor = supervisorService.selectDataByInsId(actProcInstId);
+        String id = (String) params.get("id");
+        Supervisor supervisor = supervisorService.selectDataById(id);
         return RData.ok().put("returnData", supervisor);
     }
 
@@ -579,6 +576,17 @@ public class WFProjectController extends BaseController {
         Set<String> procInstIdSet = new HashSet<>(procInstIdList);
 
         PageUtils page = supervisorService.selectDataByParam(params, procInstIdSet);
+
+        return RData.ok().put("page", page);
+    }
+
+    @GetMapping("/findSupervisor")
+    public RData findSupervisor(@RequestParam Map<String, Object> params) {
+        SysUserEntity sysUserEntity = getUser();
+        if (sysUserEntity == null) {
+            return RData.error(500, "无法获取用户信息");
+        }
+        PageUtils page = supervisorService.selectDataByParam(params);
 
         return RData.ok().put("page", page);
     }
@@ -732,6 +740,28 @@ public class WFProjectController extends BaseController {
         return RData.ok();
     }
 
+    //批量提交完工监理表
+    @PostMapping("/supervisionUpload")
+    public RData supervisionUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+        //上传文件
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        logger.info(suffix);
+
+        try {
+            List<Supervision> list = ExcelUtil.readExcel(file, Supervision.class, 1, 1);
+            for (Supervision supervision : list) {
+                supervisionService.save(supervision);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return RData.ok();
+    }
+
     //批量提交流程
     @PostMapping("/crmUpload")
     public RData crmUpload(@RequestParam("file") MultipartFile file) {
@@ -790,7 +820,6 @@ public class WFProjectController extends BaseController {
         long startTime = System.currentTimeMillis();
         try {
             List<StationAddressManagement> list = ExcelUtil.readExcel(file, StationAddressManagement.class, 1, 2);
-
             for (StationAddressManagement stationManagement : list) {
                 stationManageService.save(stationManagement);
             }

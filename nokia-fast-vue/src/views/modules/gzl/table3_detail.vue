@@ -728,7 +728,6 @@
                 }
             },
             setHx1Value(value) {
-                // console.log(value);
                 this.dataForm.hx1StationName = value.stationName;
                 this.dataForm.hx1StationNum = value.stationNum;
                 this.dataForm.hx1Longitude = value.longitude;
@@ -759,7 +758,6 @@
                 }
             },
             setHx2Value(value) {
-                // console.log(value);
                 this.dataForm.hx2StationName = value.stationName;
                 this.dataForm.hx2StationNum = value.stationNum;
                 this.dataForm.hx2Longitude = value.longitude;

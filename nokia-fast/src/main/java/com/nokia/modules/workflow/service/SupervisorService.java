@@ -11,6 +11,8 @@ import java.util.Set;
 
 public interface SupervisorService extends IService<Supervisor> {
 
+    Supervisor selectDataById(String id);
+
     Supervisor selectDataByInsId(String processInstanceId);
 
     List<Supervisor> selectDataByInsIdSet(Set<String> processInstanceId);

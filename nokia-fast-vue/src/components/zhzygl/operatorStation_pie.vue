@@ -36,18 +36,19 @@
                     legend: {
                         orient: 'vertical',
                         x: 'left',
-                        data: ['移动', '联通', '电信', '铁塔'],
+                        data: ['铁塔', '电信', '移动', '联通'],
                         textStyle: {
                             color: '#e1f3d8'
                         }
                     },
                     series: [
                         {
-                            name: '访问来源',
+                            name: '产权归属',
                             type: 'pie',
                             radius: ['30%', '75%'],
                             avoidLabelOverlap: false,
-                            color: ['#50B432', '#0527af', '#e60000', '#0085d0'],
+                            color: ['#e60000', '#0527af', '#f08200', '#0085d0'],
+                            //#e60000
                             label: {
                                 normal: {
                                     show: true,

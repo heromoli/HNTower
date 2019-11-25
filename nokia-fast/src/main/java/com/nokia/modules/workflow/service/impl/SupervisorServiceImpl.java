@@ -18,6 +18,13 @@ import java.util.*;
 public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor> implements SupervisorService {
 
     @Override
+    public Supervisor selectDataById(String id) {
+        QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
+        queryWrapper.eq("id", id);
+        return this.getOne(queryWrapper);
+    }
+
+    @Override
     public Supervisor selectDataByInsId(String processInstanceId) {
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
         queryWrapper.eq("act_proc_inst_id", processInstanceId);
@@ -35,6 +42,12 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
     @Override
     public PageUtils selectDataByParam(Map<String, Object> params) {
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
+        String branchCompany = (String) params.get("branchCompany");
+        queryWrapper.like("BRANCH_COMPANY",branchCompany);
+        String stationName = (String) params.get("stationName");
+        queryWrapper.like("STATION_NAME",stationName);
+        String address = (String) params.get("address");
+        queryWrapper.like("ADDRESS",address);
         IPage<Supervisor> page = this.page(new Query<Supervisor>().getPage(params), queryWrapper);
         return new PageUtils(page);
     }

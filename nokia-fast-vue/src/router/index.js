@@ -58,8 +58,6 @@ const mainRoutes = {
             clearLoginInfo();
             next({name: 'login'})
         }
-        // console.log(to);
-        // console.log(from);
         next()
         // if(to.name == 'zhzygl'|| to.name =='larg_screen'){
         //     const { href } = router.resolve({

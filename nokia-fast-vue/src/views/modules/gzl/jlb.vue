@@ -2,10 +2,17 @@
     <div class="mod-log">
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-                <el-input size="mini" v-model="dataForm.key" placeholder="用户名／用户操作" clearable></el-input>
+                <el-input size="mini" v-model="dataForm.branchCompany" placeholder="分公司" clearable></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-input size="mini" v-model="dataForm.stationName" placeholder="站点名称" clearable></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-input size="mini" v-model="dataForm.address" placeholder="地址" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button @click="getDataList()">查询</el-button>
+                <el-button type="success" size="mini" @click="uploadHandle()">导入</el-button>
             </el-form-item>
         </el-form>
         <el-table
@@ -22,11 +29,11 @@
                     label="ID">
             </el-table-column>
             <el-table-column
-                    prop="operatorName"
+                    prop="branchCompany"
                     header-align="center"
                     align="center"
                     width="150"
-                    label="电信企业">
+                    label="分公司">
             </el-table-column>
             <el-table-column
                     prop="demandNum"
@@ -51,12 +58,11 @@
                     label="详细地址">
             </el-table-column>
             <el-table-column
-                    prop="remarks"
+                    prop="demandSource"
                     header-align="center"
                     align="center"
-
                     :show-overflow-tooltip="true"
-                    label="备注">
+                    label="需求来源">
             </el-table-column>
             <el-table-column
                     prop="deliveryTime"
@@ -79,7 +85,7 @@
                     align="center"
                     width="80">
                 <template size="mini" slot-scope="{row,$index}">
-                    <el-button type="primary" size="small" @click.native="showDetailHideList(row)">查看</el-button>
+                    <el-button type="primary" size="small" @click.native="showDetail(row)">查看</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -93,48 +99,57 @@
                 layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
         <show-detail v-if="showDetailVisible" ref="showDetail"></show-detail>
+        <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
     </div>
 </template>
 
 <script>
     import ShowDetail from './jlb_detail'
+    import Upload from './jlb_upload';
 
     export default {
         data() {
             return {
                 dataForm: {
-                    key: ''
+                    branchCompany: '',
+                    stationName: '',
+                    address: '',
                 },
                 dataList: [],
                 pageIndex: 1,
                 pageSize: 10,
                 totalPage: 0,
                 dataListLoading: false,
-                selectionDataList: []
+                selectionDataList: [],
+                showDetailVisible: false,
+                uploadVisible: false,
             }
         },
         created() {
             this.getDataList()
         },
         components: {
-            ShowDetail
+            ShowDetail,
+            Upload
         },
         methods: {
             // 获取数据列表
             getDataList() {
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/findProcessHistoryByUser'),
+                    url: this.$http.adornUrl('/api/wf/findSupervisor'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,
                         'limit': this.pageSize,
-                        'key': this.dataForm.key
+                        'branchCompany': this.dataForm.branchCompany,
+                        'stationName': this.dataForm.stationName,
+                        'address': this.dataForm.address
                     })
                 }).then(({data}) => {
                     if (data && data.code === 0) {
                         this.dataList = data.page.list;
-                        this.totalPage = data.page.totalCount
+                        this.totalPage = data.page.totalCount;
                     } else {
                         this.dataList = [];
                         this.totalPage = 0
@@ -159,10 +174,17 @@
                 }
                 return '';
             },
-            showDetailHideList(row) {
+            showDetail(row) {
                 this.showDetailVisible = true;
                 this.$nextTick(() => {
                     this.$refs.showDetail.init(row);
+                })
+            },
+            // 上传文件
+            uploadHandle() {
+                this.uploadVisible = true;
+                this.$nextTick(() => {
+                    this.$refs.upload.init()
                 })
             }
         }

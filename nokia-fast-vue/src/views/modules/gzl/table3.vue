@@ -253,7 +253,6 @@
             },
             cancelProcess(row) {
                 row.groupId = '3';
-                console.log(row);
                 this.$confirm('该操作会中止本次需求申请，是否确定？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -298,7 +297,6 @@
                 })
             },
             exportHandle() {
-                // console.log(this)
                 window.location.href = this.$http.adornUrl(`/api/wf/export?groupId=${this.dataForm.groupId}&token=${this.$cookie.get('token')}`)
             }
         }

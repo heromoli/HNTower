@@ -201,7 +201,6 @@
             }
             // ,
             // exportHandle() {
-            //     // console.log(this)
             //     window.location.href = this.$http.adornUrl(`/api/wf/export?groupId=${this.dataForm.groupId}&token=${this.$cookie.get('token')}`)
             // }
         }
