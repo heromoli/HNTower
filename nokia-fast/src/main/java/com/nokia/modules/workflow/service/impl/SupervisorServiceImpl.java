@@ -9,6 +9,8 @@ import com.nokia.modules.workflow.entity.Supervisor;
 import com.nokia.modules.workflow.service.SupervisorService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,6 +18,7 @@ import java.util.*;
 
 @Service("SupervisorService")
 public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor> implements SupervisorService {
+    private static final Logger logger = LoggerFactory.getLogger(SupervisorServiceImpl.class);
 
     @Override
     public Supervisor selectDataById(String id) {
@@ -53,6 +56,38 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
     }
 
     @Override
+    public PageUtils selectDataByQueryParam(Map<String, Object> pageParams, Map<String, Object> queryParams) {
+        QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
+        String branchCompany = queryParams.get("branchCompany").toString().equals("") ? "" : queryParams.get("branchCompany").toString();
+        String demandNum = queryParams.get("demandNum").toString().equals("") ? "" : queryParams.get("demandNum").toString();
+        String stationName = queryParams.get("stationName").toString().equals("") ? "" : queryParams.get("stationName").toString();
+        String address = queryParams.get("address").toString().equals("") ? "" : queryParams.get("address").toString();
+        String specialStation = queryParams.get("specialStation").toString().equals("") ? "" : queryParams.get("specialStation").toString();
+        if (!branchCompany.equals("")) {
+            queryWrapper.like("branch_Company", branchCompany);
+        }
+
+        if (!demandNum.equals("")) {
+            queryWrapper.like("demand_Num", demandNum);
+        }
+
+        if (!stationName.equals("")) {
+            queryWrapper.like("station_Name", stationName);
+        }
+
+        if (!address.equals("")) {
+            queryWrapper.like("address", address);
+        }
+
+        if (!specialStation.equals("")) {
+            queryWrapper.like("special_Station", specialStation);
+        }
+
+        IPage<Supervisor> page = this.page(new Query<Supervisor>().getPage(pageParams), queryWrapper);
+        return new PageUtils(page);
+    }
+
+    @Override
     public PageUtils selectDataByParam(Map<String, Object> pageParams, Set<String> processInstanceId) {
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
         queryWrapper.in("act_proc_inst_id", processInstanceId);
@@ -83,8 +118,6 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
         }
         return 0;
     }
-
-
 
     @Override
     public List<Supervisor> findDataAll(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params) {
@@ -142,10 +175,10 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
             }
 
             if (company != null) {
-                queryWrapper.in("branchCompany", company);
+                queryWrapper.in("branch_Company", company);
             }
             if (operator != null) {
-                queryWrapper.in("operatorName", operator);
+                queryWrapper.in("operator_Name", operator);
             }
         }
         return queryWrapper;

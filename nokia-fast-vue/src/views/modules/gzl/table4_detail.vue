@@ -33,13 +33,13 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="地市" prop="branchCompany">
-                                <el-input type="text" v-model="dataForm.branchCompany"></el-input>
+                            <el-form-item label="分公司" prop="branchCompany">
+                                <el-input type="text" v-model="dataForm.branchCompany" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="区县" prop="region">
-                                <el-input type="text" v-model="dataForm.region"></el-input>
+                                <el-input type="text" v-model="dataForm.region" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -51,7 +51,14 @@
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="场景划分" prop="scene">
-                                <el-input type="text" v-model="dataForm.scene"></el-input>
+                                <el-select v-model="dataForm.scene" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in sceneOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
@@ -62,7 +69,8 @@
                         <el-col :span="6">
                             <el-form-item label="交付时间" prop="deliveryTime">
                                 <el-date-picker v-model="dataForm.deliveryTime"
-                                                type="date" placeholder="选择日期" style="width: 100%">
+                                                type="date" placeholder="选择日期" style="width: 100%"
+                                                value-format="yyyy-MM-dd">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -87,22 +95,53 @@
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="建设方式" prop="buildType">
-                                <el-input type="text" v-model="dataForm.buildType"></el-input>
+                                <el-select v-model="dataForm.buildType" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in buildTypeOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="是否共享" prop="ifShare">
-                                <el-input type="text" v-model="dataForm.ifShare"></el-input>
+                                <!--<el-input type="text" v-model="dataForm.ifShare"></el-input>-->
+                                <el-select v-model="dataForm.ifShare" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in shareOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="铁塔类型" prop="towerType">
-                                <el-input type="text" v-model="dataForm.towerType"></el-input>
+                            <el-form-item label="铁塔种类" prop="towerType">
+                                <!--<el-input type="text" v-model="dataForm.towerType"></el-input> -->
+                                <el-select v-model="dataForm.towerType" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in towerTypeOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
-                            <el-form-item label="铁塔类型细分" prop="towerTypeDetail">
-                                <el-input type="text" v-model="dataForm.towerTypeDetail"></el-input>
+                            <el-form-item label="铁塔种类细分" prop="towerTypeDetail">
+                                <!--<el-input type="text" v-model="dataForm.towerTypeDetail"></el-input> towerTypeDetailOptions-->
+                                <el-select v-model="dataForm.towerTypeDetail" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in towerTypeDetailOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -335,7 +374,7 @@
         </el-container>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">关闭</el-button>
-            <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+            <el-button v-if="isAuth('gzl:table4:update')" type="primary" @click="dataFormSubmit()">确定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -413,6 +452,109 @@
                     label: '建站进行中',
                     disabled: true
                 }],
+                shareOptions: [{
+                    value: '是',
+                    label: '是'
+                }, {
+                    value: '否',
+                    label: '否'
+                }],
+                buildTypeOptions: [{
+                    value: '新建',
+                    label: '新建'
+                }, {
+                    value: '改造',
+                    label: '改造'
+                }, {
+                    value: '存量直接满足',
+                    label: '存量直接满足'
+                }],
+                sceneOptions: [{
+                    value: '密集市区',
+                    label: '密集市区'
+                }, {
+                    value: '一般市区',
+                    label: '一般市区'
+                }, {
+                    value: '县城',
+                    label: '县城'
+                }, {
+                    value: '乡镇',
+                    label: '乡镇'
+                }, {
+                    value: '农村',
+                    label: '农村'
+                }],
+                towerTypeOptions: [
+                    {
+                        value: '普通地面塔',
+                        label: '普通地面塔'
+                    }, {
+                        value: '普通楼面塔',
+                        label: '普通楼面塔'
+                    }, {
+                        value: '简易塔',
+                        label: '简易塔'
+                    }, {
+                        value: '景观塔',
+                        label: '景观塔'
+                    }, {
+                        value: '楼面抱杆',
+                        label: '楼面抱杆'
+                    }, {
+                        value: '无铁塔',
+                        label: '无铁塔'
+                    }, {
+                        value: '社会塔改造共享',
+                        label: '社会塔改造共享'
+                    }],
+                towerTypeDetailOptions: [
+                    {
+                        value: 'H杆塔',
+                        label: 'H杆塔'
+                    }, {
+                        value: '单管塔',
+                        label: '单管塔'
+                    }, {
+                        value: '灯杆景观塔',
+                        label: '灯杆景观塔'
+                    }, {
+                        value: '地面支撑杆',
+                        label: '地面支撑杆'
+                    }, {
+                        value: '仿生树',
+                        label: '仿生树'
+                    }, {
+                        value: '简易落地塔',
+                        label: '简易落地塔'
+                    }, {
+                        value: '角钢塔',
+                        label: '角钢塔'
+                    }, {
+                        value: '楼面抱杆',
+                        label: '楼面抱杆'
+                    }, {
+                        value: '楼面拉线塔',
+                        label: '楼面拉线塔'
+                    }, {
+                        value: '楼面美化塔',
+                        label: '楼面美化塔'
+                    }, {
+                        value: '楼面增高架',
+                        label: '楼面增高架'
+                    }, {
+                        value: '路灯杆塔',
+                        label: '路灯杆塔'
+                    }, {
+                        value: '落地拉线塔',
+                        label: '落地拉线塔'
+                    }, {
+                        value: '三管塔',
+                        label: '三管塔'
+                    }, {
+                        value: '水泥杆塔',
+                        label: '水泥杆塔'
+                    }],
                 dataRule: {
                     // longitude: [
                     //     {required: true, message: '经度不能为空', type: 'float', trigger: 'blur'}
@@ -446,6 +588,8 @@
                 }).then(({data}) => {
                     if (data && data.code === 0) {
                         this.historyList = data.history;
+                    }else {
+                        this.historyList = []
                     }
                 })
             },

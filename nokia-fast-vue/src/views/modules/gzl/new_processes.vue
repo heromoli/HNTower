@@ -50,7 +50,7 @@
         methods: {
             // 初始化
             init () {
-                this.visible = true
+                this.visible = true;
                 this.$nextTick(() => {
                     this.$refs['dataForm'].resetFields()
                 })

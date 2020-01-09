@@ -20,7 +20,7 @@
                             <el-image :src="virtualbox"></el-image>
                             <div style="padding: 5px;">
                                 <div class="bottom clearfix">
-                                    <el-button type="primary" @click="zygl()">资源管理</el-button>
+                                    <el-button type="primary" @click="zygl()">光网资源</el-button>
                                 </div>
                             </div>
                         </el-card>
@@ -59,9 +59,10 @@
         },
         methods: {
             gwzx() {
-                const {href} = this.$router.resolve({
-                    name: 'larg_screen'
-                });
+                // const {href} = this.$router.resolve({
+                //     name: 'larg_screen'
+                // });
+                var href = this.$http.adornUrl("/gwzx/index.html");
                 window.open(href, '_blank')
 
             },

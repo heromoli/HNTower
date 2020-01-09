@@ -25,9 +25,13 @@ public interface StationAmountDao extends BaseMapper<StationInfoAmount> {
 
     List<StationInfoAmount> selectStationShareAmount();
 
+    List<StationInfoAmount> selectStationAloneAmount();
+
     List<StationInfoAmount> selectBizSceneAmount();
 
     List<StationInfoAmount> selectStationAmountByYear();
+
+    List<StationInfoAmount> selectStationIncreaseByYear();
 
     List<StationInfoAmount> selectStationAmountByMonth();
 

@@ -22,7 +22,11 @@ public interface StationAmountService extends IService<StationInfoAmount> {
 
     int[] selectBizSceneAmount();
 
-    List<StationInfoAmount>  selectStationAmountByYear();
+    List<StationInfoAmount> selectStationAloneAmount();
+
+    List<StationInfoAmount> selectStationAmountByYear();
+
+    List<StationInfoAmount> selectStationIncreaseByYear();
 
     List<StationInfoAmount> selectStationAmountByMonth();
 

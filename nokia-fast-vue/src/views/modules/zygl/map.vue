@@ -186,7 +186,7 @@
                 ls.search(this.queryParam.address, {forceLocal: true});
 
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/queryStationAddressInfo'),
+                    url: this.$http.adornUrl('/api/zhzygl/queryStationAddressManagement'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,

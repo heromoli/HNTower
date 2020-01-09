@@ -21,6 +21,11 @@ public class GlobalCorsConfig {
                         .allowedOrigins("*")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") //设置允许访问的方法类型
+                        .exposedHeaders("access-control-allow-headers",
+                                "access-control-allow-methods",
+                                "access-control-allow-origin",
+                                "access-control-max-age",
+                                "X-Frame-Options")
                         .maxAge(3600);
             }
         };

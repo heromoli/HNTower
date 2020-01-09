@@ -26,12 +26,12 @@ public class ProjectRightConfigServiceImpl extends ServiceImpl<ProjectRightConfi
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String queryValue = (String)params.get("queryValue");
+        String queryValue = (String)params.get("key");
 
         IPage<ProjectRightConfigEntity> page = this.page(
                 new Query<ProjectRightConfigEntity>().getPage(params),
                 new QueryWrapper<ProjectRightConfigEntity>()
-//                        .like(StringUtils.isNotBlank(queryValue),"value", queryValue)
+                        .like(StringUtils.isNotBlank(queryValue),"value", queryValue)
         );
 
         return new PageUtils(page);
@@ -50,8 +50,8 @@ public class ProjectRightConfigServiceImpl extends ServiceImpl<ProjectRightConfi
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteBatch(Long[] ids) {
-        this.removeByIds(Arrays.asList(ids));
+    public void deleteById(Long id) {
+        this.removeById(id);
     }
 
     @Override

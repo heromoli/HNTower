@@ -5,9 +5,6 @@
             :fullscreen="true"
             :append-to-body="true">
         <el-image :src="processImgSrc"></el-image>
-        <!--<img :src="processImgSrc">-->
-        <!--<el-input v-model="processImgSrc">-->
-        <!--</el-input>-->
         <el-timeline>
             <el-timeline-item v-for="hi in historyList" :timestamp="hi.startTime" placement="top">
                 <el-card>
@@ -20,10 +17,8 @@
         <el-container>
             <el-header>需求单详情</el-header>
             <el-main>
-
                 <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
                          label-width="105px">
-
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="需求编号" prop="demandNum">
@@ -37,12 +32,12 @@
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="分公司" prop="branchCompany">
-                                <el-input type="text" v-model="dataForm.branchCompany"></el-input>
+                                <el-input type="text" v-model="dataForm.branchCompany" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="地市" prop="county">
-                                <el-input type="text" v-model="dataForm.county"></el-input>
+                                <el-input type="text" v-model="dataForm.county" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
 
@@ -50,7 +45,7 @@
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="区县" prop="region">
-                                <el-input type="text" v-model="dataForm.region"></el-input>
+                                <el-input type="text" v-model="dataForm.region" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
@@ -60,7 +55,14 @@
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="场景划分" prop="scene">
-                                <el-input type="text" v-model="dataForm.scene"></el-input>
+                                <el-select v-model="dataForm.scene"  placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in sceneOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
@@ -102,7 +104,8 @@
                                 <el-date-picker
                                         v-model="dataForm.deliveryTime"
                                         type="date" style="width: 100%"
-                                        placeholder="选择日期">
+                                        placeholder="选择日期"
+                                        value-format="yyyy-MM-dd">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -147,6 +150,21 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
+                            <el-form-item label="建设方式" prop="contact">
+                                <!--<el-input type="text" v-model="dataForm.buildType"></el-input> buildTypeOptions-->
+                                <el-select v-model="dataForm.buildType" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in buildTypeOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="6">
                             <el-form-item label="能否形成订单" prop="ifCanOrder">
                                 <el-select v-model="dataForm.ifCanOrder" placeholder="请选择" style="width: 100%">
                                     <el-option
@@ -158,10 +176,8 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="24">
-                            <el-form-item label="不能形成订单的原因" prop="cantOrderReason">
+                        <el-col :span="18">
+                            <el-form-item label="不能形成订单原因" prop="cantOrderReason">
                                 <el-input type="text" v-model="dataForm.cantOrderReason"></el-input>
                             </el-form-item>
                         </el-col>
@@ -522,11 +538,10 @@
                     </el-collapse>
                 </el-form>
             </el-main>
-
         </el-container>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">关闭</el-button>
-            <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+            <el-button v-if="isAuth('gzl:table3:update')" type="primary" @click="dataFormSubmit()">确定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -613,6 +628,32 @@
                 }],
                 options1: [],
                 options2: [],
+                buildTypeOptions: [{
+                    value: '新建',
+                    label: '新建'
+                }, {
+                    value: '改造',
+                    label: '改造'
+                }, {
+                    value: '存量直接满足',
+                    label: '存量直接满足'
+                }],
+                sceneOptions: [{
+                    value: '密集市区',
+                    label: '密集市区'
+                }, {
+                    value: '一般市区',
+                    label: '一般市区'
+                }, {
+                    value: '县城',
+                    label: '县城'
+                }, {
+                    value: '乡镇',
+                    label: '乡镇'
+                }, {
+                    value: '农村',
+                    label: '农村'
+                }],
                 dataRule: {},
                 queryStation1: '',
                 queryStation2: '',
@@ -629,7 +670,6 @@
                 this.history(row.actProcInstId);
                 this.processImg(row.actProcInstId);
                 this.dataFormFill(row.actProcInstId);
-
             },
             // 工作流记录
             history(id) {
@@ -656,7 +696,6 @@
                         'processInstanceId': id,
                     })
                 }).then(({data}) => {
-
                     if (data && data.code === 0) {
                         this.dataForm = data.returnData;
                     } else {
@@ -710,7 +749,7 @@
                     this.loading = true;
                     setTimeout(() => {
                         this.$http({
-                            url: this.$http.adornUrl('/api/wf/stationAddressManagementList'),
+                            url: this.$http.adornUrl('/api/zhzygl/stationAddressManagementList'),
                             method: 'get',
                             params: this.$http.adornParams({
                                 'key': query
@@ -740,7 +779,7 @@
                     this.loading = true;
                     setTimeout(() => {
                         this.$http({
-                            url: this.$http.adornUrl('/api/wf/stationAddressManagementList'),
+                            url: this.$http.adornUrl('/api/zhzygl/stationAddressManagementList'),
                             method: 'get',
                             params: this.$http.adornParams({
                                 'key': query

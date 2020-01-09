@@ -26,6 +26,7 @@
 			where t.county in ('五指山市','琼中黎族苗族自治县','临高县','乐东黎族自治县','儋州市','白沙黎族自治县'
 			,'保亭黎族自治县','琼海市','万宁市','屯昌县','文昌市','澄迈县','东方市','陵水黎族自治县','定安县','昌江黎族自治县')
 		group by t.county
+		order by value desc
 	</select>
 
 	<select id="selectCountyAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
@@ -50,6 +51,17 @@
             group by t.if_operator_share
 	</select>
 
+	<select id="selectStationAloneAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		  select '移动' as name,sum(case when instr(t.if_operator_share,'移动')>0 then 1 else 0 end） value
+			from station_address_management t
+		union all
+		  select '联通' as name,sum(case when instr(t.if_operator_share,'联通')>0 then 1 else 0 end） value
+			from station_address_management t
+		union all
+		  select '电信' as name,sum(case when instr(t.if_operator_share,'电信')>0 then 1 else 0 end） value
+			from station_address_management t
+	</select>
+
     <select id="selectBizSceneAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
         select t.biz_scene name,count(t.biz_scene) value from STATION_ADDRESS_MANAGEMENT t
    			group by t.biz_scene
@@ -59,9 +71,19 @@
 	</select>
 
     <select id="selectStationAmountByYear" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select a.syear name,sum(b.site_number) value
+		from (select substr(t.delivery_time,1,4) syear,count(t.operandmaint_id) site_number from STATION_ADDRESS_MANAGEMENT t group by substr(t.delivery_time,1,4)) a
+		,(select substr(t.delivery_time,1,4) syear,count(t.operandmaint_id) site_number from STATION_ADDRESS_MANAGEMENT t group by substr(t.delivery_time,1,4)) b
+		where b.syear &lt;= a.syear
+		group by a.syear
+		order by 1 desc
+	</select>
+
+	<select id="selectStationIncreaseByYear" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
    		select nvl(name, '未知') name, value
 			from (select substr(t.delivery_time,0,4) name,count(*) value from STATION_ADDRESS_MANAGEMENT t
 				group by substr(t.delivery_time,0,4) order by name)
+		order by 1 desc
 	</select>
 
 	<select id="selectStationAmountByMonth" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
@@ -95,7 +117,6 @@
         order by value desc
 	</select>
 
-
     <select id="selectMonthlyStation5GAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
 		select to_char(to_date(t.delivery_time,'yyyy-mm-dd'),'yyyy-mm') name ,count(t.station_name) value
 		from STATION5G_DEMAND t
@@ -103,7 +124,5 @@
 		group by to_char(to_date(t.delivery_time,'yyyy-mm-dd'),'yyyy-mm')
 		order by name
 	</select>
-
-
 
 </mapper>

@@ -7,7 +7,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button size="mini" @click="getDataList()">查询</el-button>
-                <el-button type="success" size="mini" @click="uploadHandle()">导入</el-button>
+                <el-button v-if="isAuth('gzl:table4:update')" type="success" size="mini" @click="uploadHandle()">导入</el-button>
                 <el-button type="primary" size="mini" @click="exportHandle()">导出</el-button>
             </el-form-item>
         </el-form>
@@ -129,8 +129,8 @@
                     width="230">
                 <template size="mini" slot-scope="{row,$index}">
                     <el-button type="primary" size="small" @click.native="showProcessesHiList(row)">查看</el-button>
-                    <el-button size="small" @click.native="cancelProcess(row)">不同意</el-button>
-                    <el-button type="success" size="small" @click.native="submitProcess(row)">同意</el-button>
+                    <el-button v-if="isAuth('gzl:table4:update')" size="small" @click.native="cancelProcess(row)">不同意</el-button>
+                    <el-button v-if="isAuth('gzl:table4:update')" type="success" size="small" @click.native="submitProcess(row)">同意</el-button>
                 </template>
             </el-table-column>
         </el-table>

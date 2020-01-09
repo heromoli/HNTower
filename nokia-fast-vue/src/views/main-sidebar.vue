@@ -1,6 +1,6 @@
 <template>
     <aside class="site-sidebar" :class="'site-sidebar--' + sidebarLayoutSkin">
-        <div class="site-sidebar__inner">
+        <div >
             <el-menu
                     :default-active="menuActiveName || 'home'"
                     :collapse="sidebarFold"
@@ -10,7 +10,7 @@
                     <icon-svg name="shouye" class="site-sidebar__menu-icon"></icon-svg>
                     <span slot="title">首页</span>
                 </el-menu-item>
-                <!--<el-submenu index="demo">-->
+                <!--<el-submenu index="demo">  class="site-sidebar__inner" -->
                 <!--<template slot="title">-->
                 <!--<icon-svg name="shoucang" class="site-sidebar__menu-icon"></icon-svg>-->
                 <!--<span>demo</span>-->

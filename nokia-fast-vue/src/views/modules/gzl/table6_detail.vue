@@ -18,7 +18,7 @@
             <el-header>需求变更确认</el-header>
             <el-main>
                 <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
-                         label-width="80px">
+                         label-width="100px">
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="需求编号" prop="demandNum">

@@ -115,14 +115,14 @@
 
                                 <el-col :span="24" class="center_div_mtop"  :style="'height:'+centerHeight4+'px'">
                                     <table class="bg-row1 center_div_mtop">
-                                        <tr>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">运营商</el-tag></td>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">产权基站</el-tag></td>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">停电</el-tag></td>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">停电率</el-tag></td>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">退服</el-tag></td>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">退服率</el-tag></td>
-                                        </tr>
+                                        <thead>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">运营商</el-tag></th>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">产权基站</el-tag></th>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">停电</el-tag></th>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">停电率</el-tag></th>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">退服</el-tag></th>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">退服率</el-tag></th>
+                                        </thead>
 
                                         <tr v-for="item in tableData1">
                                             <td>{{item.yys}}</td>
@@ -164,13 +164,13 @@
                                 </el-col>
                                 <el-col :span="24" class="center_div_mtop"  :style="'height:'+centerHeight4+'px'">
                                     <table class="bg-row1 center_div_mtop">
-                                        <tr>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">运营商</el-tag></td>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">逻辑基站</el-tag></td>
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">退服率</el-tag></td>
+                                        <thead>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">运营商</el-tag></th>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">逻辑基站</el-tag></th>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">退服率</el-tag></th>
                                             <!--<td><el-tag type="success" style="color:white">中断光缆数</el-tag></td>-->
-                                            <td><el-tag type="success" style="color:white;font-size: 18px">修复率</el-tag></td>
-                                        </tr>
+                                            <th><el-tag type="success" style="color:white;font-size: 18px">修复率</el-tag></th>
+                                        </thead>
 
                                         <tr v-for="item in tableData">
                                             <td>{{item.yys}}</td>
@@ -958,7 +958,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
     .site-wrapper.site-page--not-found {
         position: absolute;
@@ -1089,8 +1089,9 @@
     .bg-row1 tr td{
         background-color: #061d46;
         padding: 2px;
-        text-align: left;
+        text-align: center;
         line-height: 30px;
+        border-bottom:1px dashed #c2c2c2;
     }
     .box-card-style{
         width: 99%;
@@ -1104,14 +1105,15 @@
         //background-color: #898181;
         width: 100%;
         height: 100%;
-        font-size: 18px;
+        font-size: 17px;
        // margin-left: -5%;
     }
     .bg-row2 tr td{
         background-color: #061d46;
         padding: 0px;
         text-align: center;
-        line-height: 20px;
+        line-height: 19px;
+        border-bottom:1px dashed #c2c2c2;
     }
     .el-card__body{
         padding: 0px !important;

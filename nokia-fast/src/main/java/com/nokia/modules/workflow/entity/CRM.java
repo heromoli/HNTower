@@ -8,12 +8,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("CRM")
+@TableName("CRM_NEW")
 public class CRM extends RowModel implements Serializable {
 
     @TableId
     private Long id;
-
+    @ExcelProperty(value = {"ID", ""}, index = 0)
+    private String origId;
     @ExcelProperty(value = {"订单状态", ""}, index = 1)
     private String orderStatus;
     @ExcelProperty(value = {"订单号", ""}, index = 2)
@@ -28,6 +29,8 @@ public class CRM extends RowModel implements Serializable {
     private String region;
     @ExcelProperty(value = {"是否属于高铁或地铁项目", ""}, index = 7)
     private String ifRailwayProject;
+    @ExcelProperty(value = {"所属高铁或地铁项目名称", ""}, index = 8)
+    private String projectNameOfRailway;
     @ExcelProperty(value = {"运营商站址名称", ""}, index = 9)
     private String operatorStationName;
     @ExcelProperty(value = {"铁塔站址名称", ""}, index = 10)
@@ -124,18 +127,46 @@ public class CRM extends RowModel implements Serializable {
     private String ifGasElectric;
     @ExcelProperty(value = {"是否选择发电服务", ""}, index = 56)
     private String ifChoiceElectric;
+
     @ExcelProperty(value = {"铁塔产品单元1", "系统名称"}, index = 57)
-    private String systemName;
+    private String u1SystemName;
     @ExcelProperty(value = {"铁塔产品单元1", "天线挂高(米)"}, index = 58)
-    private String antennaHeight;
+    private String u1AntennaHeight;
     @ExcelProperty(value = {"铁塔产品单元1", "天线数量(个)"}, index = 59)
-    private String antennaNum;
+    private String u1AntennaNum;
     @ExcelProperty(value = {"铁塔产品单元1", "计费系统数(个)"}, index = 60)
-    private String chargeSystemNum;
+    private String u1ChargeSystemNum;
     @ExcelProperty(value = {"铁塔产品单元1", "BBU是否放在铁塔公司机房"}, index = 61)
-    private String ifBbuInTowerRoom;
+    private String u1IfBbuInTowerRoom;
     @ExcelProperty(value = {"铁塔产品单元1", "RRU是否上塔"}, index = 62)
-    private String ifRruOnTower;
+    private String u1IfRruOnTower;
+
+    @ExcelProperty(value = {"铁塔产品单元2", "系统名称"}, index = 63)
+    private String u2SystemName;
+    @ExcelProperty(value = {"铁塔产品单元2", "天线挂高(米)"}, index = 64)
+    private String u2AntennaHeight;
+    @ExcelProperty(value = {"铁塔产品单元2", "天线数量(个)"}, index = 65)
+    private String u2AntennaNum;
+    @ExcelProperty(value = {"铁塔产品单元2", "计费系统数(个)"}, index = 66)
+    private String u2ChargeSystemNum;
+    @ExcelProperty(value = {"铁塔产品单元2", "BBU是否放在铁塔公司机房"}, index = 67)
+    private String u2IfBbuInTowerRoom;
+    @ExcelProperty(value = {"铁塔产品单元2", "RRU是否上塔"}, index = 68)
+    private String u2IfRruOnTower;
+
+    @ExcelProperty(value = {"铁塔产品单元3", "系统名称"}, index = 69)
+    private String u3SystemName;
+    @ExcelProperty(value = {"铁塔产品单元3", "天线挂高(米)"}, index = 70)
+    private String u3AntennaHeight;
+    @ExcelProperty(value = {"铁塔产品单元3", "天线数量(个)"}, index = 71)
+    private String u3AntennaNum;
+    @ExcelProperty(value = {"铁塔产品单元3", "计费系统数(个)"}, index = 72)
+    private String u3ChargeSystemNum;
+    @ExcelProperty(value = {"铁塔产品单元3", "BBU是否放在铁塔公司机房"}, index = 73)
+    private String u3IfBbuInTowerRoom;
+    @ExcelProperty(value = {"铁塔产品单元3", "RRU是否上塔"}, index = 74)
+    private String u3IfRruOnTower;
+
     @ExcelProperty(value = {"WLAN天线", "天线挂高(米)"}, index = 75)
     private String wlanAntennaHeight;
     @ExcelProperty(value = {"微波天线", "天线挂高(米)"}, index = 76)
@@ -294,7 +325,7 @@ public class CRM extends RowModel implements Serializable {
     private String totalFee;
     @ExcelProperty(value = {"同步信息", "物业系统年场租及财务系统无形资产摊销是否同步"}, index = 153)
     private String ifPropertyFinanceSync;
-    @ExcelProperty(value = {"", "财务系统选址费是否同步"}, index = 154)
+    @ExcelProperty(value = {"同步信息", "财务系统选址费是否同步"}, index = 154)
     private String ifFinanceAddressSync;
     @ExcelProperty(value = {"建造成本模式", ""}, index = 155)
     private String buildCostType;
@@ -318,6 +349,8 @@ public class CRM extends RowModel implements Serializable {
     private String roomEquityNature;
     @ExcelProperty(value = {"套餐名称", ""}, index = 165)
     private String comboName;
-    @ExcelProperty(value = {"服务终止原因", ""}, index = 167)
+    @ExcelProperty(value = {"服务终止原因", ""}, index = 166)
     private String serviceStopReason;
+    @ExcelProperty(value = {"RRU订单被拉远方机房ID", ""}, index = 167)
+    private String rruOrderRoomRemotedId;
 }

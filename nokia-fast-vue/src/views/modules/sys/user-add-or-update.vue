@@ -28,13 +28,13 @@
             </el-form-item>
             <el-form-item label="分组" size="mini" prop="groupIdList">
                 <el-checkbox-group v-model="dataForm.groupIdList">
-                    <el-checkbox :key="3" :label="3">表3
+                    <el-checkbox :key="3" :label="3">需求收集
                     </el-checkbox>
-                    <el-checkbox :key="4" :label="4">表4
+                    <el-checkbox :key="4" :label="4">站址筛查
                     </el-checkbox>
-                    <el-checkbox :key="5" :label="5">表5
+                    <el-checkbox :key="5" :label="5">建设需求确认
                     </el-checkbox>
-                    <el-checkbox :key="6" :label="6">表6
+                    <el-checkbox :key="6" :label="6">需求变更
                     </el-checkbox>
                 </el-checkbox-group>
             </el-form-item>

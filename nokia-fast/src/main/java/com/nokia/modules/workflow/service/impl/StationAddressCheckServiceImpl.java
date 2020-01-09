@@ -82,10 +82,10 @@ public class StationAddressCheckServiceImpl extends ServiceImpl<StationAddressCh
             }
 
             if (company != null) {
-                queryWrapper.in("branchCompany", company);
+                queryWrapper.in("branch_Company", company);
             }
             if (operator != null) {
-                queryWrapper.in("operatorName", operator);
+                queryWrapper.in("operator_Name", operator);
             }
         }
         return queryWrapper;

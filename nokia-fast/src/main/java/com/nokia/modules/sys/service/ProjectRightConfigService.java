@@ -29,7 +29,7 @@ public interface ProjectRightConfigService extends IService<ProjectRightConfigEn
     /**
      * 删除配置信息
      */
-    public void deleteBatch(Long[] ids);
+    public void deleteById(Long id);
 
     public List<ProjectRightConfigEntity> getListByUserId(Long userId);
 

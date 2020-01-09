@@ -12,9 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,9 +174,10 @@ public class ExcelUtil<T> {
         if (!fileName.toLowerCase().endsWith(ExcelTypeEnum.XLS.getValue()) && !fileName.toLowerCase().endsWith(ExcelTypeEnum.XLSX.getValue())) {
             throw new RRException("文件格式错误！");
         }
-        InputStream inputStream;
+        InputStream is;
         try {
-            inputStream = excel.getInputStream();
+            is = excel.getInputStream();
+            InputStream inputStream = new BufferedInputStream(is);  //添加这一行，否正导入XLS格式会报错
             return new ExcelReader(inputStream, null, excelListener, false);
         } catch (IOException e) {
             //do something

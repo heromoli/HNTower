@@ -25,8 +25,8 @@ public class StationAmountServiceImpl extends ServiceImpl<StationAmountDao, Stat
         List<StationInfoAmount> stationInfoAmountList = new ArrayList<>();
         stationInfoAmountList.addAll(baseMapper.selectHaikouAmount());
         stationInfoAmountList.addAll(baseMapper.selectSanyaAmount());
-        stationInfoAmountList.addAll(baseMapper.selectQundaoAmount());
         stationInfoAmountList.addAll(baseMapper.selectHainanAmount());
+        stationInfoAmountList.addAll(baseMapper.selectQundaoAmount());
         return stationInfoAmountList;
     }
 
@@ -133,30 +133,19 @@ public class StationAmountServiceImpl extends ServiceImpl<StationAmountDao, Stat
     }
 
     @Override
+    public List<StationInfoAmount> selectStationAloneAmount() {
+        return baseMapper.selectStationAloneAmount();
+    }
+
+    @Override
     public List<StationInfoAmount> selectStationAmountByYear() {
         List<StationInfoAmount> stationInfoAmountList = baseMapper.selectStationAmountByYear();
+        return stationInfoAmountList;
+    }
 
-        int[] stationAmount = new int[10];
-        for (StationInfoAmount stationInfoAmount : stationInfoAmountList) {
-            if (stationInfoAmount.getName().equals("2011")) {
-                stationAmount[0] = stationInfoAmount.getValue();
-            } else if (stationInfoAmount.getName().equals("2012")) {
-                stationAmount[1] = stationInfoAmount.getValue();
-            } else if (stationInfoAmount.getName().equals("2013")) {
-                stationAmount[2] = stationInfoAmount.getValue();
-            } else if (stationInfoAmount.getName().equals("2014")) {
-                stationAmount[3] = stationInfoAmount.getValue();
-            } else if (stationInfoAmount.getName().equals("2015")) {
-                stationAmount[4] = stationInfoAmount.getValue();
-            } else if (stationInfoAmount.getName().equals("2016")) {
-                stationAmount[5] = stationInfoAmount.getValue();
-            } else if (stationInfoAmount.getName().equals("2017")) {
-                stationAmount[6] = stationInfoAmount.getValue();
-            } else if (stationInfoAmount.getName().equals("2018")) {
-                stationAmount[7] = stationInfoAmount.getValue();
-            }
-        }
-
+    @Override
+    public List<StationInfoAmount> selectStationIncreaseByYear() {
+        List<StationInfoAmount> stationInfoAmountList = baseMapper.selectStationIncreaseByYear();
         return stationInfoAmountList;
     }
 

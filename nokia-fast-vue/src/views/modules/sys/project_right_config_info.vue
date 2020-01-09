@@ -3,7 +3,8 @@
             title="工程权限分配"
             :visible.sync="visible"
             :append-to-body="true">
-        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+        <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
+                 label-width="80px">
             <el-form-item label="用户" prop="userId">
                 <el-input v-if="false" type="company" v-model="dataForm.userId"></el-input>
                 {{dataForm.userName}}
@@ -11,8 +12,7 @@
                         placement="right"
                         width="230"
                         trigger="click"
-                        v-model="popoverModel"
-                        >
+                        v-model="popoverModel">
                     <el-table :data="userData" @row-click="rowClick">
                         <el-table-column width="80" property="userId" label="ID"></el-table-column>
                         <el-table-column width="120" property="username" label="姓名"></el-table-column>
@@ -54,12 +54,12 @@
 <script>
 
     export default {
-        data () {
+        data() {
             return {
                 visible: false,
-                initUser:{//初始默认用户
-                    userId:'',
-                    username:'',
+                initUser: {//初始默认用户
+                    userId: '',
+                    username: '',
                 },
                 dataForm: {
                     userId: '',
@@ -67,50 +67,48 @@
                     company: '',
                     operator: ''
                 },
-                userData:[],
+                userData: [],
                 dataRule: {
                     userId: [
-                        { required: true, message: '用户不能为空', trigger: 'blur' },
+                        {required: true, message: '用户不能为空', trigger: 'blur'},
                     ],
                     company: [
-                        { required: true, message: '分公司不能为空', trigger: 'blur' }
+                        {required: true, message: '分公司不能为空', trigger: 'blur'}
                     ],
                     operator: [
-                        { required: true, message: '运营商不能未空', trigger: 'blur' }
+                        {required: true, message: '运营商不能未空', trigger: 'blur'}
                     ],
                 },
-                popoverModel:false,
-                options:{
-                    company:[
-                             {label:'全部',value:'全部'},
-                             {label:'海口',value:'海口'},
-                             {label:'三亚',value:'三亚'},
-                             {label:'琼海',value:'琼海'},
-                             {label:'儋州',value:'儋州'},
-                             ],
-                    operator:[
-                            {label:'全部',value:'全部'},
-                            {label:'移动',value:'移动'},
-                            {label:'联通',value:'联通'},
-                            {label:'电信',value:'电信'},
-                            ],
+                popoverModel: false,
+                options: {
+                    company: [
+                        {label: '全部', value: '全部'},
+                        {label: '海口', value: '海口'},
+                        {label: '三亚', value: '三亚'},
+                        {label: '琼海', value: '琼海'},
+                        {label: '儋州', value: '儋州'},
+                    ],
+                    operator: [
+                        {label: '全部', value: '全部'},
+                        {label: '移动', value: '移动'},
+                        {label: '联通', value: '联通'},
+                        {label: '电信', value: '电信'},
+                    ],
                 }
             }
         },
-        computed: {
-
-        },
+        computed: {},
         methods: {
             // 初始化
-            init (row) {
-                this.visible = true
+            init(row) {
+                this.visible = true;
                 this.$nextTick(() => {
                     //清空提示
-                    this.$refs['dataForm'].resetFields()
-                    this.dataForm.userId=row.userId;
-                    this.dataForm.userName=row.userName;
-                    this.dataForm.company=row.company;
-                    this.dataForm.operator=row.operator;
+                    this.$refs['dataForm'].resetFields();
+                    this.dataForm.userId = row.userId;
+                    this.dataForm.userName = row.userName;
+                    this.dataForm.company = row.company;
+                    this.dataForm.operator = row.operator;
 
                     this.initUser.userId = row.userId;
                     this.initUser.username = row.userName;
@@ -118,7 +116,7 @@
                 });
             },
             // 表单提交
-            dataFormSubmit () {
+            dataFormSubmit() {
                 this.$refs['dataForm'].validate((valid) => {
                     if (valid) {
                         this.$http({
@@ -143,10 +141,10 @@
                     }
                 })
             },
-            getUserData(){
+            getUserData() {
                 this.userData = [];
-                if(this.initUser.username)
-                this.userData.push(this.initUser);
+                if (this.initUser.username)
+                    this.userData.push(this.initUser);
                 this.$http({
                     url: this.$http.adornUrl('/sys/project/config/userList'),
                     method: 'get',
@@ -157,10 +155,10 @@
                     }
                 })
             },
-            rowClick(row, column, event){
-               this.dataForm.userId = row.userId;
-               this.dataForm.userName = row.username;
-               this.popoverModel = false;
+            rowClick(row, column, event) {
+                this.dataForm.userId = row.userId;
+                this.dataForm.userName = row.username;
+                this.popoverModel = false;
             }
         }
     }

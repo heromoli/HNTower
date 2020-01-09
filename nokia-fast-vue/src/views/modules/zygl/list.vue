@@ -113,7 +113,7 @@
             getDataList() {
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/stationAddressManagementList'),
+                    url: this.$http.adornUrl('/api/zhzygl/stationAddressManagementList'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,

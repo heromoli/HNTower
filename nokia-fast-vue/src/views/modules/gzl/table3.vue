@@ -7,7 +7,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button size="mini" @click="getDataList()">查询</el-button>
-                <el-button type="success" size="mini" @click="uploadHandle()">导入</el-button>
+                <el-button v-if="isAuth('gzl:table3:add')" type="success" size="mini" @click="uploadHandle()">导入</el-button>
                 <el-button type="primary" size="mini" @click="exportHandle()">导出</el-button>
             </el-form-item>
         </el-form>
@@ -92,10 +92,10 @@
                         align="center"
                         width="140"
                         label="经度">
-                    <template slot-scope="{row,$index}">
-                        <el-input size="mini" placeholder="请输入内容" style="width: 100px"
-                                  v-model="row.longitude"></el-input>
-                    </template>
+                    <!--<template slot-scope="{row,$index}">-->
+                        <!--<el-input size="mini" placeholder="请输入内容" style="width: 100px"-->
+                                  <!--v-model="row.longitude"></el-input>-->
+                    <!--</template>-->
                 </el-table-column>
                 <el-table-column
                         fixed
@@ -104,10 +104,10 @@
                         align="center"
                         width="140"
                         label="纬度">
-                    <template slot-scope="{row,$index}">
-                        <el-input size="mini" placeholder="请输入内容" style="width: 100px"
-                                  v-model="row.latitude"></el-input>
-                    </template>
+                    <!--<template slot-scope="{row,$index}">-->
+                        <!--<el-input size="mini" placeholder="请输入内容" style="width: 100px"-->
+                                  <!--v-model="row.latitude"></el-input>-->
+                    <!--</template>-->
                 </el-table-column>
                 <el-table-column
                         fixed="right"
@@ -126,8 +126,8 @@
                     width="230">
                 <template size="mini" slot-scope="{row,$index}">
                     <el-button type="primary" size="small" @click.native="showProcessesHiList(row)">查看</el-button>
-                    <el-button size="small" @click.native="cancelProcess(row)">不同意</el-button>
-                    <el-button type="success" size="small" @click.native="submitProcess(row)">同意</el-button>
+                    <el-button v-if="isAuth('gzl:table3:update')" size="small" @click.native="cancelProcess(row)">不同意</el-button>
+                    <el-button v-if="isAuth('gzl:table3:update')" type="success" size="small" @click.native="submitProcess(row)">同意</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -284,6 +284,7 @@
                 // })
             },
             showProcessesHiList(row) {
+                console.log(row);
                 this.showProcessesVisible = true;
                 this.$nextTick(() => {
                     this.$refs.showProcesses.init(row);

@@ -6,8 +6,8 @@
         </el-amap>
         <el-form :inline="true" :model="queryParam" ref="queryParam" @keyup.enter.native="massSearch()"
                  :rules="dataRule" style="margin-left: 80px">
-            <el-form-item label="   " prop="county">
-                <el-select size="mini" v-model="queryParam.county" placeholder="区县">
+            <el-form-item label=" " prop="county" style="width: 150px">
+                <el-select size="mini" v-model="queryParam.county" placeholder="区县" >
                     <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -16,22 +16,23 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="   " prop="address">
+            <el-form-item label="   " prop="address" style="width: 150px">
                 <el-input size="mini" v-model="queryParam.address" placeholder="地址" clearable
                           suffix-icon="el-icon-search"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="station_name">
+            <el-form-item label="   " prop="station_name" style="width: 150px">
                 <el-input size="mini" v-model="queryParam.station_name" placeholder="站点名称" clearable
                           suffix-icon="el-icon-search"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="longitude">
+            <el-form-item label="   " prop="longitude" style="width: 150px">
                 <el-input size="mini" type="number" v-model="queryParam.longitude" placeholder="经度"
-                          clearable></el-input>
+                          clearable suffix-icon="el-icon-edit"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="latitude">
-                <el-input size="mini" type="number" v-model="queryParam.latitude" placeholder="纬度" clearable></el-input>
+            <el-form-item label="   " prop="latitude" style="width: 150px">
+                <el-input size="mini" type="number" v-model="queryParam.latitude" placeholder="纬度" clearable
+                          suffix-icon="el-icon-edit"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="rangeValue">
+            <el-form-item label="   " prop="rangeValue" style="width: 150px">
                 <el-select size="mini" v-model="queryParam.rangeValue" filterable allow-create default-first-option
                            placeholder="范围">
                     <el-option
@@ -42,11 +43,21 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item>
-                <el-button size="mini" type="success" @click="massSearch()">查询</el-button>
+            <el-form-item label="   " prop="biz_scene" style="width: 150px">
+                <el-select size="mini" v-model="queryParam.biz_scene" placeholder="场景划分">
+                    <el-option
+                            v-for="item in sceneOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item style="">
+                <el-button size="small" type="success" @click="massSearch()">查询</el-button>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" size="mini" @click="exportHandle()">导出</el-button>
+                <el-button size="small" type="primary"  @click="exportHandle()">导出</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -66,6 +77,7 @@
             return {
                 dataForm: {
                     county: '',
+                    biz_scene: '',
                     station_name: '',
                     address: '',
                     longitude: '',
@@ -78,6 +90,7 @@
                 dataListLoading: false,
                 queryParam: {
                     county: '',
+                    biz_scene: '',
                     station_name: '',
                     address: '',
                     longitude: '',
@@ -85,6 +98,7 @@
                     rangeValue: '300'
                 },
                 options: [],
+                sceneOptions: [],
                 rangeOptions: [{
                     value: '300',
                     label: '城区300米'
@@ -134,16 +148,16 @@
         },
         created() {
             this.getCounty();
-
+            this.getBizScene()
         },
         methods: {
             getCounty() {
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/getStationCounty'),
+                    url: this.$http.adornUrl('/api/zhzygl/getStationCounty'),
                     method: 'get'
                 }).then(({data}) => {
                     if (data.countyList != null && data.code === 0) {
-                        this.options.push({value: "", label: "----全选----"});
+                        this.options.push({value: "", label: "---全部市县---"});
                         for (var i = 0; i < data.countyList.length; i++) {
                             this.options.push({value: data.countyList[i], label: data.countyList[i]})
                         }
@@ -152,12 +166,27 @@
                     }
                 });
             },
+            getBizScene() {
+                this.$http({
+                    url: this.$http.adornUrl('/api/zhzygl/getBizScene'),
+                    method: 'get'
+                }).then(({data}) => {
+                    if (data.sceneList != null && data.code === 0) {
+                        this.sceneOptions.push({value: "", label: "---全部场景---"});
+                        for (var i = 0; i < data.sceneList.length; i++) {
+                            this.sceneOptions.push({value: data.sceneList[i], label: data.sceneList[i]})
+                        }
+                    } else {
+                        this.sceneOptions = [];
+                    }
+                });
+            },
             fewSearch() {
                 var map = this.amapManager.getMap();
                 map.clearMap();  //清除所有覆盖物
 
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/queryStationAddressManagement'),
+                    url: this.$http.adornUrl('/api/zhzygl/queryStationAddressManagement'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,
@@ -228,7 +257,7 @@
                 var pointsData = [];
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/queryStationAddressManagement'),
+                    url: this.$http.adornUrl('/api/zhzygl/queryStationAddressManagement'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,
@@ -271,7 +300,17 @@
                                 },
                                 renderOptions: {
                                     pointStyle: {
-                                        fillStyle: 'blue' //蓝色填充
+                                        fillStyle: '#f08200', //颜色填充 blue
+                                        // content: PointSimplifier.Render.Canvas.getImageContent(base_station,
+                                        //     function onload() {
+                                        //         pointSimplifierIns.renderLater();
+                                        //     },
+                                        //     function onerror(e) {
+                                        //         alert('图片加载失败！');
+                                        //     }),
+                                        width: 12,
+                                        //高度
+                                        height: 12,
                                     },
                                     hoverTitleStyle: {
                                         position: 'top'
@@ -324,7 +363,7 @@
 
             },
             exportHandle() {
-                window.location.href = this.$http.adornUrl(`/api/wf/exportStationAddress?county=${this.queryParam.county}&station_name=${this.queryParam.station_name}&address=${this.queryParam.address}&longitude=${this.queryParam.longitude}&latitude=${this.queryParam.latitude}&rangeValue=${this.queryParam.rangeValue}&token=${this.$cookie.get('token')}`)
+                window.location.href = this.$http.adornUrl(`/api/zhzygl/exportStationAddress?county=${this.queryParam.county}&station_name=${this.queryParam.station_name}&address=${this.queryParam.address}&longitude=${this.queryParam.longitude}&latitude=${this.queryParam.latitude}&rangeValue=${this.queryParam.rangeValue}&biz_scene=${this.queryParam.biz_scene}&token=${this.$cookie.get('token')}`)
             },
         }
     }

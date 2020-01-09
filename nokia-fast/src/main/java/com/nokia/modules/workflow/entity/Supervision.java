@@ -14,9 +14,10 @@ import java.util.Date;
 @TableName("supervisor")
 public class Supervision extends RowModel implements Serializable {
 
-    @TableId
+//    @ExcelProperty(index = 0, value = {"序号"})
     private Long id;
 
+    @TableId
     @ExcelProperty(index = 1, value = {"需求编号"})
     private String demandNum;
 
@@ -47,8 +48,14 @@ public class Supervision extends RowModel implements Serializable {
     @ExcelProperty(index = 10, value = {"运营商站点名称"})
     private String operatorStationName;
 
-    @ExcelProperty(index = 13, value = {"运营商编号"})
-    private String OperatorNum;
+    @ExcelProperty(index = 11, value = {"专项站点"})
+    private String specialStation;
+
+    @ExcelProperty(index = 12, value = {"运营商编号"})
+    private String operatorNum;
+
+    @ExcelProperty(index = 13, value = {"运营商修正编号"})
+    private String operatorNumCorrect;
 
     @ExcelProperty(index = 14, value = {"需求提出时间"})
     @JsonProperty("demandProposeTime")
@@ -124,6 +131,11 @@ public class Supervision extends RowModel implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date checkFinishTime;
 
+    @ExcelProperty(index = 32, value = {"交付完成时间"})
+    @JsonProperty("deliverFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date deliverFinishTime;
+
     @ExcelProperty(index = 33, value = {"起租时间"})
     @JsonProperty("startHireTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -138,22 +150,11 @@ public class Supervision extends RowModel implements Serializable {
     @ExcelProperty(index = 36, value = {"任务年份"})
     private String projectYear;
 
-    @ExcelProperty(index = 37, value = {"是否政府协调"})
+    @ExcelProperty(index = 37, value = {"是否报政府协调"})
     private String ifGovernment;
 
-    private String importantStation;
+    @JsonProperty("updateTime")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
-    private String oldOperatorNum;
-
-    private String newOperatorNum;
-
-    @JsonProperty("buildingTime")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date buildingTime;
-
-    private String crmStationNum;
-
-    private String crmRoomNum;
-
-    private String crmOrderNum;
 }

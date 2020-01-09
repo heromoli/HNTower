@@ -146,7 +146,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.locationFinishTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -155,7 +156,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.intoTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期" :picker-options="pickerOptionsIntoTime"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -164,7 +166,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.buildFinishTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期" :picker-options="pickerOptionsBuildTime"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -173,7 +176,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.towerFinishTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期" :picker-options="pickerOptionsBuildTime"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -184,7 +188,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.electricFinishTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期" :picker-options="pickerOptionsBuildTime"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -193,7 +198,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.matchingFinishTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期" :picker-options="pickerOptionsMatchingTime"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -202,7 +208,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.totalFinishTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期" :picker-options="pickerOptionsTotalTime"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -211,7 +218,8 @@
                                             <el-date-picker
                                                     v-model="dataForm.checkFinishTime"
                                                     type="date" style="width: 100%"
-                                                    placeholder="选择日期">
+                                                    placeholder="选择日期"
+                                                    value-format="yyyy-MM-dd">
                                             </el-date-picker>
                                         </el-form-item>
                                     </el-col>
@@ -246,7 +254,7 @@
         </el-container>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">关闭</el-button>
-            <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+            <el-button v-if="isAuth('gzl:table5:update')" type="primary" @click="dataFormSubmit()">确定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -325,7 +333,40 @@
                 }],
                 dataRule: {},
                 processImgSrc: '',
-                activeNames: ['1']
+                activeNames: ['1'],
+                pickerOptionsIntoTime:{
+                    disabledDate: time => {
+                        const beginDateVal = new Date(this.dataForm.locationFinishTime).getTime();
+                        if (beginDateVal) {
+                            return time.getTime() < beginDateVal + 0
+                        }
+                    }
+                },
+                pickerOptionsBuildTime:{
+                    disabledDate: time => {
+                        const beginDateVal = new Date(this.dataForm.intoTime).getTime();
+                        if (beginDateVal) {
+                            return time.getTime() < beginDateVal + 0
+                        }
+                    }
+                },
+                pickerOptionsMatchingTime:{
+                    disabledDate: time => {
+                        const beginDateVal = new Date(this.dataForm.towerFinishTime).getTime();
+                        if (beginDateVal) {
+                            return time.getTime() < beginDateVal + 0
+                        }
+                    }
+                },
+                pickerOptionsTotalTime:{
+                    disabledDate: time => {
+                        const beginDateVal = new Date(this.dataForm.matchingFinishTime).getTime();
+                        if (beginDateVal) {
+                            return time.getTime() < beginDateVal + 0
+                        }
+                    }
+                }
+
             }
         },
         computed: {},
@@ -350,7 +391,7 @@
                     if (data && data.code === 0) {
                         this.historyList = data.history;
                     } else {
-
+                        this.historyList = []
                     }
                 })
             },

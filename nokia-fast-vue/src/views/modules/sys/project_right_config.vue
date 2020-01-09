@@ -2,11 +2,11 @@
     <div class="mod-log">
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-                <el-input v-model="dataForm.queryValue" placeholder="运营商、分公司" clearable></el-input>
+                <el-input v-model="dataForm.key" placeholder="运营商、分公司" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button @click="getDataList()">查询</el-button>
-                <el-button @click="addRightConfig()">新增</el-button>
+                <el-button type="success" @click="addRightConfig()">新增</el-button>
             </el-form-item>
         </el-form>
         <el-table
@@ -43,10 +43,12 @@
             </el-table-column>
             <el-table-column
                     fixed="right"
+                    align="center"
                     label="操作"
-                    width="80">
+                    width="200">
                 <template size="mini" slot-scope="{row,$index}">
-                    <el-button size="small" @click.native="editRow(row)">查看</el-button>
+                    <el-button type="primary" size="small" @click.native="editRow(row)">查看</el-button>
+                    <el-button type="danger" size="small" @click.native="deleteRow(row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -98,7 +100,7 @@
                     params: this.$http.adornParams({
                         'page': this.pageIndex,
                         'limit': this.pageSize,
-                        'key': this.dataForm.queryValue
+                        'key': this.dataForm.key
                     })
                 }).then(({data}) => {
                     if (data && data.code === 0) {
@@ -127,6 +129,32 @@
                 this.$nextTick(() => {
                     this.$refs.projectRightConfigInfo.init(row)
                 })
+            },
+            deleteRow (id) {
+                this.$confirm(`确定对[id=${id}]进行[删除]操作?`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$http({
+                        url: this.$http.adornUrl(`/sys/project/config/delete`),
+                        method: 'post',
+                        data: this.$http.adornData(id,false)
+                    }).then(({data}) => {
+                        if (data && data.code === 0) {
+                            this.$message({
+                                message: '操作成功',
+                                type: 'success',
+                                duration: 1500,
+                                onClose: () => {
+                                    this.getDataList()
+                                }
+                            })
+                        } else {
+                            this.$message.error(data.msg)
+                        }
+                    })
+                }).catch(() => {})
             },
             addRightConfig() {
                 this.addOrUpdateVisible = true;

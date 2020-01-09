@@ -19,6 +19,8 @@ public interface SupervisorService extends IService<Supervisor> {
 
     PageUtils selectDataByParam(Map<String, Object> params);
 
+    PageUtils selectDataByQueryParam(Map<String, Object> pageParams, Map<String, Object> queryParams);
+
     PageUtils selectDataByParam(Map<String, Object> pageParams, Set<String> processInstanceId);
 
     PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);

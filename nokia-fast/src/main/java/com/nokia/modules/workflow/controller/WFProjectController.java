@@ -3,6 +3,7 @@ package com.nokia.modules.workflow.controller;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.fastjson.JSON;
 import com.nokia.common.exception.RRException;
+import com.nokia.modules.resourceManage.entity.StationAddressManagement;
 import com.nokia.modules.sys.controller.BaseController;
 import com.nokia.modules.sys.entity.ProjectRightConfigEntity;
 import com.nokia.modules.sys.entity.SysUserEntity;
@@ -10,13 +11,14 @@ import com.nokia.modules.sys.service.ProjectRightConfigService;
 import com.nokia.modules.sys.service.ProjectWorkflowGroupService;
 import com.nokia.modules.workflow.entity.*;
 import com.nokia.modules.workflow.service.*;
-import com.nokia.modules.workflow.service.StationAddressManagementService;
+import com.nokia.modules.resourceManage.service.StationAddressManagementService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import com.nokia.utils.excel.BeanCopyUtils;
 import com.nokia.utils.excel.ExcelUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,11 +83,16 @@ public class WFProjectController extends BaseController {
     @Autowired
     private CRMService crmService;
 
-    @Autowired
-    private StationAddressInfoService stationAddressInfoService;
+
 
     @Autowired
-    private StationAddressManagementService stationManageService;
+    private NoAcceptedDemandService noAcceptedDemandService;
+
+    @Autowired
+    private TowerDemandExportService towerDemandExportService;
+
+    @Autowired
+    private OrigBuildDemandCollectionService origBuildDemandCollectionService;
 
     @Value("${workflow_act_process_definition_id}")
     private String actProcessDefinitionId;
@@ -93,6 +100,7 @@ public class WFProjectController extends BaseController {
 
     //发起单个需求工程流程
     @PostMapping("/startProcesses")
+    //    @RequiresPermissions("gzl:table3:add")
     public RData startProcesses(@RequestBody CustomerDemandCollection params) {
         SysUserEntity sysUserEntity = getUser();
         if (sysUserEntity == null) {
@@ -109,16 +117,19 @@ public class WFProjectController extends BaseController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         String operatorName = params.getOperatorName();
 
-        if ("移动".equals(operatorName)) {
-            String seq_num = supervisorService.queryYDSequence();
-            String monthLastDay = getMonthLastDay();
-            params.setDemandNum("YDB" + monthLastDay + seq_num);
-        } else if ("联通".equals(operatorName)) {
-            String seq_num = supervisorService.queryLTSequence();
-            params.setDemandNum("LTB" + dateFormat.format(new Date()) + seq_num);
-        } else if ("电信".equals(operatorName)) {
-            String seq_num = supervisorService.queryDXSequence();
-            params.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
+        String demandNum = params.getDemandNum();
+        if (demandNum == null || demandNum.equals("")) {
+            if ("移动".equals(operatorName)) {
+                String seq_num = supervisorService.queryYDSequence();
+                String monthLastDay = getMonthLastDay();
+                params.setDemandNum("YDB" + monthLastDay + seq_num);
+            } else if ("联通".equals(operatorName)) {
+                String seq_num = supervisorService.queryLTSequence();
+                params.setDemandNum("LTB" + dateFormat.format(new Date()) + seq_num);
+            } else if ("电信".equals(operatorName)) {
+                String seq_num = supervisorService.queryDXSequence();
+                params.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
+            }
         }
 
         params.setDemandProposeTime(new Date());
@@ -129,11 +140,9 @@ public class WFProjectController extends BaseController {
         return rData;
     }
 
-    //发起多个流程
-
-
     //详情页面审查通过流程
     @PostMapping("/checkProcesses")
+//    @RequiresPermissions("gzl:table3:update")
     public RData checkProcesses(@RequestBody Supervisor params) {
         SysUserEntity sysUserEntity = getUser();
         if (sysUserEntity == null) {
@@ -216,8 +225,8 @@ public class WFProjectController extends BaseController {
         buildDemandChangeConfirm.setRegion(params.getRegion());
         buildDemandChangeConfirm.setStationName(params.getStationName());
         buildDemandChangeConfirm.setScene(params.getScene());
-        buildDemandChangeConfirm.setLongitude(params.getLongitude());
-        buildDemandChangeConfirm.setLatitude(params.getLatitude());
+        buildDemandChangeConfirm.setLongitude(Double.toString(params.getLongitude()));
+        buildDemandChangeConfirm.setLatitude(Double.toString(params.getLatitude()));
         buildDemandChangeConfirm.setAddress(params.getAddress());
         buildDemandChangeConfirm.setTableId(params.getGroupId());
         buildDemandChangeConfirm.setRemarks(params.getRemarks());
@@ -454,8 +463,6 @@ public class WFProjectController extends BaseController {
         if (sysUserEntity == null) {
             return RData.error(500, "无法获取用户信息");
         }
-        long user_id = sysUserEntity.getUserId();
-
         Map<String, Object> queryparams = new HashMap<>();
 
         queryparams.put("STATION_NAME", params.get("queryParam"));
@@ -470,8 +477,6 @@ public class WFProjectController extends BaseController {
         if (sysUserEntity == null) {
             return RData.error(500, "无法获取用户信息");
         }
-//        long user_id = sysUserEntity.getUserId();
-
         Map<String, Object> queryparams = new HashMap<>();
 
         queryparams.put("TOWER_STATION_NAME", params.get("queryParam"));
@@ -479,7 +484,6 @@ public class WFProjectController extends BaseController {
 
         return RData.ok().put("page", page);
     }
-
 
     //获取表单填充数据
     @GetMapping("/getSupervisorList")
@@ -494,6 +498,14 @@ public class WFProjectController extends BaseController {
     //获取表单填充数据
     @GetMapping("/fillSupervisorForm")
     public RData fillSupervisorForm(@RequestParam Map<String, Object> params) {
+        String actProcInstId = (String) params.get("processInstanceId");
+        Supervisor supervisor = supervisorService.selectDataByInsId(actProcInstId);
+        return RData.ok().put("returnData", supervisor);
+    }
+
+    //获取表单填充数据
+    @GetMapping("/fillSupervisorFormById")
+    public RData fillSupervisorFormById(@RequestParam Map<String, Object> params) {
         String id = (String) params.get("id");
         Supervisor supervisor = supervisorService.selectDataById(id);
         return RData.ok().put("returnData", supervisor);
@@ -586,7 +598,9 @@ public class WFProjectController extends BaseController {
         if (sysUserEntity == null) {
             return RData.error(500, "无法获取用户信息");
         }
-        PageUtils page = supervisorService.selectDataByParam(params);
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+        PageUtils page = supervisorService.selectDataByQueryParam(params, queryParams);
 
         return RData.ok().put("page", page);
     }
@@ -617,8 +631,7 @@ public class WFProjectController extends BaseController {
         }
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        logger.info(suffix);
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         List<String> xqbh = new ArrayList<>();
         try {
             if ("3".equals(groupId)) {
@@ -629,6 +642,28 @@ public class WFProjectController extends BaseController {
                         logger.info("建站需求流程ID[{}] 创建成功", rData.get("processInstanceId"));
                     }
                 }
+
+                List<OrigBuildDemandCollection> origBuildDemands = ExcelUtil.readExcel(file, OrigBuildDemandCollection.class, 1, 2);
+                for (OrigBuildDemandCollection collections : origBuildDemands) {
+                    String operatorName = collections.getOperatorName();
+                    String demandNum = collections.getDemandNum();
+                    if (demandNum == null || demandNum.equals("")) {
+                        if ("移动".equals(operatorName)) {
+                            String seq_num = supervisorService.queryYDSequence();
+                            String monthLastDay = getMonthLastDay();
+                            collections.setDemandNum("YDB" + monthLastDay + seq_num);
+                        } else if ("联通".equals(operatorName)) {
+                            String seq_num = supervisorService.queryLTSequence();
+                            collections.setDemandNum("LTB" + dateFormat.format(new Date()) + seq_num);
+                        } else if ("电信".equals(operatorName)) {
+                            String seq_num = supervisorService.queryDXSequence();
+                            collections.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
+                        }
+                    }
+
+                    origBuildDemandCollectionService.save(collections);
+                }
+
             } else if ("4".equals(groupId)) {
                 List<StationAddressCheck> list = ExcelUtil.readExcel(file, StationAddressCheck.class, 1, 2);
                 List<Supervisor> supervisorList = BeanCopyUtils.convert(list, Supervisor.class);
@@ -688,15 +723,15 @@ public class WFProjectController extends BaseController {
                     Set<String> processInstanceId = (Set) rData.get("processInstanceId");
                     List<Supervisor> supervisorList = supervisorService.findDataAll(prcList, processInstanceId, params);
 
-                    List<StationAddressCheck> checkList = BeanCopyUtils.convert(supervisorList, StationAddressCheck.class);
-                    ExcelUtil.writeExcel(response, checkList, "table3_export", "sheet1", ExcelTypeEnum.XLSX, StationAddressCheck.class);
+                    List<CustomerDemandCollection> checkList = BeanCopyUtils.convert(supervisorList, CustomerDemandCollection.class);
+                    ExcelUtil.writeExcel(response, checkList, "table3_export", "sheet1", ExcelTypeEnum.XLSX, CustomerDemandCollection.class);
                 } else if (groupId.equals("4")) {
                     params.put("actProcStatus", "2");
                     List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
                     Set<String> processInstanceId = (Set) rData.get("processInstanceId");
                     List<Supervisor> supervisorList = supervisorService.findDataAll(prcList, processInstanceId, params);
-                    List<BuildOrderConfirm> checkList = BeanCopyUtils.convert(supervisorList, BuildOrderConfirm.class);
-                    ExcelUtil.writeExcel(response, checkList, "table4_export", "sheet1", ExcelTypeEnum.XLSX, BuildOrderConfirm.class);
+                    List<StationAddressCheck> checkList = BeanCopyUtils.convert(supervisorList, StationAddressCheck.class);
+                    ExcelUtil.writeExcel(response, checkList, "table4_export", "sheet1", ExcelTypeEnum.XLSX, StationAddressCheck.class);
                 } else if (groupId.equals("5")) {
                     params.put("actProcStatus", "4");
                     List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
@@ -727,12 +762,14 @@ public class WFProjectController extends BaseController {
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         logger.info(suffix);
+        List<PMS> list = ExcelUtil.readExcel(file, PMS.class, 1, 2);
 
         try {
-            List<PMS> list = ExcelUtil.readExcel(file, PMS.class, 1, 2);
-            for (PMS pms : list) {
-                pmsService.save(pms);
-            }
+//            List<PMS> list = ExcelUtil.readExcel(file, PMS.class, 1, 2);
+//            for (PMS pms : list) {
+//                pmsService.save(pms);
+//            }
+            pmsService.saveBatch(list);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -746,20 +783,49 @@ public class WFProjectController extends BaseController {
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
         }
+
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        logger.info(suffix);
+        StringBuilder message = new StringBuilder();
+        long startTime = System.currentTimeMillis();
+        Date updateTime = new Date();
+        List<Supervision> list = ExcelUtil.readExcel(file, Supervision.class, 1, 1);
 
-        try {
-            List<Supervision> list = ExcelUtil.readExcel(file, Supervision.class, 1, 1);
-            for (Supervision supervision : list) {
-                supervisionService.save(supervision);
+        for (Supervision supervision : list) {
+            supervision.setUpdateTime(updateTime);
+            try {
+                supervisionService.saveOrUpdate(supervision);
+            } catch (Exception e) {
+                message.append("需求编号：" + supervision.getDemandNum() + "|");
+                e.printStackTrace();
+                continue;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
-        return RData.ok();
+        long endTime = System.currentTimeMillis();
+        long haoshi = (endTime - startTime) / 1000;
+        logger.info("操作成功,耗时" + haoshi + "秒。其中重复数据为：" + message);
+        return RData.ok("操作成功,耗时" + haoshi + "秒。");
+    }
+
+    @GetMapping("/supervisionExport")
+    public void supervisionExport(@RequestParam("branchCompany") String branchCompany, @RequestParam("stationName") String stationName, @RequestParam("address") String address,
+                                  @RequestParam("demandNum") String demandNum, @RequestParam("specialStation") String specialStation,
+                                  HttpServletResponse response) {
+        Map<String, Object> queryParams = new HashMap<>();
+        Map<String, Object> pageParams = new HashMap<>();
+        pageParams.put("page", "1");
+        pageParams.put("limit", "100000");
+
+        queryParams.put("branchCompany", branchCompany);
+        queryParams.put("stationName", stationName);
+        queryParams.put("address", address);
+        queryParams.put("demandNum", demandNum);
+        queryParams.put("specialStation", specialStation);
+
+        PageUtils page = supervisorService.selectDataByQueryParam(pageParams, queryParams);
+        List<Supervisor> checkList = BeanCopyUtils.convert(page.getList(), Supervisor.class);
+        ExcelUtil.writeExcel(response, checkList, "jlb_export", "sheet1", ExcelTypeEnum.XLSX, Supervisor.class);
     }
 
     //批量提交流程
@@ -770,13 +836,14 @@ public class WFProjectController extends BaseController {
         }
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        logger.info(suffix);
 
+        List<CRM> list = ExcelUtil.readExcel(file, CRM.class, 1, 2);
         try {
-            List<CRM> list = ExcelUtil.readExcel(file, CRM.class, 1, 2);
+
             for (CRM crm : list) {
                 crmService.save(crm);
             }
+//            crmService.saveBatch(list);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -784,53 +851,41 @@ public class WFProjectController extends BaseController {
         return RData.ok();
     }
 
-    //站址信息表上传
-    @PostMapping("/stationInfoUpload")
-    public RData stationInfoUpload(@RequestParam("file") MultipartFile file) {
+    //批量提交流程
+    @PostMapping("/noAcceptedDemandUpload")
+    public RData noAcceptedDemandUpload(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
         }
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        long startTime = System.currentTimeMillis();
+
+        List<NoAcceptedDemand> list = ExcelUtil.readExcel(file, NoAcceptedDemand.class, 1, 5);
         try {
-            List<StationAddressInfo> list = ExcelUtil.readExcel(file, StationAddressInfo.class, 1, 1);
-
-            for (StationAddressInfo stationInfo : list) {
-                stationAddressInfoService.save(stationInfo);
-            }
-
+            noAcceptedDemandService.saveBatch(list);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        long endTime = System.currentTimeMillis();
-        long haoshi = (endTime - startTime) / 1000;
-        logger.info("耗时" + haoshi + "秒。");
-        return RData.ok("操作成功,耗时" + haoshi + "秒。");
+
+        return RData.ok();
     }
 
-    //站址管理表上传
-    @PostMapping("/stationManageUpload")
-    public RData stationManageUpload(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/towerDemandExportUpload")
+    public RData towerDemandExportUpload(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             throw new RRException("上传文件不能为空");
         }
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        long startTime = System.currentTimeMillis();
-        try {
-            List<StationAddressManagement> list = ExcelUtil.readExcel(file, StationAddressManagement.class, 1, 2);
-            for (StationAddressManagement stationManagement : list) {
-                stationManageService.save(stationManagement);
-            }
 
+        List<TowerDemandExport> list = ExcelUtil.readExcel(file, TowerDemandExport.class, 1, 1);
+        try {
+            towerDemandExportService.saveBatch(list);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        long endTime = System.currentTimeMillis();
-        long haoshi = (endTime - startTime) / 1000;
-        logger.info("耗时" + haoshi + "秒。");
-        return RData.ok("操作成功,耗时" + haoshi + "秒。");
+
+        return RData.ok();
     }
 
     @GetMapping("/chartTaskStatusCount")
@@ -880,58 +935,39 @@ public class WFProjectController extends BaseController {
         return result;
     }
 
-    @GetMapping("/queryStationAddressInfo")
-    public RData queryStationAddressInfo(@RequestParam Map<String, Object> params) {
-        String queryParamString = params.get("queryParam").toString();
-        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+    //监理表手动修改提交
+    @PostMapping("/supervisionUpdate")
+//    @RequiresPermissions("gzl:jlb:update")
+    public RData supervisionUpdate(@RequestBody Supervision params) {
 
-        PageUtils page = stationAddressInfoService.selectDataByParam(params, queryParams);
-
-        return RData.ok().put("page", page);
-
+        params.setUpdateTime((new Date()));
+        boolean result = supervisionService.saveOrUpdate(params);
+        if (!result) {
+            return RData.error(500, "保存失败，请检查数据格式。");
+        } else
+            return RData.ok();
     }
 
-    @GetMapping("/queryStationAddressManagement")
-    public RData queryStationAddressManagement(@RequestParam Map<String, Object> params) {
-        String queryParamString = params.get("queryParam").toString();
-        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
-        PageUtils page = stationManageService.selectDataByParam(params, queryParams);
-        return RData.ok().put("page", page);
+    //监理表数据删除
+    @PostMapping("/supervisionDelete")
+//    @RequiresPermissions("gzl:jlb:delete")
+    public RData supervisionDelete(@RequestBody String[] demandNums) {
+        boolean result = supervisionService.removeByIds(Arrays.asList(demandNums));
+        if (!result) {
+            return RData.error(500, "删除失败");
+        } else
+            return RData.ok();
     }
 
-    @GetMapping("/stationAddressManagementList")
-    public RData stationAddressManagementList(@RequestParam Map<String, Object> params) {
-        PageUtils page = stationManageService.queryPage(params);
-        return RData.ok().put("page", page);
-    }
+    @GetMapping("/queryOrigDemand")
+    public RData queryOrigDemand(@RequestParam Map<String, Object> params) {
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("STATION_NAME", params.get("queryParam"));
 
-    @GetMapping("/getStationCounty")
-    public RData getStationCounty() {
-        List<String> countyList = stationManageService.getStationCounty();
-        return RData.ok().put("countyList", countyList);
-    }
-
-    @GetMapping("/exportStationAddress")
-    public void exportStationAddress(@RequestParam("county") String county, @RequestParam("station_name") String station_name, @RequestParam("address") String address,
-                                     @RequestParam("longitude") String longitude, @RequestParam("latitude") String latitude, @RequestParam("rangeValue") String rangeValue,
-                                     HttpServletResponse response) {
 //        String queryParamString = params.get("queryParam").toString();
 //        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
-        Map<String, Object> queryParams = new HashMap<>();
-        Map<String, Object> pageParams = new HashMap<>();
-        pageParams.put("page", "1");
-        pageParams.put("limit", "1000");
-
-        queryParams.put("county",county);
-        queryParams.put("station_name",station_name);
-        queryParams.put("address",address);
-        queryParams.put("longitude",longitude);
-        queryParams.put("latitude",latitude);
-        queryParams.put("rangeValue",rangeValue);
-
-        PageUtils page = stationManageService.selectDataByParam(pageParams, queryParams);
-        List<StationAddressManagement> checkList = BeanCopyUtils.convert(page.getList(), StationAddressManagement.class);
-        ExcelUtil.writeExcel(response, checkList, "stationManagement_export", "sheet1", ExcelTypeEnum.XLSX, StationAddressManagement.class);
+        PageUtils page = origBuildDemandCollectionService.selectDataByParam(params, queryParams);
+        return RData.ok().put("page", page);
     }
 
 }
