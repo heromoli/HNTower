@@ -31,19 +31,21 @@
                     </el-table-column>
                     <el-table-column
                             fixed
-                            prop="branchCompany"
+                            prop="branch"
                             header-align="center"
                             align="center"
                             label="分公司">
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="任务">
                         <el-table-column
-                                prop="taskNumber"
+
+                                prop="task"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
+
                                 prop="taskIncrement"
                                 align="center"
                                 header-align="center"
@@ -52,13 +54,15 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="征址">
                         <el-table-column
-                                prop="locationNegNumber"
+
+                                prop="locationNeg"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-                                prop="locatoinIncrement"
+
+                                prop="locationIncrement"
                                 align="center"
                                 header-align="center"
                                 label="增量">
@@ -66,12 +70,14 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="开工">
                         <el-table-column
-                                prop="projectStartNumber"
+
+                                prop="projectStart"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
+
                                 prop="startIncrement"
                                 align="center"
                                 header-align="center"
@@ -80,45 +86,47 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="完工">
                         <el-table-column
-                                prop="completeNumber"
+
+                                prop="complete"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
+
                                 prop="completeIncrement"
                                 align="center"
                                 header-align="center"
                                 label="增量">
                         </el-table-column>
                     </el-table-column>
-                    <el-table-column header-align="center" align="center" label="交付">
-                        <el-table-column
-                                prop="deliverNumber"
-                                align="center"
-                                header-align="center"
-                                label="总量">
-                        </el-table-column>
-                        <el-table-column
-                                prop="deliverIncrement"
-                                align="center"
-                                header-align="center"
-                                label="增量">
-                        </el-table-column>
+                    <el-table-column
+                            prop="ratioLocationNeg"
+                            align="center"
+                            header-align="center"
+                            label="征址率">
+                        <template slot-scope="scope">
+                            <el-progress
+                                    :stroke-width="18"
+                                    :text-inside="true"
+                                    :percentage="scope.row.ratioLocationNeg"
+                            ></el-progress>
+                        </template>
                     </el-table-column>
-                    <el-table-column header-align="center" align="center" label="起租">
-                        <el-table-column
-                                prop="hireNumber"
-                                align="center"
-                                header-align="center"
-                                label="总量">
-                        </el-table-column>
-                        <el-table-column
-                                prop="hireIncrement"
-                                align="center"
-                                header-align="center"
-                                label="增量">
-                        </el-table-column>
+                    <el-table-column
+
+                            prop="ratioComplete"
+                            align="center"
+                            header-align="center"
+                            label="完工率">
+                        <template slot-scope="scope">
+                            <el-progress
+                                    status="success"
+                                    :stroke-width="18"
+                                    :text-inside="true"
+                                    :percentage="scope.row.ratioComplete"
+                            ></el-progress>
+                        </template>
                     </el-table-column>
                 </el-table>
                 <el-pagination
@@ -161,7 +169,7 @@
                     </el-table-column>
                     <el-table-column
                             fixed
-                            prop="branchCompany"
+                            prop="branch"
                             header-align="center"
                             align="center"
                             label="分公司">
@@ -175,12 +183,14 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="任务">
                         <el-table-column
+
                                 prop="taskNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
+
                                 prop="taskIncrement"
                                 align="center"
                                 header-align="center"
@@ -189,13 +199,15 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="征址">
                         <el-table-column
+
                                 prop="locationNegNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-                                prop="locatoinIncrement"
+
+                                prop="locationIncrement"
                                 align="center"
                                 header-align="center"
                                 label="增量">
@@ -203,12 +215,14 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="开工">
                         <el-table-column
+
                                 prop="projectStartNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
+
                                 prop="startIncrement"
                                 align="center"
                                 header-align="center"
@@ -217,45 +231,46 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="完工">
                         <el-table-column
+
                                 prop="completeNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
+
                                 prop="completeIncrement"
                                 align="center"
                                 header-align="center"
                                 label="增量">
                         </el-table-column>
                     </el-table-column>
-                    <el-table-column header-align="center" align="center" label="交付">
-                        <el-table-column
-                                prop="deliverNumber"
-                                align="center"
-                                header-align="center"
-                                label="总量">
-                        </el-table-column>
-                        <el-table-column
-                                prop="deliverIncrement"
-                                align="center"
-                                header-align="center"
-                                label="增量">
-                        </el-table-column>
+                    <el-table-column
+                            prop="ratioLocationNeg"
+                            align="center"
+                            header-align="center"
+                            label="征址率">
+                        <template slot-scope="scope">
+                            <el-progress
+                                    :stroke-width="18"
+                                    :text-inside="true"
+                                    :percentage="scope.row.ratioLocationNeg"
+                            ></el-progress>
+                        </template>
                     </el-table-column>
-                    <el-table-column header-align="center" align="center" label="起租">
-                        <el-table-column
-                                prop="hireNumber"
-                                align="center"
-                                header-align="center"
-                                label="总量">
-                        </el-table-column>
-                        <el-table-column
-                                prop="hireIncrement"
-                                align="center"
-                                header-align="center"
-                                label="增量">
-                        </el-table-column>
+                    <el-table-column
+                            prop="ratioComplete"
+                            align="center"
+                            header-align="center"
+                            label="完工率">
+                        <template slot-scope="scope">
+                            <el-progress
+                                    status="success"
+                                    :stroke-width="18"
+                                    :text-inside="true"
+                                    :percentage="scope.row.ratioComplete"
+                            ></el-progress>
+                        </template>
                     </el-table-column>
                 </el-table>
                 <el-pagination
@@ -317,7 +332,7 @@
             getBranchData() {
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/api/report/queryBranchDailyReportPro'),
+                    url: this.$http.adornUrl('/api/report/queryBranchDailyReport'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.branchPageIndex,
@@ -349,7 +364,7 @@
             getCountyData() {
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/api/report/queryCountyDailyReportPro'),
+                    url: this.$http.adornUrl('/api/report/queryCountyDailyReport'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.countyPageIndex,
@@ -379,10 +394,10 @@
                 this.getCountyData()
             },
             branchExportHandle() {
-                window.location.href = this.$http.adornUrl(`/api/report/exportBranchReportPro?branchQueryDate=${this.dataForm.branchQueryDate}&token=${this.$cookie.get('token')}`)
+                window.location.href = this.$http.adornUrl(`/api/report/exportBranchReport?branchQueryDate=${this.dataForm.branchQueryDate}&token=${this.$cookie.get('token')}`)
             },
             countyExportHandle() {
-                window.location.href = this.$http.adornUrl(`/api/report/exportCountyReportPro?countyQueryDate=${this.dataForm.countyQueryDate}&token=${this.$cookie.get('token')}`)
+                window.location.href = this.$http.adornUrl(`/api/report/exportCountyReport?countyQueryDate=${this.dataForm.countyQueryDate}&token=${this.$cookie.get('token')}`)
             }
         }
     }

@@ -88,6 +88,38 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
     }
 
     @Override
+    public PageUtils selectByQueryParamAndPrc(Map<String, Object> pageParams, Map<String, Object> queryParams, List<ProjectRightConfigEntity> prcList) {
+        QueryWrapper queryWrapper = getQueryWrapper(prcList);
+        String branchCompany = queryParams.get("branchCompany").toString().equals("") ? "" : queryParams.get("branchCompany").toString();
+        String demandNum = queryParams.get("demandNum").toString().equals("") ? "" : queryParams.get("demandNum").toString();
+        String stationName = queryParams.get("stationName").toString().equals("") ? "" : queryParams.get("stationName").toString();
+        String address = queryParams.get("address").toString().equals("") ? "" : queryParams.get("address").toString();
+        String specialStation = queryParams.get("specialStation").toString().equals("") ? "" : queryParams.get("specialStation").toString();
+        if (!branchCompany.equals("")) {
+            queryWrapper.like("branch_Company", branchCompany);
+        }
+
+        if (!demandNum.equals("")) {
+            queryWrapper.like("demand_Num", demandNum);
+        }
+
+        if (!stationName.equals("")) {
+            queryWrapper.like("station_Name", stationName);
+        }
+
+        if (!address.equals("")) {
+            queryWrapper.like("address", address);
+        }
+
+        if (!specialStation.equals("")) {
+            queryWrapper.like("special_Station", specialStation);
+        }
+
+        IPage<Supervisor> page = this.page(new Query<Supervisor>().getPage(pageParams), queryWrapper);
+        return new PageUtils(page);
+    }
+
+    @Override
     public PageUtils selectDataByParam(Map<String, Object> pageParams, Set<String> processInstanceId) {
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
         queryWrapper.in("act_proc_inst_id", processInstanceId);
@@ -175,7 +207,7 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
             }
 
             if (company != null) {
-                queryWrapper.in("branch_Company", company);
+                queryWrapper.in("branch_company", company);
             }
             if (operator != null) {
                 queryWrapper.in("operator_Name", operator);

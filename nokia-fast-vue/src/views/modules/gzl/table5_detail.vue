@@ -29,7 +29,15 @@
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="电信企业" prop="operatorName">
-                                <el-input type="text" v-model="dataForm.operatorName"></el-input>
+                                <el-input type="text" v-model="dataForm.operatorName" :disabled="true"></el-input>
+                                <!--<el-select v-model="dataForm.operatorName"  placeholder="请选择" style="width: 100%">-->
+                                    <!--<el-option-->
+                                            <!--v-for="item in operatorOptions"-->
+                                            <!--:key="item.value"-->
+                                            <!--:label="item.label"-->
+                                            <!--:value="item.value">-->
+                                    <!--</el-option>-->
+                                <!--</el-select>-->
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
@@ -88,12 +96,28 @@
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="铁塔种类" prop="towerType">
-                                <el-input type="text" v-model="dataForm.towerType"></el-input>
+                                <!--<el-input type="text" v-model="dataForm.towerType"></el-input>-->
+                                <el-select v-model="dataForm.towerType" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in towerTypeOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="铁塔种类细分" prop="towerTypeDetail">
-                                <el-input type="text" v-model="dataForm.towerTypeDetail"></el-input>
+                                <!--<el-input type="text" v-model="dataForm.towerTypeDetail"></el-input>-->
+                                <el-select v-model="dataForm.towerTypeDetail" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in towerTypeDetailOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
@@ -302,6 +326,16 @@
                 visible: false,
                 dataForm: {},
                 historyList: [],
+                operatorOptions: [{
+                    value: '移动',
+                    label: '移动'
+                }, {
+                    value: '联通',
+                    label: '联通'
+                }, {
+                    value: '电信',
+                    label: '电信'
+                }],
                 options: [{
                     value: '1',
                     label: '待审核',
@@ -331,6 +365,76 @@
                     value: '8',
                     label: '建站进行中'
                 }],
+                towerTypeOptions: [
+                    {
+                        value: '普通地面塔',
+                        label: '普通地面塔'
+                    }, {
+                        value: '普通楼面塔',
+                        label: '普通楼面塔'
+                    }, {
+                        value: '简易塔',
+                        label: '简易塔'
+                    }, {
+                        value: '景观塔',
+                        label: '景观塔'
+                    }, {
+                        value: '楼面抱杆',
+                        label: '楼面抱杆'
+                    }, {
+                        value: '无铁塔',
+                        label: '无铁塔'
+                    }, {
+                        value: '社会塔改造共享',
+                        label: '社会塔改造共享'
+                    }],
+                towerTypeDetailOptions: [
+                    {
+                        value: 'H杆塔',
+                        label: 'H杆塔'
+                    }, {
+                        value: '单管塔',
+                        label: '单管塔'
+                    }, {
+                        value: '灯杆景观塔',
+                        label: '灯杆景观塔'
+                    }, {
+                        value: '地面支撑杆',
+                        label: '地面支撑杆'
+                    }, {
+                        value: '仿生树',
+                        label: '仿生树'
+                    }, {
+                        value: '简易落地塔',
+                        label: '简易落地塔'
+                    }, {
+                        value: '角钢塔',
+                        label: '角钢塔'
+                    }, {
+                        value: '楼面抱杆',
+                        label: '楼面抱杆'
+                    }, {
+                        value: '楼面拉线塔',
+                        label: '楼面拉线塔'
+                    }, {
+                        value: '楼面美化塔',
+                        label: '楼面美化塔'
+                    }, {
+                        value: '楼面增高架',
+                        label: '楼面增高架'
+                    }, {
+                        value: '路灯杆塔',
+                        label: '路灯杆塔'
+                    }, {
+                        value: '落地拉线塔',
+                        label: '落地拉线塔'
+                    }, {
+                        value: '三管塔',
+                        label: '三管塔'
+                    }, {
+                        value: '水泥杆塔',
+                        label: '水泥杆塔'
+                    }],
                 dataRule: {},
                 processImgSrc: '',
                 activeNames: ['1'],

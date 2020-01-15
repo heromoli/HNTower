@@ -8,6 +8,39 @@
                 <el-input v-model="dataForm.county" placeholder="区县" clearable></el-input>
             </el-form-item>
             <el-form-item>
+
+                <el-select v-model="dataForm.net_type" placeholder="网络类型" style="width: 100%">
+                    <el-option
+                            v-for="item in netTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+
+                <el-select v-model="dataForm.plan_type" placeholder="方案类型" style="width: 100%">
+                    <el-option
+                            v-for="item in planTypeOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+
+                <el-select v-model="dataForm.plan_status" placeholder="方案状态" style="width: 100%">
+                    <el-option
+                            v-for="item in planStatusOptions"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
                 <el-button @click="getDataList()">查询</el-button>
                 <el-button type="success" @click="uploadHandle()">导入综合解决方案数据</el-button>
             </el-form-item>
@@ -51,7 +84,6 @@
                     prop="solutionName"
                     header-align="center"
                     align="center"
-
                     :show-overflow-tooltip="true"
                     label="项目名称">
             </el-table-column>
@@ -138,7 +170,10 @@
                 dataForm: {
                     county: '',
                     solution_name: '',
-                    plan_form_time: ''
+                    plan_form_time: '',
+                    net_type:'',
+                    plan_type: '',
+                    plan_status: ''
                 },
                 dataList: [],
                 uploadVisible: false,
@@ -146,7 +181,46 @@
                 pageSize: 10,
                 totalPage: 0,
                 dataListLoading: false,
-                selectionDataList: []
+                netTypeOptions: [{
+                    value: '',
+                    label: '----全选----'
+                },{
+                    value: '4G',
+                    label: '4G'
+                }, {
+                    value: '5G',
+                    label: '5G'
+                }],
+                planTypeOptions: [{
+                    value: '',
+                    label: '----全选----'
+                },{
+                    value: '移动',
+                    label: '移动'
+                }, {
+                    value: '联通',
+                    label: '联通'
+                }, {
+                    value: '电信',
+                    label: '电信'
+                }, {
+                    value: '广电',
+                    label: '广电'
+                }],
+                planStatusOptions: [
+                    {
+                        value: '',
+                        label: '----全选----'
+                    }, {
+                        value: '待推送',
+                        label: '待推送'
+                    }, {
+                        value: '已确认',
+                        label: '已确认'
+                    }, {
+                        value: '已下需求',
+                        label: '已下需求'
+                    }]
             }
         },
         created() {

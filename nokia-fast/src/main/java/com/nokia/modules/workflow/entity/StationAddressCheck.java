@@ -14,14 +14,14 @@ import java.util.Date;
 @TableName("supervisor")
 public class StationAddressCheck extends RowModel implements Serializable {
     //表4
-    @TableId
+
     @ExcelProperty(value = {"序号", "序号"}, index = 0)
     private Long id;
 
     @ExcelProperty(value = {"电信企业", "电信企业"}, index = 1)
     private String operatorName;
 
-    @ExcelProperty(value = {"地市", "地市"}, index = 2)
+    @ExcelProperty(value = {"分公司", "分公司"}, index = 2)
     private String branchCompany;
 
     private String county;
@@ -32,6 +32,7 @@ public class StationAddressCheck extends RowModel implements Serializable {
     @ExcelProperty(value = {"站点名称", "站点名称"}, index = 4)
     private String stationName;
 
+    @TableId
     @ExcelProperty(value = {"需求编号", "需求编号"}, index = 5)
     private String demandNum;
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,12 +27,12 @@ public class ProjectRightConfigServiceImpl extends ServiceImpl<ProjectRightConfi
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String queryValue = (String)params.get("key");
+        String queryValue = (String) params.get("key");
 
         IPage<ProjectRightConfigEntity> page = this.page(
                 new Query<ProjectRightConfigEntity>().getPage(params),
                 new QueryWrapper<ProjectRightConfigEntity>()
-                        .like(StringUtils.isNotBlank(queryValue),"value", queryValue)
+                        .like(StringUtils.isNotBlank(queryValue), "company", queryValue).orderByAsc("user_id")
         );
 
         return new PageUtils(page);
@@ -55,13 +56,21 @@ public class ProjectRightConfigServiceImpl extends ServiceImpl<ProjectRightConfi
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteByUserId(int userId) {
+        Map<String, Object> columnMap = new HashMap<>();
+        columnMap.put("USER_ID",userId);
+        this.removeByMap(columnMap);
+    }
+
+    @Override
     public List<ProjectRightConfigEntity> getListByUserId(Long userId) {
         return baseMapper.queryListUserId(userId);
     }
 
     @Override
     public List<ProjectRightConfigEntity> getStatusList() {
-        return this.baseMapper.selectList(new QueryWrapper<ProjectRightConfigEntity>().eq("status","1"));
+        return this.baseMapper.selectList(new QueryWrapper<ProjectRightConfigEntity>().eq("status", "1"));
     }
 
 

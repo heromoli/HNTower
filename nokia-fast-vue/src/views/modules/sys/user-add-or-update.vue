@@ -17,7 +17,7 @@
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="dataForm.email" placeholder="邮箱"></el-input>
             </el-form-item>
-            <el-form-item label="手机号" prop="mobile">
+            <el-form-item label="手机号">
                 <el-input v-model="dataForm.mobile" placeholder="手机号"></el-input>
             </el-form-item>
             <el-form-item label="角色" size="mini" prop="roleIdList">

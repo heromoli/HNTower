@@ -4,11 +4,12 @@ package com.nokia.modules.report.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nokia.modules.report.dao.BranchDailyReportDao;
 import com.nokia.modules.report.dao.CountyDailyReportDao;
+import com.nokia.modules.report.dao.CountyDailyReportProDao;
 import com.nokia.modules.report.entity.BranchDailyReport;
 import com.nokia.modules.report.entity.CountyDailyReport;
-import com.nokia.modules.report.service.BranchDailyReportService;
+import com.nokia.modules.report.entity.CountyDailyReportPro;
+import com.nokia.modules.report.service.CountyDailyReportProService;
 import com.nokia.modules.report.service.CountyDailyReportService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
@@ -22,13 +23,13 @@ import java.util.Map;
 import static com.nokia.utils.DateUtils.DATE_PATTERN;
 import static com.nokia.utils.DateUtils.stringToDate;
 
-@Service("CountyDailyReportService")
-public class CountyDailyReportServiceImpl extends ServiceImpl<CountyDailyReportDao, CountyDailyReport> implements CountyDailyReportService {
-    private static final Logger logger = LoggerFactory.getLogger(CountyDailyReportServiceImpl.class);
+@Service("CountyDailyReportProService")
+public class CountyDailyReportProServiceImpl extends ServiceImpl<CountyDailyReportProDao, CountyDailyReportPro> implements CountyDailyReportProService {
+    private static final Logger logger = LoggerFactory.getLogger(CountyDailyReportProServiceImpl.class);
 
     @Override
     public PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams) {
-        QueryWrapper queryWrapper = new QueryWrapper<BranchDailyReport>();
+        QueryWrapper queryWrapper = new QueryWrapper<CountyDailyReportPro>();
 
         if (queryParams.get("countyQueryDate") != null && !queryParams.get("countyQueryDate").equals("") && !queryParams.get("countyQueryDate").equals("null")) {
             Date sdate = stringToDate(queryParams.get("countyQueryDate").toString().substring(0, 10), DATE_PATTERN);
@@ -42,7 +43,7 @@ public class CountyDailyReportServiceImpl extends ServiceImpl<CountyDailyReportD
 //            }
 //        }
         queryWrapper.orderByAsc("sdate", "county");
-        IPage<CountyDailyReport> page = this.page(new Query<CountyDailyReport>().getPage(pageParams), queryWrapper);
+        IPage<CountyDailyReportPro> page = this.page(new Query<CountyDailyReportPro>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }
 }

@@ -7,8 +7,8 @@
     <!-- 开发、测试环境 -->
     <springProfile name="dev">
         <logger name="org.springframework.web" level="INFO"/>
-        <logger name="org.springboot.sample" level="INFO" />
-        <logger name="com.nokia" level="INFO" />
+        <logger name="org.springboot.sample" level="DEBUG" />
+        <logger name="com.nokia" level="DEBUG" />
         <!--<logger name="org.activiti" level="TRACE" />-->
     </springProfile>
 

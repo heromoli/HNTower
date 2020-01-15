@@ -3,13 +3,9 @@ package com.nokia.modules.report.controller;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.fastjson.JSON;
 import com.nokia.common.exception.RRException;
-import com.nokia.modules.report.entity.BranchDailyReport;
-import com.nokia.modules.report.entity.CountyDailyReport;
-import com.nokia.modules.report.entity.TietaChuzhangXd;
+import com.nokia.modules.report.entity.*;
 
-import com.nokia.modules.report.service.CountyDailyReportService;
-import com.nokia.modules.report.service.TietaChuzhangXdService;
-import com.nokia.modules.report.service.BranchDailyReportService;
+import com.nokia.modules.report.service.*;
 import com.nokia.modules.sys.controller.BaseController;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
@@ -34,12 +30,17 @@ public class reportController extends BaseController {
     @Autowired
     private TietaChuzhangXdService tietaChuzhangXdService;
 
-
     @Autowired
     private BranchDailyReportService branchDailyReportService;
 
     @Autowired
     private CountyDailyReportService countyDailyReportService;
+
+    @Autowired
+    private BranchDailyReportProService branchDailyReportProService;
+
+    @Autowired
+    private CountyDailyReportProService countyDailyReportProService;
 
     @PostMapping("/tietaChuzhangUpload")
     public RData tietaChuzhangUpload(@RequestParam("file") MultipartFile file) {
@@ -81,6 +82,23 @@ public class reportController extends BaseController {
         return RData.ok().put("page", page);
     }
 
+
+    @GetMapping("/queryBranchDailyReportPro")
+    public RData queryBranchDailyReportPro(@RequestParam Map<String, Object> params) {
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+        PageUtils page = branchDailyReportProService.selectDataByParam(params, queryParams);
+        return RData.ok().put("page", page);
+    }
+
+    @GetMapping("/queryCountyDailyReportPro")
+    public RData queryCountyDailyReportPro(@RequestParam Map<String, Object> params) {
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+        PageUtils page = countyDailyReportProService.selectDataByParam(params, queryParams);
+        return RData.ok().put("page", page);
+    }
+
     @GetMapping("/exportBranchReport")
     public void exportBranchReport(@RequestParam("branchQueryDate") String branchQueryDate,
                                  HttpServletResponse response) {
@@ -109,6 +127,36 @@ public class reportController extends BaseController {
         PageUtils page = countyDailyReportService.selectDataByParam(pageParams, queryParams);
         List<CountyDailyReport> checkList = BeanCopyUtils.convert(page.getList(), CountyDailyReport.class);
         ExcelUtil.writeExcel(response, checkList, "countyDailyReport_export", "sheet1", ExcelTypeEnum.XLSX, CountyDailyReport.class);
+    }
+
+    @GetMapping("/exportBranchReportPro")
+    public void exportBranchReportPro(@RequestParam("branchQueryDate") String branchQueryDate,
+                                   HttpServletResponse response) {
+        Map<String, Object> queryParams = new HashMap<>();
+        Map<String, Object> pageParams = new HashMap<>();
+        pageParams.put("page", "1");
+        pageParams.put("limit", "10000");
+
+        queryParams.put("branchQueryDate", branchQueryDate);
+
+        PageUtils page = branchDailyReportProService.selectDataByParam(pageParams, queryParams);
+        List<BranchDailyReportPro> checkList = BeanCopyUtils.convert(page.getList(), BranchDailyReportPro.class);
+        ExcelUtil.writeExcel(response, checkList, "BranchDailyReportPro_export", "sheet1", ExcelTypeEnum.XLSX, BranchDailyReportPro.class);
+    }
+
+    @GetMapping("/exportCountyReportPro")
+    public void exportCountyReportPro(@RequestParam("countyQueryDate") String countyQueryDate,
+                                   HttpServletResponse response) {
+        Map<String, Object> queryParams = new HashMap<>();
+        Map<String, Object> pageParams = new HashMap<>();
+        pageParams.put("page", "1");
+        pageParams.put("limit", "10000");
+
+        queryParams.put("countyQueryDate", countyQueryDate);
+
+        PageUtils page = countyDailyReportProService.selectDataByParam(pageParams, queryParams);
+        List<CountyDailyReportPro> checkList = BeanCopyUtils.convert(page.getList(), CountyDailyReportPro.class);
+        ExcelUtil.writeExcel(response, checkList, "CountyDailyReportPro_export", "sheet1", ExcelTypeEnum.XLSX, CountyDailyReportPro.class);
     }
 
 }

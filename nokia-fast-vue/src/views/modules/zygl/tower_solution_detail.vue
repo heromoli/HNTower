@@ -3,19 +3,20 @@
         <div class="mod-log">
             <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
                 <el-form-item>
-                    <el-input size="mini" v-model="dataForm.project_number" placeholder="项目编号" clearable></el-input>
+                    <el-input size="small" v-model="dataForm.project_number" placeholder="项目编号" clearable></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input size="mini" v-model="dataForm.project_name" placeholder="项目名称" clearable></el-input>
+                    <el-input size="small" v-model="dataForm.project_name" placeholder="项目名称" clearable></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-input size="mini" v-model="dataForm.planning_Station_Name" placeholder="规划站名"
+                    <el-input size="small" v-model="dataForm.planning_Station_Name" placeholder="规划站名"
                               clearable></el-input>
                 </el-form-item>
-
                 <el-form-item>
-                    <el-button size="mini" @click="getDataList()">查询</el-button>
-                    <el-button size="mini" type="success" @click="uploadHandle()">导入规则站点明细数据</el-button>
+                    <el-button size="small" @click="getDataList()">查询</el-button>
+                    <el-button size="small" type="success" @click="uploadHandle()">导入规则站点明细数据</el-button>
+                    <el-button size="small" @click="drawAllMarkers()">一键标点</el-button>
+                    <el-button size="small" @click="clearAllMarkers()">清除标点</el-button>
                 </el-form-item>
             </el-form>
             <el-table
@@ -29,10 +30,6 @@
                         align="center"
                         width="130"
                         label="项目编号">
-                    <!--<template slot-scope="scope">-->
-                    <!--<a :href="'http://'+scope.row.solutionName"-->
-                    <!--target="_blank">{{scope.row.serialNumber}}</a>-->
-                    <!--</template>-->
                 </el-table-column>
                 <el-table-column
                         prop="projectName"
@@ -49,6 +46,12 @@
                         width="200"
                         :show-overflow-tooltip="true"
                         label="规划站名">
+                    <template slot-scope="scope">
+                        <el-button type="text" size="small"
+                                   @click.native="drawMarker(scope.row.planningStationName,scope.row.longitude,scope.row.latitude)">
+                            {{scope.row.planningStationName}}
+                        </el-button>
+                    </template>
                 </el-table-column>
                 <el-table-column
                         prop="longitude"
@@ -141,10 +144,10 @@
             <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
         </div>
         <div id="container" class="amap-page-container">
-            <!--<el-amap ref="map" vid="'amap-vue'" :amap-manager="amapManager" :center="center" :zoom="zoom"-->
-                     <!--:plugin="plugin"-->
-                     <!--:events="events" class="amap-demo" v-loading="dataListLoading">-->
-            <!--</el-amap>-->
+            <el-amap ref="map" vid="'amap-vue'" :amap-manager="amapManager" :center="center" :zoom="zoom"
+                     :plugin="plugin"
+                     :events="events" class="amap-demo" v-loading="dataListLoading">
+            </el-amap>
         </div>
     </div>
 </template>
@@ -167,7 +170,7 @@
                 dataList: [],
                 uploadVisible: false,
                 pageIndex: 1,
-                pageSize: 10,
+                pageSize: 5,
                 totalPage: 0,
                 dataListLoading: false,
                 amapManager,
@@ -209,7 +212,6 @@
             // 获取数据列表
             getDataList() {
                 var params = this.$route.params.serialNumber;
-
                 this.dataListLoading = true;
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetail'),
@@ -229,6 +231,53 @@
                     }
                     this.dataListLoading = false
                 })
+            },
+            drawMarker(planningStationName, longitude, latitude) {
+                var map = this.amapManager.getMap();
+                // map.clearMap();  //清除所有覆盖物
+                var marker = new AMap.Marker({
+                    map: map,
+                    position: [longitude, latitude],
+                    icon: base_station,
+                    title: planningStationName,
+                    animation: "AMAP_ANIMATION_DROP",
+                });
+                map.setFitView();
+            },
+            drawAllMarkers() {
+                var map = this.amapManager.getMap();
+                // map.clearMap();  //清除所有覆盖物
+                this.dataListLoading = true;
+                this.$http({
+                    url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetail'),
+                    method: 'get',
+                    params: this.$http.adornParams({
+                        'page': this.pageIndex,
+                        'limit': this.pageSize,
+                        'queryParam': this.dataForm
+                    })
+                }).then(({data}) => {
+                    if (data && data.code === 0) {
+                        this.dataList = data.page.list;
+                        this.dataList.forEach(element => {
+                            var marker = new AMap.Marker({
+                                map: map,
+                                position: [element.longitude, element.latitude],
+                                icon: base_station,
+                                title: element.planningStationName,
+                                animation: "AMAP_ANIMATION_DROP",
+                            });
+                            map.setFitView();
+                        })
+                    }
+                    this.dataListLoading = false
+                })
+            },
+            clearAllMarkers(){
+                var map = this.amapManager.getMap();
+                map.setZoomAndCenter(12,[110.317312, 20.022712]);
+                map.clearMap();  //清除所有覆盖物
+                map.setFitView();
             },
             // 每页数
             sizeChangeHandle(val) {
@@ -255,8 +304,8 @@
 <style scoped>
     .amap-demo {
         /*height: 640px;*/
-        height: 99%;
-        width: 99%;
+        height: 40%;
+        width: 96%;
         position: absolute;
         /*top: 5px;*/
         /*right: 10px;*/

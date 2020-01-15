@@ -111,8 +111,8 @@
         </el-container>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">关闭</el-button>
-            <el-button type="warning" @click="cancelProcess()">流程结束</el-button>
-            <el-button type="success" @click="dataFormSubmit()">重提需求</el-button>
+            <el-button v-if="isAuth('gzl:table6:update')" type="warning" @click="cancelProcess()">流程结束</el-button>
+            <el-button v-if="isAuth('gzl:table6:update')" type="success" @click="dataFormSubmit()">重提需求</el-button>
         </span>
     </el-dialog>
 </template>

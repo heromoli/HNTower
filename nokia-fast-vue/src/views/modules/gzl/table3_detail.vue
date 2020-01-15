@@ -28,6 +28,14 @@
                         <el-col :span="6">
                             <el-form-item label="电信企业" prop="operatorName">
                                 <el-input type="text" v-model="dataForm.operatorName" :disabled="true"></el-input>
+                                <!--<el-select v-model="dataForm.operatorName"  placeholder="请选择" style="width: 100%">-->
+                                    <!--<el-option-->
+                                            <!--v-for="item in operatorOptions"-->
+                                            <!--:key="item.value"-->
+                                            <!--:label="item.label"-->
+                                            <!--:value="item.value">-->
+                                    <!--</el-option>-->
+                                <!--</el-select>-->
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
@@ -589,6 +597,16 @@
                 visible: false,
                 dataForm: {},
                 historyList: [],
+                operatorOptions: [{
+                    value: '移动',
+                    label: '移动'
+                }, {
+                    value: '联通',
+                    label: '联通'
+                }, {
+                    value: '电信',
+                    label: '电信'
+                }],
                 shareOptions: [{
                     value: '是',
                     label: '是'

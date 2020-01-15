@@ -204,12 +204,14 @@
 </template>
 
 <script>
+
+    import {formatDate} from '@/utils/initDateFormat'
     export default {
         name: "tower_solution_statistic",
         data() {
             return {
                 dataForm: {
-                    smonth: new Date()
+                    smonth:  formatDate(new Date(), 'yyyyMM'),
                 },
                 dataList: [],
                 // pageIndex: 1,

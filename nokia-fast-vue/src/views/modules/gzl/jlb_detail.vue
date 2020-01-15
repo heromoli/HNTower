@@ -154,17 +154,41 @@
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="移动建设模式" prop="mobileBuildType">
-                                <el-input type="text" v-model="dataForm.mobileBuildType"></el-input>
+                                <!--<el-input type="text" v-model="dataForm.mobileBuildType"></el-input>-->
+                                <el-select v-model="dataForm.mobileBuildType" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in mobileBuildTypeOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="共享共建方式" prop="ifShare">
-                                <el-input type="text" v-model="dataForm.ifShare"></el-input>
+                                <!--<el-input type="text" v-model="dataForm.ifShare"></el-input>-->
+                                <el-select v-model="dataForm.ifShare" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in shareTypeOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="楼面/地面" prop="buildingOrGround">
-                                <el-input type="text" v-model="dataForm.buildingOrGround"></el-input>
+                                <!--<el-input type="text" v-model="dataForm.buildingOrGround"></el-input>-->
+                                <el-select v-model="dataForm.buildingOrGround" placeholder="请选择" style="width: 100%">
+                                    <el-option
+                                            v-for="item in buildingOrGroundOptions"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value">
+                                    </el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -379,6 +403,36 @@
                 }, {
                     value: '存量直接满足',
                     label: '存量直接满足'
+                }],
+                mobileBuildTypeOptions: [{
+                    value: '新址独享',
+                    label: '新址独享'
+                }, {
+                    value: '新址共享',
+                    label: '新址共享'
+                }, {
+                    value: '共址独享',
+                    label: '共址独享'
+                }, {
+                    value: '共址共享',
+                    label: '共址共享'
+                }],
+                shareTypeOptions: [{
+                    value: '新建独享',
+                    label: '新建独享'
+                }, {
+                    value: '新建共享',
+                    label: '新建共享'
+                }, {
+                    value: '存量共享',
+                    label: '存量共享'
+                }],
+                buildingOrGroundOptions: [{
+                    value: '楼面站',
+                    label: '楼面站'
+                }, {
+                    value: '地面站',
+                    label: '地面站'
                 }],
                 projectStateOptions: [{
                     value: '整合中',

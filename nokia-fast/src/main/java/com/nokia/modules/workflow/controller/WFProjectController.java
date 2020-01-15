@@ -83,8 +83,6 @@ public class WFProjectController extends BaseController {
     @Autowired
     private CRMService crmService;
 
-
-
     @Autowired
     private NoAcceptedDemandService noAcceptedDemandService;
 
@@ -106,37 +104,42 @@ public class WFProjectController extends BaseController {
         if (sysUserEntity == null) {
             return RData.error(500, "无法获取用户信息");
         }
-        Map variables = RData.getMap("user", sysUserEntity);
-
+        RData rData = new RData().ok();
+        Map userEntity = RData.getMap("user", sysUserEntity);
         String processDefinitionId = params.getActProcessDefinitionId();
 
+        logger.info("ActProcInstId:" + params.getActProcInstId());
         if (StringUtils.isEmpty(processDefinitionId)) {
             processDefinitionId = actProcessDefinitionId;
         }
-        RData rData = simpleRuntimeService.startProcess(processDefinitionId, variables);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        String operatorName = params.getOperatorName();
-
-        String demandNum = params.getDemandNum();
-        if (demandNum == null || demandNum.equals("")) {
-            if ("移动".equals(operatorName)) {
-                String seq_num = supervisorService.queryYDSequence();
-                String monthLastDay = getMonthLastDay();
-                params.setDemandNum("YDB" + monthLastDay + seq_num);
-            } else if ("联通".equals(operatorName)) {
-                String seq_num = supervisorService.queryLTSequence();
-                params.setDemandNum("LTB" + dateFormat.format(new Date()) + seq_num);
-            } else if ("电信".equals(operatorName)) {
-                String seq_num = supervisorService.queryDXSequence();
-                params.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
+        if (params.getActProcInstId() == null || params.getActProcInstId().equals("")) {
+            rData = simpleRuntimeService.startProcess(processDefinitionId, userEntity);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+            String operatorName = params.getOperatorName();
+            String demandNum = params.getDemandNum();
+            if (demandNum == null || demandNum.equals("")) {
+                if ("移动".equals(operatorName)) {
+                    String seq_num = supervisorService.queryYDSequence();
+                    String monthLastDay = getMonthLastDay();
+                    params.setDemandNum("YDB" + monthLastDay + seq_num);
+                } else if ("联通".equals(operatorName)) {
+                    String seq_num = supervisorService.queryLTSequence();
+                    params.setDemandNum("LTB" + dateFormat.format(new Date()) + seq_num);
+                } else if ("电信".equals(operatorName)) {
+                    String seq_num = supervisorService.queryDXSequence();
+                    params.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
+                }
             }
+            params.setDemandProposeTime(new Date());
+            params.setActProcInstId((String) rData.get("processInstanceId"));
+            params.setActProcStatus("1");
+
+            logger.info("DemandNum:" + params.getDemandNum());
+            cncService.save(params);
+        } else {
+            cncService.updateById(params);
         }
 
-        params.setDemandProposeTime(new Date());
-        params.setActProcInstId((String) rData.get("processInstanceId"));
-        params.setActProcStatus("1");
-
-        cncService.save(params);
         return rData;
     }
 
@@ -598,9 +601,12 @@ public class WFProjectController extends BaseController {
         if (sysUserEntity == null) {
             return RData.error(500, "无法获取用户信息");
         }
+        long user_id = sysUserEntity.getUserId();
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
-        PageUtils page = supervisorService.selectDataByQueryParam(params, queryParams);
+        List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
+
+        PageUtils page = supervisorService.selectByQueryParamAndPrc(params, queryParams, prcList);
 
         return RData.ok().put("page", page);
     }
@@ -812,6 +818,12 @@ public class WFProjectController extends BaseController {
     public void supervisionExport(@RequestParam("branchCompany") String branchCompany, @RequestParam("stationName") String stationName, @RequestParam("address") String address,
                                   @RequestParam("demandNum") String demandNum, @RequestParam("specialStation") String specialStation,
                                   HttpServletResponse response) {
+
+        SysUserEntity sysUserEntity = getUser();
+        if (sysUserEntity == null) {
+            return;
+        }
+        long user_id = sysUserEntity.getUserId();
         Map<String, Object> queryParams = new HashMap<>();
         Map<String, Object> pageParams = new HashMap<>();
         pageParams.put("page", "1");
@@ -823,7 +835,10 @@ public class WFProjectController extends BaseController {
         queryParams.put("demandNum", demandNum);
         queryParams.put("specialStation", specialStation);
 
-        PageUtils page = supervisorService.selectDataByQueryParam(pageParams, queryParams);
+        List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
+        PageUtils page = supervisorService.selectByQueryParamAndPrc(pageParams, queryParams, prcList);
+
+//        PageUtils page = supervisorService.selectDataByQueryParam(pageParams, queryParams);
         List<Supervisor> checkList = BeanCopyUtils.convert(page.getList(), Supervisor.class);
         ExcelUtil.writeExcel(response, checkList, "jlb_export", "sheet1", ExcelTypeEnum.XLSX, Supervisor.class);
     }

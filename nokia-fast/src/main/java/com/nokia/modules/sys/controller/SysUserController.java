@@ -3,6 +3,7 @@ package com.nokia.modules.sys.controller;
 import com.nokia.common.annotation.SysLog;
 import com.nokia.modules.sys.entity.PasswordForm;
 import com.nokia.modules.sys.entity.SysUserEntity;
+import com.nokia.modules.sys.service.ProjectRightConfigService;
 import com.nokia.modules.sys.service.ProjectWorkflowGroupService;
 import com.nokia.modules.sys.service.SysUserRoleService;
 import com.nokia.modules.sys.service.SysUserService;
@@ -29,11 +30,15 @@ import java.util.Map;
 public class SysUserController extends BaseController {
     @Autowired
     private SysUserService sysUserService;
+
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
     @Autowired
     private ProjectWorkflowGroupService pwfgService;
+
+    @Autowired
+    private ProjectRightConfigService projectRightConfigService;
 
 
     /**
@@ -145,12 +150,13 @@ public class SysUserController extends BaseController {
         if (ArrayUtils.contains(userIds, 1L)) {
             return RData.error("系统管理员不能删除");
         }
-
         if (ArrayUtils.contains(userIds, getUserId())) {
             return RData.error("当前用户不能删除");
         }
-
         sysUserService.deleteBatch(userIds);
+        for (long userId:userIds){
+            projectRightConfigService.deleteByUserId((int)userId);
+        }
 
         return RData.ok();
     }

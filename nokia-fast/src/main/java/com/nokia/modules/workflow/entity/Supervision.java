@@ -14,7 +14,7 @@ import java.util.Date;
 @TableName("supervisor")
 public class Supervision extends RowModel implements Serializable {
 
-//    @ExcelProperty(index = 0, value = {"序号"})
+    @ExcelProperty(index = 0, value = {"序号"})
     private Long id;
 
     @TableId

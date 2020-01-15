@@ -31,6 +31,8 @@ public interface ProjectRightConfigService extends IService<ProjectRightConfigEn
      */
     public void deleteById(Long id);
 
+    public void deleteByUserId(int userId);
+
     public List<ProjectRightConfigEntity> getListByUserId(Long userId);
 
     public List<ProjectRightConfigEntity> getStatusList();

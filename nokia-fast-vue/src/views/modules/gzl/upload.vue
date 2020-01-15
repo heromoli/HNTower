@@ -51,15 +51,6 @@
                 this.fileList = fileList;
                 this.successNum++;
                 if (response && response.code === 0) {
-//          if (this.num === this.successNum) {
-//            this.$confirm('操作成功, 是否继续操作?', '提示', {
-//              confirmButtonText: '确定',
-//              cancelButtonText: '取消',
-//              type: 'warning'
-//            }).catch(() => {
-//              this.visible = false
-//            })
-//          }
                     this.$message({
                         message: '操作成功',
                         type: 'success',
@@ -68,7 +59,7 @@
                             this.visible = false
                         }
                     });
-
+                    this.$emit('refreshDataList')
                 } else {
                     this.$message.error(response.msg)
                 }

@@ -34,10 +34,9 @@ public class TowerSolutionStatisticServiceImpl extends ServiceImpl<TowerSolution
 //        return new PageUtils(page);
 
         String smonth = queryParams.get("smonth").toString();
-        if (smonth.length() > 6) {
-            smonth = smonth.substring(0, 4) + smonth.substring(5, 7);
-        }
-        logger.info(smonth);
+//        if (smonth.length() > 6) {
+//            smonth = smonth.substring(0, 4) + smonth.substring(5, 7);
+//        }
 
         return baseMapper.selectStatistic(smonth);
     }

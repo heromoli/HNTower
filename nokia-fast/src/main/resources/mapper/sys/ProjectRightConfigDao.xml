@@ -3,7 +3,7 @@
 
 <mapper namespace="com.nokia.modules.sys.dao.ProjectRightConfigDao">
 
-	<select id="queryListUserId" resultType="com.nokia.modules.sys.entity.ProjectRightConfigEntity">
+    <select id="queryListUserId" resultType="com.nokia.modules.sys.entity.ProjectRightConfigEntity">
 		select * from project_right_config where user_id = #{userId} order by id asc
 	</select>
 

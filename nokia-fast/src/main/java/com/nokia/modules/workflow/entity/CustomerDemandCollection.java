@@ -1,6 +1,7 @@
 package com.nokia.modules.workflow.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,18 +17,21 @@ import java.util.Date;
 @TableName("supervisor")
 public class CustomerDemandCollection extends RowModel implements Serializable {
 //表3
-    @TableId
+
+    @ExcelProperty(index = 0, value = {"序号","序号"})
     private Long id;
 
     @TableField(exist=false)
     private String actProcessDefinitionId;
 
+    @ExcelProperty(index = 22, value = {"ACT工作流编号","系统自动生成"})
     private String actProcInstId;
 
     private String actProcStatus;
 
     private String batchNum;
 
+    @TableId(type = IdType.INPUT)
     @ExcelProperty(index = 1, value = {"需求编号","需求编号"})
     private String demandNum;
 
@@ -35,8 +39,8 @@ public class CustomerDemandCollection extends RowModel implements Serializable {
     @NotBlank(message="电信企业不能为空")
     private String operatorName;
 
-    @ExcelProperty(index = 3 , value =  {"地市","地市"})
-    @NotBlank(message="地市不能为空")
+    @ExcelProperty(index = 3 , value =  {"分公司","分公司"})
+    @NotBlank(message="分公司不能为空")
     private String branchCompany;
 
     private String county;

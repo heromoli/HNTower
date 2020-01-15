@@ -8,6 +8,7 @@
 			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id 
 			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id 
 		where ur.user_id = #{userId}
+		order by ur.user_id
 	</select>
 	
 	<!-- 查询用户的所有菜单ID --> 

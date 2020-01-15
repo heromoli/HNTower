@@ -15,4 +15,5 @@ public interface CustomerDemandCollectionService extends IService<CustomerDemand
     Integer findDataCount(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
 
     List<CustomerDemandCollection> findDataAll(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+
 }

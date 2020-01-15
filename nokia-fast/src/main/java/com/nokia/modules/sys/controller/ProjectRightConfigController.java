@@ -27,6 +27,7 @@ public class ProjectRightConfigController extends BaseController {
 
     @Autowired
     private ProjectRightConfigService projectRightConfigService;
+
     @Autowired
     private SysUserService sysUserService;
 
@@ -60,7 +61,7 @@ public class ProjectRightConfigController extends BaseController {
      */
     @SysLog("保存工程权限配置")
     @PostMapping("/save")
-//    @RequiresPermissions("sys:project:config:save")
+    @RequiresPermissions("sys:project:config:save")
     public RData save(@RequestBody ProjectRightConfigEntity config) {
 //        ValidatorUtils.validateEntity(config);
         projectRightConfigService.saveConfig(config);
@@ -72,7 +73,7 @@ public class ProjectRightConfigController extends BaseController {
      */
     @SysLog("修改工程权限配置")
     @PostMapping("/update")
-//    @RequiresPermissions("sys:project:config:update")
+    @RequiresPermissions("sys:project:config:update")
     public RData update(@RequestBody ProjectRightConfigEntity config) {
 //        ValidatorUtils.validateEntity(config);
 
@@ -86,7 +87,7 @@ public class ProjectRightConfigController extends BaseController {
      */
     @SysLog("删除工程权限配置")
     @PostMapping("/delete")
-//    @RequiresPermissions("sys:project:config:delete")
+    @RequiresPermissions("sys:project:config:delete")
     public RData delete(@RequestBody Long id) {
         projectRightConfigService.deleteById(id);
         return RData.ok();
