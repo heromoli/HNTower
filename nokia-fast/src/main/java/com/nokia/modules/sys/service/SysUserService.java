@@ -30,6 +30,11 @@ public interface SysUserService extends IService<SysUserEntity> {
     SysUserEntity queryByUserName(String username);
 
     /**
+     * 根据用户名，模糊查询系统用户
+     */
+    List<SysUserEntity> queryListByUserName(String username);
+
+    /**
      * 保存用户
      */
     void saveUser(SysUserEntity user);

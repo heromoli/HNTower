@@ -268,7 +268,141 @@
                         layout="total, sizes, prev, pager, next, jumper">
                 </el-pagination>
             </el-tab-pane>
-            <!--<el-tab-pane label="运营商报表">角色管理</el-tab-pane>-->
+            <el-tab-pane label="运营商报表"><el-form :inline="true" :model="dataForm" @keyup.enter.native="getOperatorData()">
+                <el-form-item>
+                    <el-date-picker
+                            v-model="dataForm.operatorQueryDate"
+                            type="date" style="width: 100%"
+                            placeholder="选择日期"
+                            value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button size="mini" @click="getOperatorData()">查询</el-button>
+                    <el-button type="primary" size="mini" @click="operatorExportHandle()">导出</el-button>
+                </el-form-item>
+            </el-form>
+                <el-table
+                        :data="operatorList"
+                        border
+                        v-loading="dataListLoading"
+                        stripe
+                        style="height: auto; width: auto">
+                    <el-table-column
+                            fixed
+                            prop="sdate"
+                            header-align="center"
+                            align="center"
+                            label="时间">
+                    </el-table-column>
+                    <el-table-column
+                            fixed
+                            prop="branchCompany"
+                            header-align="center"
+                            align="center"
+                            label="分公司">
+                    </el-table-column>
+                    <el-table-column
+                            fixed
+                            prop="operatorName"
+                            header-align="center"
+                            align="center"
+                            label="运营商">
+                    </el-table-column>
+                    <el-table-column header-align="center" align="center" label="任务">
+                        <el-table-column
+                                prop="taskNumber"
+                                header-align="center"
+                                align="center"
+                                label="总量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="taskIncrement"
+                                align="center"
+                                header-align="center"
+                                label="增量">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column header-align="center" align="center" label="征址">
+                        <el-table-column
+                                prop="locationNegNumber"
+                                header-align="center"
+                                align="center"
+                                label="总量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="locatoinIncrement"
+                                align="center"
+                                header-align="center"
+                                label="增量">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column header-align="center" align="center" label="开工">
+                        <el-table-column
+                                prop="projectStartNumber"
+                                header-align="center"
+                                align="center"
+                                label="总量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="startIncrement"
+                                align="center"
+                                header-align="center"
+                                label="增量">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column header-align="center" align="center" label="完工">
+                        <el-table-column
+                                prop="completeNumber"
+                                header-align="center"
+                                align="center"
+                                label="总量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="completeIncrement"
+                                align="center"
+                                header-align="center"
+                                label="增量">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column header-align="center" align="center" label="交付">
+                        <el-table-column
+                                prop="deliverNumber"
+                                align="center"
+                                header-align="center"
+                                label="总量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="deliverIncrement"
+                                align="center"
+                                header-align="center"
+                                label="增量">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column header-align="center" align="center" label="起租">
+                        <el-table-column
+                                prop="hireNumber"
+                                align="center"
+                                header-align="center"
+                                label="总量">
+                        </el-table-column>
+                        <el-table-column
+                                prop="hireIncrement"
+                                align="center"
+                                header-align="center"
+                                label="增量">
+                        </el-table-column>
+                    </el-table-column>
+                </el-table>
+                <el-pagination
+                        @size-change="operatorSizeChangeHandle"
+                        @current-change="operatorCurrentChangeHandle"
+                        :current-page="operatorPageIndex"
+                        :page-sizes="[10, 20, 50, 100]"
+                        :page-size="operatorPageSize"
+                        :total="operatorTotalPage"
+                        layout="total, sizes, prev, pager, next, jumper">
+                </el-pagination></el-tab-pane>
             <!--<el-tab-pane label="特殊站点报表">定时任务补偿</el-tab-pane>-->
         </el-tabs>
     </div>
@@ -294,16 +428,21 @@
                 dataForm: {
                     param: '',
                     branchQueryDate: formatDate(new Date(), 'yyyy-MM-dd'),
-                    countyQueryDate: formatDate(new Date(), 'yyyy-MM-dd')
+                    countyQueryDate: formatDate(new Date(), 'yyyy-MM-dd'),
+                    operatorQueryDate: formatDate(new Date(), 'yyyy-MM-dd')
                 },
                 branchList: [],
                 countyList: [],
+                operatorList: [],
                 branchPageIndex: 1,
                 branchPageSize: 10,
                 branchTotalPage: 0,
                 countyPageIndex: 1,
                 countyPageSize: 10,
                 countyTotalPage: 0,
+                operatorPageIndex: 1,
+                operatorPageSize: 20,
+                operatorTotalPage: 0,
                 dataListLoading: false,
                 showChangeConfirmVisible: false
             }
@@ -311,6 +450,7 @@
         created() {
             this.getBranchData();
             this.getCountyData();
+            this.getOperatorData();
         },
         components: {},
         methods: {
@@ -378,11 +518,46 @@
                 this.countyPageIndex = val;
                 this.getCountyData()
             },
+            getOperatorData() {
+                this.dataListLoading = true;
+                this.$http({
+                    url: this.$http.adornUrl('/api/report/queryOperatorDailyReportPro'),
+                    method: 'get',
+                    params: this.$http.adornParams({
+                        'page': this.operatorPageIndex,
+                        'limit': this.operatorPageSize,
+                        'queryParam': this.dataForm
+                    })
+                }).then(({data}) => {
+                    if (data.page != null && data.code === 0) {
+                        this.operatorList = data.page.list;
+                        this.operatorTotalPage = data.page.totalCount
+                    } else {
+                        this.operatorList = [];
+                        this.operatorTotalPage = 0
+                    }
+                    this.dataListLoading = false
+                })
+            },
+            // 每页数
+            operatorSizeChangeHandle(val) {
+                this.operatorPageSize = val;
+                this.operatorPageIndex = 1;
+                this.getOperatorData()
+            },
+            // 当前页
+            operatorCurrentChangeHandle(val) {
+                this.operatorPageIndex = val;
+                this.getOperatorData()
+            },
             branchExportHandle() {
                 window.location.href = this.$http.adornUrl(`/api/report/exportBranchReportPro?branchQueryDate=${this.dataForm.branchQueryDate}&token=${this.$cookie.get('token')}`)
             },
             countyExportHandle() {
                 window.location.href = this.$http.adornUrl(`/api/report/exportCountyReportPro?countyQueryDate=${this.dataForm.countyQueryDate}&token=${this.$cookie.get('token')}`)
+            },
+            operatorExportHandle() {
+                window.location.href = this.$http.adornUrl(`/api/report/exportOperatorReportPro?operatorQueryDate=${this.dataForm.operatorQueryDate}&token=${this.$cookie.get('token')}`)
             }
         }
     }

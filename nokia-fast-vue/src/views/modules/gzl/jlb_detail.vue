@@ -478,15 +478,15 @@
             // 初始化
             init(row) {
                 this.visible = true;
-                this.dataFormFill(row.id);
+                this.dataFormFill(row.demandNum);
             },
             //表单填充
-            dataFormFill(id) {
+            dataFormFill(demandNum) {
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/fillSupervisorFormById'),
+                    url: this.$http.adornUrl('/api/wf/fillSupervisorFormByDemandNum'),
                     method: 'get',
                     params: this.$http.adornParams({
-                        'id': id,
+                        'demandNum': demandNum,
                     })
                 }).then(({data}) => {
                     if (data && data.code === 0) {

@@ -7,18 +7,35 @@
                  label-width="80px">
             <el-form-item label="用户" prop="userId">
                 <el-input v-if="false" type="company" v-model="dataForm.userId"></el-input>
-                {{dataForm.userName}}
-                <el-popover
-                        placement="right"
-                        width="230"
-                        trigger="click"
-                        v-model="popoverModel">
-                    <el-table :data="userData" @row-click="rowClick">
-                        <el-table-column width="80" property="userId" label="ID"></el-table-column>
-                        <el-table-column width="120" property="username" label="姓名"></el-table-column>
-                    </el-table>
-                    <el-button slot="reference">选择</el-button>
-                </el-popover>
+                <!--{{dataForm.userName}}-->
+                <!--<el-popover-->
+                <!--placement="right"-->
+                <!--width="230"-->
+                <!--trigger="click"-->
+                <!--v-model="popoverModel">-->
+                <!--<el-table :data="userData" @row-click="rowClick">-->
+                <!--<el-table-column width="80" property="userId" label="ID"></el-table-column>-->
+                <!--<el-table-column width="120" property="username" label="姓名"></el-table-column>-->
+                <!--</el-table>-->
+                <!--<el-button slot="reference">选择</el-button>-->
+                <!--</el-popover>-->
+
+                <el-select v-model="dataForm.userName"
+                           filterable
+                           remote
+                           reserve-keyword
+                           placeholder="请输入内容"
+                           :remote-method="querySearchAsync"
+                           no-data-text=""
+                           default-first-option
+                           @change="setUserId">
+                    <el-option
+                            v-for="item in options.userList"
+                            :key="item.userId"
+                            :label="item.username"
+                            :value="item.userId">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="分公司" prop="company">
                 <el-select v-model="dataForm.company" placeholder="请选择">
@@ -29,7 +46,6 @@
                             :value="item.value">
                     </el-option>
                 </el-select>
-
                 <!--<el-input type="company" v-model="dataForm.company"></el-input>-->
             </el-form-item>
             <el-form-item label="运营商" prop="operator">
@@ -94,7 +110,9 @@
                         {label: '联通', value: '联通'},
                         {label: '电信', value: '电信'},
                     ],
-                }
+                    userList: []
+                },
+                loading: false,
             }
         },
         computed: {},
@@ -102,18 +120,18 @@
             // 初始化
             init(row) {
                 this.visible = true;
-                this.$nextTick(() => {
-                    //清空提示
-                    this.$refs['dataForm'].resetFields();
-                    this.dataForm.userId = row.userId;
-                    this.dataForm.userName = row.userName;
-                    this.dataForm.company = row.company;
-                    this.dataForm.operator = row.operator;
+                // this.$nextTick(() => {
+                //清空提示
+                // this.$refs['dataForm'].resetFields();
+                // this.dataForm.userId = row.userId;
+                // this.dataForm.userName = row.userName;
+                // this.dataForm.company = row.company;
+                // this.dataForm.operator = row.operator;
 
-                    this.initUser.userId = row.userId;
-                    this.initUser.username = row.userName;
-                    this.getUserData();
-                });
+                // this.initUser.userId = row.userId;
+                // this.initUser.username = row.userName;
+                // this.getUserData();
+                // });
             },
             // 表单提交
             dataFormSubmit() {
@@ -155,10 +173,30 @@
                     }
                 })
             },
+            querySearchAsync(queryString) {
+                this.$http({
+                    url: this.$http.adornUrl('/sys/project/config/queryUser'),
+                    method: 'get',
+                    params: this.$http.adornParams({
+                        'userName': queryString
+                    })
+                }).then(({data}) => {
+                    if (data.userList != null && data && data.code === 0) {
+                        console.log(data.userList);
+                        this.options.userList = data.userList;
+                    } else {
+                        this.options = [];
+                    }
+                });
+            },
             rowClick(row, column, event) {
                 this.dataForm.userId = row.userId;
                 this.dataForm.userName = row.username;
                 this.popoverModel = false;
+            },
+            setUserId(value) {
+                console.log("UserId:" + value);
+                this.dataForm.userId = value;
             }
         }
     }

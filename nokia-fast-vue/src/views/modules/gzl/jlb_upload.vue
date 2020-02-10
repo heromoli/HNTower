@@ -52,9 +52,10 @@
                 this.successNum++;
                 if (response && response.code === 0) {
                     this.$message({
-                        message: '操作成功',
+                        message: response.msg,
                         type: 'success',
-                        duration: 1500,
+                        showClose: true,
+                        duration: 0,   //0：不会自动关闭   单位为毫秒
                         onClose: () => {
                             this.visible = false
                         }

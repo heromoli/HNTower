@@ -35,6 +35,13 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
     }
 
     @Override
+    public Supervisor selectDataByDemandNum(String demandNum) {
+        QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
+        queryWrapper.eq("demand_num", demandNum);
+        return this.getOne(queryWrapper);
+    }
+
+    @Override
     public List<Supervisor> selectDataByInsIdSet(Set<String> processInstanceId) {
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();
         queryWrapper.in("act_proc_inst_id", processInstanceId);

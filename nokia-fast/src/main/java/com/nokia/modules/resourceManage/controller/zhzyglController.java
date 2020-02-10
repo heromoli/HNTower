@@ -397,9 +397,10 @@ public class zhzyglController extends BaseController {
             throw new RRException("上传文件不能为空");
         }
         //上传文件
-//        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         List<TowerSolutionCollection> list = ExcelUtil.readExcel(file, TowerSolutionCollection.class, 3, 9);
-
+        if (list.size() > 0) {
+            towerSolutionCollectionService.deleteAll();
+        }
         for (TowerSolutionCollection collection : list) {
             try {
                 towerSolutionCollectionService.save(collection);
@@ -423,10 +424,11 @@ public class zhzyglController extends BaseController {
             throw new RRException("上传文件不能为空");
         }
         //上传文件
-//        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 
         List<TowerSolutionDetail> list = ExcelUtil.readExcel(file, TowerSolutionDetail.class, 4, 1);
-
+        if (list.size() > 0) {
+            towerSolutionDetailService.deleteAll();
+        }
         for (TowerSolutionDetail detail : list) {
             try {
                 towerSolutionDetailService.save(detail);
@@ -471,7 +473,7 @@ public class zhzyglController extends BaseController {
     public RData queryTowerSolutionStatistic(@RequestParam Map<String, Object> params) {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
-        List<TowerSolutionStatistics>  statisticsList = statisticService.selectDataByParam(params, queryParams);
+        List<TowerSolutionStatistics> statisticsList = statisticService.selectDataByParam(params, queryParams);
 
         return RData.ok().put("amountList", statisticsList);
     }

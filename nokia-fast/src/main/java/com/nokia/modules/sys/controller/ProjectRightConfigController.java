@@ -96,7 +96,7 @@ public class ProjectRightConfigController extends BaseController {
     @GetMapping("/userList")
     public RData getProjectUserList() {
         List<SysUserEntity> list = sysUserService.list();
-        List<ProjectRightConfigEntity> projectRightConfigEntityList = projectRightConfigService.getStatusList();
+//        List<ProjectRightConfigEntity> projectRightConfigEntityList = projectRightConfigService.getStatusList();
         List<SysUserEntity> rList = new ArrayList<>();
         for (SysUserEntity sysUserEntity : list) {
 //            if(!isContainUser(projectRightConfigEntityList,sysUserEntity)){   //未被配置过权限的用户
@@ -104,6 +104,20 @@ public class ProjectRightConfigController extends BaseController {
 //            }
         }
         return RData.ok().put("userData", rList);
+    }
+
+    @GetMapping("/queryUser")
+    public RData queryProjectUser(@RequestParam Map<String, Object> params) {
+        String userName = params.get("userName").toString();
+        List<SysUserEntity> list = sysUserService.queryListByUserName(userName);
+//        List<ProjectRightConfigEntity> projectRightConfigEntityList = projectRightConfigService.getStatusList();
+        List<SysUserEntity> rList = new ArrayList<>();
+        for (SysUserEntity sysUserEntity : list) {
+//            if(!isContainUser(projectRightConfigEntityList,sysUserEntity)){   //未被配置过权限的用户
+            rList.add(sysUserEntity);    //全部用户
+//            }
+        }
+        return RData.ok().put("userList", rList);
     }
 
     private boolean isContainUser(List<ProjectRightConfigEntity> projectRightConfigEntityList, SysUserEntity sysUserEntity) {

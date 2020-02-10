@@ -2,7 +2,7 @@
     <div class="mod-log">
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-                <el-input v-model="dataForm.project_name" placeholder="项目名称" clearable></el-input>
+                <el-input v-model="dataForm.solution_name" placeholder="项目名称" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-input v-model="dataForm.county" placeholder="区县" clearable></el-input>
@@ -66,7 +66,7 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="provinceBranchCompany"
+                    prop="cityBranchCompany"
                     header-align="center"
                     align="center"
                     width="100"

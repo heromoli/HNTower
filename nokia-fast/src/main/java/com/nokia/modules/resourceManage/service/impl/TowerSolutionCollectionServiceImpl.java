@@ -32,4 +32,10 @@ public class TowerSolutionCollectionServiceImpl extends ServiceImpl<TowerSolutio
         IPage<TowerSolutionCollection> page = this.page(new Query<TowerSolutionCollection>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }
+
+    @Override
+    public boolean deleteAll() {
+        QueryWrapper deleteWrapper = new QueryWrapper<TowerSolutionCollection>();
+        return this.remove(deleteWrapper);
+    }
 }

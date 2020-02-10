@@ -30,6 +30,7 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -107,8 +108,6 @@ public class WFProjectController extends BaseController {
         RData rData = new RData().ok();
         Map userEntity = RData.getMap("user", sysUserEntity);
         String processDefinitionId = params.getActProcessDefinitionId();
-
-        logger.info("ActProcInstId:" + params.getActProcInstId());
         if (StringUtils.isEmpty(processDefinitionId)) {
             processDefinitionId = actProcessDefinitionId;
         }
@@ -515,6 +514,14 @@ public class WFProjectController extends BaseController {
     }
 
     //获取表单填充数据
+    @GetMapping("/fillSupervisorFormByDemandNum")
+    public RData fillSupervisorFormByDemandNum(@RequestParam Map<String, Object> params) {
+        String demandNum = (String) params.get("demandNum");
+        Supervisor supervisor = supervisorService.selectDataByDemandNum(demandNum);
+        return RData.ok().put("returnData", supervisor);
+    }
+
+    //获取表单填充数据
     @GetMapping("/fillBNCCForm")
     public RData fillBNCCForm(@RequestParam Map<String, Object> params) {
         String actProcInstId = (String) params.get("processInstanceId");
@@ -802,16 +809,21 @@ public class WFProjectController extends BaseController {
             try {
                 supervisionService.saveOrUpdate(supervision);
             } catch (Exception e) {
-                message.append("需求编号：" + supervision.getDemandNum() + "|");
+                message.append("不合规需求编号：" + supervision.getDemandNum() + "|");
                 e.printStackTrace();
                 continue;
             }
+//            catch (SQLIntegrityConstraintViolationException e) {
+//                message.append("不合规需求编号：" + supervision.getDemandNum() + "|");
+//                e.printStackTrace();
+//                continue;
+//            }
         }
 
         long endTime = System.currentTimeMillis();
         long haoshi = (endTime - startTime) / 1000;
-        logger.info("操作成功,耗时" + haoshi + "秒。其中重复数据为：" + message);
-        return RData.ok("操作成功,耗时" + haoshi + "秒。");
+        logger.info("操作成功,耗时" + haoshi + "秒。其中异常数据：" + message);
+        return RData.ok("操作成功,耗时" + haoshi + "秒。其中异常数据：{" + message + "}");
     }
 
     @GetMapping("/supervisionExport")
@@ -839,8 +851,8 @@ public class WFProjectController extends BaseController {
         PageUtils page = supervisorService.selectByQueryParamAndPrc(pageParams, queryParams, prcList);
 
 //        PageUtils page = supervisorService.selectDataByQueryParam(pageParams, queryParams);
-        List<Supervisor> checkList = BeanCopyUtils.convert(page.getList(), Supervisor.class);
-        ExcelUtil.writeExcel(response, checkList, "jlb_export", "sheet1", ExcelTypeEnum.XLSX, Supervisor.class);
+        List<Supervision> checkList = BeanCopyUtils.convert(page.getList(), Supervision.class);
+        ExcelUtil.writeExcel(response, checkList, "jlb_export", "sheet1", ExcelTypeEnum.XLSX, Supervision.class);
     }
 
     //批量提交流程

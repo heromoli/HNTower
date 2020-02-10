@@ -208,11 +208,12 @@
             },
             getTimes() {
                 var time = new Date();
+                var month = time.getMonth() + 1;
                 var hours = this.displayClock(time.getHours()) + ":";
                 var minutes = this.displayClock(time.getMinutes()) + ":";
                 var seconds = this.displayClock(time.getSeconds());
                 //显示时间
-                this.times = time.getFullYear() + "-" + time.getMonth() + "-" + time.getDate() + " " + hours + minutes + seconds;//在id为show的块区域显示
+                this.times = time.getFullYear() + "-" + month + "-" + time.getDate() + " " + hours + minutes + seconds;//在id为show的块区域显示
 
             },
             displayClock(num) {//num是传入的startClock中的动态值

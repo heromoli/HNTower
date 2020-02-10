@@ -140,9 +140,9 @@ td {margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;}
 #left2 th{width: 100px;line-height: 30px;border-bottom: 1px solid #b5b5b5;text-align: center;font-size: 14px;}
 #left2 td{width: 100px;line-height: 30px;border-bottom: 1px dashed #b5b5b5;text-align: center;font-size: 14px;}
 
-#left3 table{width: 100%;height:70%;border-collapse: collapse;color: #88d9e5;}
-#left3 th{width: 100px;line-height: 30px;border-bottom: 1px solid #b5b5b5;text-align: center;font-size: 14px;}
-#left3 td{width: 100px;line-height: 30px;border-bottom: 1px dashed #b5b5b5;text-align: center;font-size: 14px;}
+ table{width: 100%;height:70%;border-collapse: collapse;color: #88d9e5;}
+ th{width: 100px;line-height: 30px;border-bottom: 1px solid #b5b5b5;text-align: center;font-size: 14px;}
+ td{width: 100px;line-height: 30px;border-bottom: 1px dashed #b5b5b5;text-align: center;font-size: 14px;}
 
 #right2 table{width: 100%;border-collapse: collapse;color: #88d9e5;}
 #right2 th{width: 100px;line-height: 30px;border-bottom: 1px solid #b5b5b5;text-align: center;font-size: 12px;}

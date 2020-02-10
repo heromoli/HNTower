@@ -42,6 +42,9 @@ public class reportController extends BaseController {
     @Autowired
     private CountyDailyReportProService countyDailyReportProService;
 
+    @Autowired
+    private OperatorDailyReportProService operatorDailyReportProService;
+
     @PostMapping("/tietaChuzhangUpload")
     public RData tietaChuzhangUpload(@RequestParam("file") MultipartFile file) {
         long startTime = System.currentTimeMillis();
@@ -96,6 +99,14 @@ public class reportController extends BaseController {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         PageUtils page = countyDailyReportProService.selectDataByParam(params, queryParams);
+        return RData.ok().put("page", page);
+    }
+
+    @GetMapping("/queryOperatorDailyReportPro")
+    public RData queryOperatorDailyReportPro(@RequestParam Map<String, Object> params) {
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+        PageUtils page = operatorDailyReportProService.selectDataByParam(params, queryParams);
         return RData.ok().put("page", page);
     }
 
@@ -157,6 +168,21 @@ public class reportController extends BaseController {
         PageUtils page = countyDailyReportProService.selectDataByParam(pageParams, queryParams);
         List<CountyDailyReportPro> checkList = BeanCopyUtils.convert(page.getList(), CountyDailyReportPro.class);
         ExcelUtil.writeExcel(response, checkList, "CountyDailyReportPro_export", "sheet1", ExcelTypeEnum.XLSX, CountyDailyReportPro.class);
+    }
+
+    @GetMapping("/exportOperatorReportPro")
+    public void exportOperatorReportPro(@RequestParam("operatorQueryDate") String operatorQueryDate,
+                                      HttpServletResponse response) {
+        Map<String, Object> queryParams = new HashMap<>();
+        Map<String, Object> pageParams = new HashMap<>();
+        pageParams.put("page", "1");
+        pageParams.put("limit", "10000");
+
+        queryParams.put("operatorQueryDate", operatorQueryDate);
+
+        PageUtils page = operatorDailyReportProService.selectDataByParam(pageParams, queryParams);
+        List<OperatorDailyReportPro> checkList = BeanCopyUtils.convert(page.getList(), OperatorDailyReportPro.class);
+        ExcelUtil.writeExcel(response, checkList, "OperatorDailyReportPro_export", "sheet1", ExcelTypeEnum.XLSX, OperatorDailyReportPro.class);
     }
 
 }

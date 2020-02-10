@@ -40,14 +40,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String username = (String)params.get("username");
-        Long createUserId = (Long)params.get("createUserId");
+        String username = (String) params.get("username");
+        Long createUserId = (Long) params.get("createUserId");
 
         IPage<SysUserEntity> page = this.page(
                 new Query<SysUserEntity>().getPage(params),
                 new QueryWrapper<SysUserEntity>()
-                        .like(StringUtils.isNotBlank(username),"username", username)
-                        .eq(createUserId != null,"create_user_id", createUserId).orderByAsc("user_id")
+                        .like(StringUtils.isNotBlank(username), "username", username)
+                        .eq(createUserId != null, "create_user_id", createUserId).orderByAsc("user_id")
         );
 
         return new PageUtils(page);
@@ -66,6 +66,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     public SysUserEntity queryByUserName(String username) {
         return baseMapper.queryByUserName(username);
+    }
+
+    @Override
+    public List<SysUserEntity> queryListByUserName(String username) {
+        QueryWrapper queryWrapper = new QueryWrapper<SysUserEntity>();
+        queryWrapper.like("username", username);
+        return this.list(queryWrapper);
     }
 
     @Override
@@ -88,9 +95,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     @Transactional
     public void update(SysUserEntity user) {
-        if(StringUtils.isBlank(user.getPassword())){
+        if (StringUtils.isBlank(user.getPassword())) {
             user.setPassword(null);
-        }else{
+        } else {
             user.setPassword(new Sha256Hash(user.getPassword(), user.getSalt()).toHex());
         }
         this.updateById(user);
@@ -101,7 +108,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
         //保存用户与角色关系
         sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
         //保存用户与分组关系
-        pwfgService.saveOrUpdate(user.getUserId(),user.getGroupIdList());
+        pwfgService.saveOrUpdate(user.getUserId(), user.getGroupIdList());
     }
 
     @Override
@@ -120,20 +127,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     /**
      * 检查角色是否越权
      */
-    private void checkRole(SysUserEntity user){
-        if(user.getRoleIdList() == null || user.getRoleIdList().size() == 0){
+    private void checkRole(SysUserEntity user) {
+        if (user.getRoleIdList() == null || user.getRoleIdList().size() == 0) {
             return;
         }
         //如果不是超级管理员，则需要判断用户的角色是否自己创建
-        if(user.getCreateUserId() == Constant.SUPER_ADMIN){
-            return ;
+        if (user.getCreateUserId() == Constant.SUPER_ADMIN) {
+            return;
         }
 
         //查询用户创建的角色列表
         List<Long> roleIdList = sysRoleService.queryRoleIdList(user.getCreateUserId());
 
         //判断是否越权
-        if(!roleIdList.containsAll(user.getRoleIdList())){
+        if (!roleIdList.containsAll(user.getRoleIdList())) {
             throw new RRException("新增用户所选角色，不是本人创建");
         }
     }

@@ -15,6 +15,8 @@ public interface SupervisorService extends IService<Supervisor> {
 
     Supervisor selectDataByInsId(String processInstanceId);
 
+    Supervisor selectDataByDemandNum(String demandNum);
+
     List<Supervisor> selectDataByInsIdSet(Set<String> processInstanceId);
 
     PageUtils selectDataByParam(Map<String, Object> params);

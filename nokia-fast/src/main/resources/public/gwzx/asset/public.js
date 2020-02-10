@@ -8,13 +8,15 @@ $(function () {
     loadleft1('pie2', dataleft1.光缆,'光缆修复率', (dataleft1.光缆.修复/dataleft1.光缆.中断).toFixed(4));
     loadleft1('pie3', dataleft1.逻辑,'逻辑退服率', (dataleft1.逻辑.退服/dataleft1.逻辑.合计).toFixed(4));
     loadleft2('left2', dataleft2);
-    loadleft3('left3', dataleft3);
+    loadtable('left3', dataleft3);
 
     loadcenter1(datacenter1);
     loadcenter2('center2', datacenter23);
     loadcenter3('center3', dataFormate(datacenter23), datacenter23);
 
+    loadtable('right1',dataright1);
     loadDynamicTable('right2',dataright2);
+    loadtable('right3',dataright3);
 })
 
 // 刷新界面元素高度
@@ -57,11 +59,12 @@ function displayClock(num) {//num是传入的startClock中的动态值
 
 function startClock() {
     var time = new Date();
+    var month = time.getMonth() + 1;
     var hours = displayClock(time.getHours()) + ":";
     var minutes = displayClock(time.getMinutes()) + ":";
     var seconds = displayClock(time.getSeconds());
     //显示时间
-    stime.innerHTML = time.getFullYear() + "-" + time.getMonth() + "-" + time.getDate() + " " + hours + minutes + seconds;//在id为show的块区域显示
+    stime.innerHTML = time.getFullYear() + "-" + month + "-" + time.getDate() + " " + hours + minutes + seconds;//在id为show的块区域显示
     timer = setTimeout("startClock()", 1000);//延时器
 }
 // 时钟《《《《《《《《《《《《《《《《《《《《《《
@@ -183,7 +186,7 @@ function loadleft2(divid, data){
     }
 }
 
-function loadleft3(divid, data){
+function loadtable(divid, data){
     var str = '';
     if(data.length >0 ){
         str = str + '<table class="jingtai_top">';

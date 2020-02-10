@@ -14,4 +14,6 @@ public interface TowerSolutionCollectionService extends IService<TowerSolutionCo
 
     PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams);
 
+    boolean deleteAll();
+
 }

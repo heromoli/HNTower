@@ -792,7 +792,8 @@
                 this.dataForm.hx1Address = value.address;
                 this.dataForm.hx1IfShare = value.ifOperatorShare;
                 this.dataForm.hx1RoomType = value.roomType;
-            }, remoteData2(query) {
+            },
+            remoteData2(query) {
                 if (query !== '') {
                     this.loading = true;
                     setTimeout(() => {

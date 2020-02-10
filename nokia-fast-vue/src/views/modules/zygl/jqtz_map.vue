@@ -97,7 +97,7 @@
         methods: {
             selectProjectName() {
                 this.$http({
-                    url: this.$http.adornUrl('/api/wf/selectProjectName'),
+                    url: this.$http.adornUrl('/api/zhzygl/selectProjectName'),
                     method: 'get'
                 }).then(({data}) => {
                     if (data.projectNameList != null && data.code === 0) {
