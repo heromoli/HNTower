@@ -8,7 +8,6 @@
         <el-container>
             <el-header>监理表详情</el-header>
             <el-main>
-
                 <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()"
                          label-width="105px">
                     <el-row>
@@ -36,23 +35,23 @@
 
                     <el-row>
                         <el-col :span="6">
-                            <el-form-item label="区域" prop="scene" :disabled="true">
-                                <el-input type="text" v-model="dataForm.region"></el-input>
+                            <el-form-item label="区域" prop="scene">
+                                <el-input type="text" v-model="dataForm.region" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="站点名称" prop="stationName">
-                                <el-input type="text" v-model="dataForm.stationName"></el-input>
+                                <el-input type="text" v-model="dataForm.stationName" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="运营商站点名" prop="operatorStationName">
-                                <el-input type="text" v-model="dataForm.operatorStationName"></el-input>
+                                <el-input type="text" v-model="dataForm.operatorStationName" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="专项站点" prop="specialStation">
-                                <el-input type="text" v-model="dataForm.specialStation"></el-input>
+                                <el-input type="text" v-model="dataForm.specialStation" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -83,7 +82,7 @@
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="运营商修正号" prop="operatorNumCorrect">
-                                <el-input type="text" v-model="dataForm.operatorNumCorrect"></el-input>
+                                <el-input type="text" v-model="dataForm.operatorNumCorrect" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
@@ -93,7 +92,7 @@
                                         v-model="dataForm.demandProposeTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd"  :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -104,13 +103,13 @@
                                         v-model="dataForm.deliveryTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd"  :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="场景划分" prop="scene">
-                                <el-select v-model="dataForm.scene"  placeholder="请选择" style="width: 100%">
+                                <el-select v-model="dataForm.scene"  placeholder="请选择" style="width: 100%"  :disabled="true">
                                     <el-option
                                             v-for="item in sceneOptions"
                                             :key="item.value"
@@ -125,17 +124,17 @@
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="经度" prop="longitude">
-                                <el-input type="text" v-model="dataForm.longitude"></el-input>
+                                <el-input type="text" v-model="dataForm.longitude" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="纬度" prop="latitude">
-                                <el-input type="text" v-model="dataForm.latitude"></el-input>
+                                <el-input type="text" v-model="dataForm.latitude" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="12">
                             <el-form-item label="详细地址" prop="address">
-                                <el-input type="text" v-model="dataForm.address"></el-input>
+                                <el-input type="text" v-model="dataForm.address" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
 
@@ -144,7 +143,7 @@
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="建设方式" prop="contact">
-                                <el-select v-model="dataForm.buildType" placeholder="请选择" style="width: 100%">
+                                <el-select v-model="dataForm.buildType" placeholder="请选择" style="width: 100%"  :disabled="true">
                                     <el-option
                                             v-for="item in buildTypeOptions"
                                             :key="item.value"
@@ -157,7 +156,7 @@
                         <el-col :span="6">
                             <el-form-item label="移动建设模式" prop="mobileBuildType">
                                 <!--<el-input type="text" v-model="dataForm.mobileBuildType"></el-input>-->
-                                <el-select v-model="dataForm.mobileBuildType" placeholder="请选择" style="width: 100%">
+                                <el-select v-model="dataForm.mobileBuildType" placeholder="请选择" style="width: 100%"  :disabled="true">
                                     <el-option
                                             v-for="item in mobileBuildTypeOptions"
                                             :key="item.value"
@@ -170,7 +169,7 @@
                         <el-col :span="6">
                             <el-form-item label="共享共建方式" prop="ifShare">
                                 <!--<el-input type="text" v-model="dataForm.ifShare"></el-input>-->
-                                <el-select v-model="dataForm.ifShare" placeholder="请选择" style="width: 100%">
+                                <el-select v-model="dataForm.ifShare" placeholder="请选择" style="width: 100%"  :disabled="true">
                                     <el-option
                                             v-for="item in shareTypeOptions"
                                             :key="item.value"
@@ -183,7 +182,7 @@
                         <el-col :span="6">
                             <el-form-item label="楼面/地面" prop="buildingOrGround">
                                 <!--<el-input type="text" v-model="dataForm.buildingOrGround"></el-input>-->
-                                <el-select v-model="dataForm.buildingOrGround" placeholder="请选择" style="width: 100%">
+                                <el-select v-model="dataForm.buildingOrGround" placeholder="请选择" style="width: 100%"  :disabled="true">
                                     <el-option
                                             v-for="item in buildingOrGroundOptions"
                                             :key="item.value"
@@ -203,7 +202,7 @@
                                         v-model="dataForm.locationFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -214,7 +213,7 @@
                                         v-model="dataForm.intoTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -225,7 +224,7 @@
                                         v-model="dataForm.buildFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -236,7 +235,7 @@
                                         v-model="dataForm.towerFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -250,7 +249,7 @@
                                         v-model="dataForm.electricFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -261,7 +260,7 @@
                                         v-model="dataForm.matchingFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -272,7 +271,7 @@
                                         v-model="dataForm.totalFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -283,7 +282,7 @@
                                         v-model="dataForm.checkFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
@@ -296,14 +295,14 @@
                                         v-model="dataForm.deliverFinishTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
-                                        value-format="yyyy-MM-dd">
+                                        value-format="yyyy-MM-dd" :disabled="true">
                                 </el-date-picker>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="工程状态分类" prop="projectState">
                                 <!--<el-input type="text" v-model="dataForm.projectState"></el-input>-->
-                                <el-select v-model="dataForm.projectState" placeholder="请选择" style="width: 100%">
+                                <el-select v-model="dataForm.projectState" placeholder="请选择" style="width: 100%"  :disabled="true">
                                     <el-option
                                             v-for="item in projectStateOptions"
                                             :key="item.value"
@@ -315,17 +314,17 @@
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="工程状态描述" prop="projectStateDescribe">
-                                <el-input type="text" v-model="dataForm.projectStateDescribe"></el-input>
+                                <el-input type="text" v-model="dataForm.projectStateDescribe" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="任务年份" prop="projectYear">
-                                <el-input type="text" v-model="dataForm.projectYear"></el-input>
+                                <el-input type="text" v-model="dataForm.projectYear" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="是否政府协调" prop="ifGovernment">
-                                <el-input type="text" v-model="dataForm.ifGovernment"></el-input>
+                                <el-input type="text" v-model="dataForm.ifGovernment" :disabled="true"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -334,7 +333,7 @@
         </el-container>
         <span slot="footer" class="dialog-footer">
             <el-button @click="visible = false">关闭</el-button>
-            <el-button v-if="isAuth('gzl:jlb:update')"  type="primary" @click="dataFormSubmit()">确定</el-button>
+            <el-button v-if="isAuth('gzl:sjy:update')"  type="primary" @click="dataFormSubmit()">确定</el-button>
         </span>
     </el-dialog>
 </template>
@@ -533,7 +532,6 @@
                     }
                 })
             },
-
         }
     }
 </script>

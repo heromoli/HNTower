@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.uetty.common.excel.anno.ColumnWidth;
-import com.uetty.common.excel.anno.ExplicitConstraint;
+//import com.uetty.common.excel.anno.ColumnWidth;
+//import com.uetty.common.excel.anno.ExplicitConstraint;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -28,8 +28,7 @@ public class Supervision extends RowModel implements Serializable {
     private String demandSource;
 
     @ExcelProperty(index = 3, value = {"分公司"})
-    @ExplicitConstraint(source = {"海口", "三亚", "琼海", "儋州"})
-    @ColumnWidth(width = 100)
+//    @ExplicitConstraint(source = {"海口", "三亚", "琼海", "儋州"})
     private String branchCompany;
 
     @ExcelProperty(index = 4, value = {"市县"})
@@ -73,7 +72,7 @@ public class Supervision extends RowModel implements Serializable {
     private Date deliveryTime;
 
     @ExcelProperty(index = 16, value = {"场景划分"})
-    @ExplicitConstraint(source = {"密集市区", "一般市区", "县城", "乡镇", "农村"})
+//    @ExplicitConstraint(source = {"密集市区", "一般市区", "县城", "乡镇", "农村"})
     private String scene;
 
     @ExcelProperty(index = 17, value = {"经度"})
@@ -86,19 +85,19 @@ public class Supervision extends RowModel implements Serializable {
     private String address;
 
     @ExcelProperty(index = 20, value = {"建设方式"})
-    @ExplicitConstraint(source = {"新建", "改造", "存量直接满足"})
+//    @ExplicitConstraint(source = {"新建", "改造", "存量直接满足"})
     private String buildType;
 
     @ExcelProperty(index = 21, value = {"楼面地面"})
-    @ExplicitConstraint(source = {"楼面站", "地面站"})
+//    @ExplicitConstraint(source = {"楼面站", "地面站"})
     private String buildingOrGround;
 
     @ExcelProperty(index = 22, value = {"共享共建模式"})
-    @ExplicitConstraint(source = {"新建独享", "新建共享", "存量共享"})
+//    @ExplicitConstraint(source = {"新建独享", "新建共享", "存量共享"})
     private String ifShare;
 
     @ExcelProperty(index = 23, value = {"移动建设模式"})
-    @ExplicitConstraint(source = {"新址独享", "新建共享", "共址独享", "共址共享"})
+//    @ExplicitConstraint(source = {"新址独享", "新建共享", "共址独享", "共址共享"})
     private String mobileBuildType;
 
     @ExcelProperty(index = 24, value = {"征址完成时间"})

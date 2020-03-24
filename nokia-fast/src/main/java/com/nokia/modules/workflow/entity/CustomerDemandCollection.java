@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.uetty.common.excel.anno.ExplicitConstraint;
+//import com.uetty.common.excel.anno.ExplicitConstraint;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -37,12 +37,12 @@ public class CustomerDemandCollection extends RowModel implements Serializable {
     private String demandNum;
 
     @ExcelProperty(index = 2 , value =  {"电信企业","电信企业"})
-    @ExplicitConstraint(source = {"移动", "联通", "电信"})
+//    @ExplicitConstraint(source = {"移动", "联通", "电信"})
     @NotBlank(message="电信企业不能为空")
     private String operatorName;
 
     @ExcelProperty(index = 3 , value =  {"分公司","分公司"})
-    @ExplicitConstraint(source = {"海口", "三亚", "琼海", "儋州"})
+//    @ExplicitConstraint(source = {"海口", "三亚", "琼海", "儋州"})
     @NotBlank(message="分公司不能为空")
     private String branchCompany;
 
@@ -57,7 +57,7 @@ public class CustomerDemandCollection extends RowModel implements Serializable {
     private String stationName;
 
     @ExcelProperty(index = 6 , value =  {"场景划分","场景划分"})
-    @ExplicitConstraint(source = {"密集市区", "一般市区", "县城", "乡镇", "农村"})
+//    @ExplicitConstraint(source = {"密集市区", "一般市区", "县城", "乡镇", "农村"})
 //    @NotBlank(message="场景划分不能为空")
     private String scene;
 

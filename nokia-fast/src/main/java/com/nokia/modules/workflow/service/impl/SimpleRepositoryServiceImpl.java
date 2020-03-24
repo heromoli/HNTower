@@ -22,7 +22,7 @@ public class SimpleRepositoryServiceImpl implements SimpleRepositoryService {
 
     public RData repositoryProcesses(String name, String bpmnPath, String pngPath ){
         Deployment deployment = repositoryService.createDeployment().name("工程管理流程")
-                .addClasspathResource("processes/tt_gcb_xxsp.bpmn")
+                .addClasspathResource("processes/tt_wf_changeCheck.bpmn")
                 .deploy();
         logger.info("deployment name:[{}],id:[{}]",deployment.getName(),deployment.getId());
         return RData.ok();
