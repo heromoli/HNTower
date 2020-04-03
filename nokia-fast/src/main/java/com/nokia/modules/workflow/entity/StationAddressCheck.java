@@ -210,10 +210,10 @@ public class StationAddressCheck extends RowModel implements Serializable {
     @ExcelProperty(value = {"更新日期", "更新日期"}, index = 62)
     private Date updateTime;
 
-    @ExcelProperty(value = {"工作流编号", "工作流编号"}, index = 63)
+    @ExcelProperty(value = {"ACT工作流编号", "系统自动生成"}, index = 63)
     private String actProcInstId;
 
-    @ExcelProperty(value = {"当前状态", "当前状态"}, index = 64)
+    @ExcelProperty(value = {"ACT工作流状态", "ACT工作流状态"}, index = 64)
     private String actProcStatus;
 
     @ExcelProperty(value = {"备注", "备注"}, index = 65)

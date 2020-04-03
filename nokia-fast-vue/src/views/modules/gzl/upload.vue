@@ -62,7 +62,16 @@
                     });
                     this.$emit('refreshDataList')
                 } else {
-                    this.$message.error(response.msg)
+                    // this.$message.error(response.msg + "，异常需求编号为：" + response.list);
+                    this.$message({
+                        message: response.msg + "，异常需求编号为：" + response.violationsList + "，重复需求编号为：" + response.duplicationList,
+                        type: 'error',
+                        showClose: true,
+                        duration: 0,   //0：不会自动关闭   单位为毫秒
+                        onClose: () => {
+                            this.visible = false
+                        }
+                    });
                 }
             },
             // 弹窗关闭时

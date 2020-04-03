@@ -28,6 +28,7 @@ public class CustomerDemandCollection extends RowModel implements Serializable {
     @ExcelProperty(index = 22, value = {"ACT工作流编号","系统自动生成"})
     private String actProcInstId;
 
+    @ExcelProperty(index = 23, value = {"ACT工作流状态","ACT工作流状态"})
     private String actProcStatus;
 
     private String batchNum;

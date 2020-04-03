@@ -91,9 +91,9 @@ public class BuildOrderConfirm extends RowModel implements Serializable {
     @ExcelProperty(value = { "备注", "备注" }, index = 22)
     private String remarks;
 
-    @ExcelProperty(value = { "工作流编号", "工作流编号" }, index = 23)
+    @ExcelProperty(value = { "ACT工作流编号", "系统自动生成" }, index = 23)
     private String actProcInstId;
 
-    @ExcelProperty(value = { "工作流状态", "工作流状态" }, index = 24)
+    @ExcelProperty(value = { "ACT工作流状态", "ACT工作流状态" }, index = 24)
     private String actProcStatus;
 }

@@ -2,6 +2,7 @@ package com.nokia.modules.workflow.controller;
 
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.fastjson.JSON;
+import com.nokia.common.exception.DNViolationsException;
 import com.nokia.common.exception.RRException;
 import com.nokia.modules.resourceManage.entity.StationAddressManagement;
 import com.nokia.modules.sys.controller.BaseController;
@@ -105,7 +106,7 @@ public class WFProjectController extends BaseController {
         if (sysUserEntity == null) {
             return RData.error(500, "无法获取用户信息");
         }
-        RData rData = new RData().ok();
+        RData rData = new RData();
         Map userEntity = RData.getMap("user", sysUserEntity);
         String processDefinitionId = params.getActProcessDefinitionId();
         if (StringUtils.isEmpty(processDefinitionId)) {
@@ -128,13 +129,22 @@ public class WFProjectController extends BaseController {
                     String seq_num = supervisorService.queryDXSequence();
                     params.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
                 }
+            } else if (!demandNum.equals("") && demandNum.length() != 15) {
+//                throw new DNViolationsException("需求编码长度不合规！");
+                return rData.error(450, "需求编码长度不合规！");
             }
+
             params.setDemandProposeTime(new Date());
             params.setActProcInstId((String) rData.get("processInstanceId"));
             params.setActProcStatus("1");
 
             logger.info("DemandNum:" + params.getDemandNum());
-            cncService.save(params);
+            try {
+                cncService.save(params);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return rData.error(451, "需求编码有重复！");
+            }
         } else {
             cncService.updateById(params);
         }
@@ -645,7 +655,8 @@ public class WFProjectController extends BaseController {
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        List<String> xqbh = new ArrayList<>();
+        List<String> dnViolationsList = new ArrayList<>();
+        List<String> dnDuplicationList = new ArrayList<>();
         try {
             if ("3".equals(groupId)) {
                 List<CustomerDemandCollection> list = ExcelUtil.readExcel(file, CustomerDemandCollection.class, 1, 2);
@@ -653,6 +664,10 @@ public class WFProjectController extends BaseController {
                     RData rData = startProcesses(customerDemand);
                     if ("0".equals(String.valueOf(rData.get("code"))) && StringUtils.isNotEmpty(String.valueOf(rData.get("processInstanceId")))) {
                         logger.info("建站需求流程ID[{}] 创建成功", rData.get("processInstanceId"));
+                    } else if ("450".equals(String.valueOf(rData.get("code")))) {
+                        dnViolationsList.add(customerDemand.getDemandNum());
+                    } else if ("451".equals(String.valueOf(rData.get("code")))) {
+                        dnDuplicationList.add(customerDemand.getDemandNum());
                     }
                 }
 
@@ -711,8 +726,8 @@ public class WFProjectController extends BaseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (xqbh.size() > 0) {
-            return RData.error(401, "部分流程创建失败").put("list", xqbh);
+        if (dnViolationsList.size() > 0) {
+            return RData.error(405, "部分流程创建失败").put("violationsList", dnViolationsList).put("duplicationList", dnDuplicationList);
         }
         return RData.ok();
     }
