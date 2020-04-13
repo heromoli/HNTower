@@ -108,7 +108,7 @@
                     header-align="center"
                     label="操作"
                     align="center"
-                    width="150">
+                    width="100">
                 <template size="mini" slot-scope="scope">
                     <el-button type="primary" size="small" @click.native="showDetail(scope.row)">查看</el-button>
                     <!--<el-button v-if="isAuth('gzl:jlb:delete')" type="danger" size="small" @click="deleteHandle(scope.row.demandNum)">删除</el-button>-->

@@ -3,6 +3,8 @@ package com.nokia.modules.workflow.entity;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +13,6 @@ import java.util.Date;
 @Data
 @TableName("supervisor")
 public class BuildOrderConfirm extends RowModel implements Serializable {
-
 
     @ExcelProperty(value = { "序号", "序号" }, index = 0)
     private Long id;
@@ -88,12 +89,67 @@ public class BuildOrderConfirm extends RowModel implements Serializable {
     @ExcelProperty(value = { "批次编号", "批次编号" }, index = 21)
     private String batchNum;
 
-    @ExcelProperty(value = { "备注", "备注" }, index = 22)
+    @ExcelProperty(index = 22, value = {"征址完成时间","征址完成时间"})
+    @JsonProperty("locationFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date locationFinishTime;
+
+    @ExcelProperty(index = 23, value = {"进场时间","进场时间"})
+    @JsonProperty("intoTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date intoTime;
+
+    @ExcelProperty(index = 24, value = {"土建完成时间","土建完成时间"})
+    @JsonProperty("buildFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date buildFinishTime;
+
+    @ExcelProperty(index = 25, value = {"铁塔完成时间","铁塔完成时间"})
+    @JsonProperty("towerFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date towerFinishTime;
+
+    @ExcelProperty(index = 26, value = {"引电完成时间","引电完成时间"})
+    @JsonProperty("electricFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date electricFinishTime;
+
+    @ExcelProperty(index = 27, value = {"配套完成时间","配套完成时间"})
+    @JsonProperty("matchingFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date matchingFinishTime;
+
+//    @ExcelProperty(index = 28, value = {"动环安装时间",""})
+//    @JsonProperty("electricFinishTime")
+//    @JsonFormat(pattern = "yyyy-MM-dd")
+//    private Date dhInstallFinishTime;
+
+    @ExcelProperty(index = 28, value = {"总体完工时间","总体完工时间"})
+    @JsonProperty("totalFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date totalFinishTime;
+
+    @ExcelProperty(index = 29, value = {"内验完成时间","内验完成时间"})
+    @JsonProperty("checkFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date checkFinishTime;
+
+    @ExcelProperty(index = 30, value = {"交付完成时间","交付完成时间"})
+    @JsonProperty("deliverFinishTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date deliverFinishTime;
+
+    @ExcelProperty(index = 31, value = {"起租时间","起租时间"})
+    @JsonProperty("startHireTime")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date startHireTime;
+
+    @ExcelProperty(value = { "备注", "备注" }, index = 32)
     private String remarks;
 
-    @ExcelProperty(value = { "ACT工作流编号", "系统自动生成" }, index = 23)
+    @ExcelProperty(value = { "ACT工作流编号", "系统自动生成" }, index = 33)
     private String actProcInstId;
 
-    @ExcelProperty(value = { "ACT工作流状态", "ACT工作流状态" }, index = 24)
+    @ExcelProperty(value = { "ACT工作流状态", "ACT工作流状态" }, index = 34)
     private String actProcStatus;
 }

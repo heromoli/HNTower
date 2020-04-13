@@ -17,15 +17,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
 /**
  * Created by wow on 2019/7/17.
  */
 public class BeanCopyUtils {
     private final class DateToStringConverter implements Converter<Date, String> {
-        private DateFormat df ;
+        private DateFormat df;
+
         private DateToStringConverter(String format) {
             df = new SimpleDateFormat(format);
         }
+
         @Override
         public String convert(Date source) {
 
@@ -61,12 +64,9 @@ public class BeanCopyUtils {
      * <p>
      * This is just a convenience method. For more complex transfer needs, consider using a full BeanWrapper.
      *
-     * @param source
-     *            the source bean
-     * @param target
-     *            the target bean
-     * @throws BeansException
-     *             if the copying failed
+     * @param source the source bean
+     * @param target the target bean
+     * @throws BeansException if the copying failed
      */
     private static void copyProperties(Wrapper wrapper, Object source, Object target) throws BeansException {
         Assert.notNull(source, "Source must not be null");
@@ -78,7 +78,7 @@ public class BeanCopyUtils {
         for (PropertyDescriptor targetPd : targetPds) {
             if (targetPd.getWriteMethod() != null) {
                 PropertyDescriptor sourcePd = BeanUtils.getPropertyDescriptor(source.getClass(), targetPd.getName());
-                if (sourcePd != null&& sourcePd.getReadMethod() != null) {
+                if (sourcePd != null && sourcePd.getReadMethod() != null) {
                     try {
                         Method readMethod = sourcePd.getReadMethod();
                         if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
@@ -144,6 +144,17 @@ public class BeanCopyUtils {
      */
     private static void convert(Object source, Object target) {
         copyProperties(source, target);
+    }
+
+    public static <T> T convertEntity(Object source, Class<T> targetClass) {
+        try {
+            T target = targetClass.newInstance();
+            BeanCopyUtils.convert(source, target);
+            return target;
+        } catch (Exception e) {
+            //do something
+            return null;
+        }
     }
 
     public static <T> List<T> convert(List<?> sources, Class<T> targetClass) {

@@ -2,9 +2,7 @@ package com.nokia.modules.workflow.controller;
 
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.fastjson.JSON;
-import com.nokia.common.exception.DNViolationsException;
 import com.nokia.common.exception.RRException;
-import com.nokia.modules.resourceManage.entity.StationAddressManagement;
 import com.nokia.modules.sys.controller.BaseController;
 import com.nokia.modules.sys.entity.ProjectRightConfigEntity;
 import com.nokia.modules.sys.entity.SysUserEntity;
@@ -12,14 +10,12 @@ import com.nokia.modules.sys.service.ProjectRightConfigService;
 import com.nokia.modules.sys.service.ProjectWorkflowGroupService;
 import com.nokia.modules.workflow.entity.*;
 import com.nokia.modules.workflow.service.*;
-import com.nokia.modules.resourceManage.service.StationAddressManagementService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import com.nokia.utils.excel.BeanCopyUtils;
 import com.nokia.utils.excel.ExcelUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +27,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -130,7 +125,6 @@ public class WFProjectController extends BaseController {
                     params.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
                 }
             } else if (!demandNum.equals("") && demandNum.length() != 15) {
-//                throw new DNViolationsException("需求编码长度不合规！");
                 return rData.error(450, "需求编码长度不合规！");
             }
 
@@ -138,7 +132,6 @@ public class WFProjectController extends BaseController {
             params.setActProcInstId((String) rData.get("processInstanceId"));
             params.setActProcStatus("1");
 
-            logger.info("DemandNum:" + params.getDemandNum());
             try {
                 cncService.save(params);
             } catch (Exception e) {
@@ -164,17 +157,42 @@ public class WFProjectController extends BaseController {
         String processInstanceId = params.getActProcInstId();
         String comment = params.getRemarks();
         String actProcStatus = params.getActProcStatus();
+        String groupId = params.getGroupId();
         Supervisor supervisor = supervisorService.selectDataByInsId(processInstanceId);
 
         Map<String, Object> var = new HashMap<>();
         var.put("user", sysUserEntity);
-        if ("2".equals(actProcStatus) || "4".equals(actProcStatus) || "6".equals(actProcStatus)) {
-            var.put("approve", "1");
-        } else if ("3".equals(actProcStatus) || "5".equals(actProcStatus) || "7".equals(actProcStatus)) {
-            var.put("approve", "0");
-            BuildDemandChangeConfirm bncc = convertToChangeConfirm(params);
-            bnccService.saveOrUpdate(bncc);
+        if (groupId.equals("3")) {
+            if ("2".equals(actProcStatus)) {
+                var.put("approve", "1");
+            } else if ("3".equals(actProcStatus)) {
+                var.put("approve", "0");
+            }
+        } else if (groupId.equals("4")) {
+            if ("4".equals(actProcStatus)) {
+                var.put("approve", "1");
+            } else if ("5".equals(actProcStatus)) {
+                var.put("approve", "0");
+                BuildDemandChangeConfirm bncc = convertToChangeConfirm(params);
+                bnccService.saveOrUpdate(bncc);
+            }
+        } else if (groupId.equals("5")) {
+            if ("6".equals(actProcStatus)) {
+                var.put("approve", "1");
+            } else if ("7".equals(actProcStatus)) {
+                var.put("approve", "0");
+                BuildDemandChangeConfirm bncc = convertToChangeConfirm(params);
+                bnccService.saveOrUpdate(bncc);
+            }
         }
+
+//        if ("2".equals(actProcStatus) || "4".equals(actProcStatus) || "6".equals(actProcStatus)) {
+//            var.put("approve", "1");
+//        } else if ("3".equals(actProcStatus) || "5".equals(actProcStatus) || "7".equals(actProcStatus)) {
+//            var.put("approve", "0");
+//            BuildDemandChangeConfirm bncc = convertToChangeConfirm(params);
+//            bnccService.saveOrUpdate(bncc);
+//        }
 
         boolean result = supervisorService.saveOrUpdate(params);
         if (!result) {
@@ -659,18 +677,6 @@ public class WFProjectController extends BaseController {
         List<String> dnDuplicationList = new ArrayList<>();
         try {
             if ("3".equals(groupId)) {
-                List<CustomerDemandCollection> list = ExcelUtil.readExcel(file, CustomerDemandCollection.class, 1, 2);
-                for (CustomerDemandCollection customerDemand : list) {
-                    RData rData = startProcesses(customerDemand);
-                    if ("0".equals(String.valueOf(rData.get("code"))) && StringUtils.isNotEmpty(String.valueOf(rData.get("processInstanceId")))) {
-                        logger.info("建站需求流程ID[{}] 创建成功", rData.get("processInstanceId"));
-                    } else if ("450".equals(String.valueOf(rData.get("code")))) {
-                        dnViolationsList.add(customerDemand.getDemandNum());
-                    } else if ("451".equals(String.valueOf(rData.get("code")))) {
-                        dnDuplicationList.add(customerDemand.getDemandNum());
-                    }
-                }
-
                 List<OrigBuildDemandCollection> origBuildDemands = ExcelUtil.readExcel(file, OrigBuildDemandCollection.class, 1, 2);
                 for (OrigBuildDemandCollection collections : origBuildDemands) {
                     String operatorName = collections.getOperatorName();
@@ -688,37 +694,66 @@ public class WFProjectController extends BaseController {
                             collections.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
                         }
                     }
-
                     origBuildDemandCollectionService.save(collections);
                 }
 
+                List<CustomerDemandCollection> list = ExcelUtil.readExcel(file, CustomerDemandCollection.class, 1, 2);
+                for (CustomerDemandCollection customerDemand : list) {
+                    if (customerDemand.getActProcStatus() == null || customerDemand.getActProcStatus().equals("")) {
+                        RData rData = startProcesses(customerDemand);
+                        if ("0".equals(String.valueOf(rData.get("code"))) && StringUtils.isNotEmpty(String.valueOf(rData.get("processInstanceId")))) {
+                            logger.info("建站需求流程ID[{}] 创建成功", rData.get("processInstanceId"));
+                        } else if ("450".equals(String.valueOf(rData.get("code")))) {
+                            dnViolationsList.add(customerDemand.getDemandNum());
+                        } else if ("451".equals(String.valueOf(rData.get("code")))) {
+                            dnDuplicationList.add(customerDemand.getDemandNum());
+                        }
+                    } else if (customerDemand.getActProcStatus().equals("2") || customerDemand.getActProcStatus().equals("3")) {
+//                        List<Supervisor> supervisorList = BeanCopyUtils.convert(list, Supervisor.class);
+                        Supervisor addressCheck = BeanCopyUtils.convertEntity(customerDemand, Supervisor.class);
+//                        for (Supervisor addressCheck : supervisorList) {
+                        addressCheck.setGroupId("3");
+                        if ("2".equals(addressCheck.getActProcStatus())) {
+                            addressCheck.setApprove("1");
+                        } else if ("3".equals(addressCheck.getActProcStatus())) {
+                            addressCheck.setApprove("0");
+                        }
+                        RData rData = checkProcesses(addressCheck);
+                        if ("0".equals(String.valueOf(rData.get("code")))) {
+                            logger.info("审批工单ID[{}] 成功", customerDemand.getActProcInstId());
+                        }
+//                        }
+                    }
+                }
             } else if ("4".equals(groupId)) {
                 List<StationAddressCheck> list = ExcelUtil.readExcel(file, StationAddressCheck.class, 1, 2);
                 List<Supervisor> supervisorList = BeanCopyUtils.convert(list, Supervisor.class);
                 for (Supervisor addressCheck : supervisorList) {
-
-                    if ("2".equals(addressCheck.getActProcStatus())) {
+                    addressCheck.setGroupId("4");
+                    if ("4".equals(addressCheck.getActProcStatus())) {
                         addressCheck.setApprove("1");
-                    } else if ("3".equals(addressCheck.getActProcStatus())) {
+                    } else if ("5".equals(addressCheck.getActProcStatus())) {
                         addressCheck.setApprove("0");
                     }
                     RData rData = checkProcesses(addressCheck);
-                    if ("0".equals(String.valueOf(rData.get("code"))) && StringUtils.isNotEmpty(String.valueOf(rData.get("processInstanceId")))) {
-                        logger.info("审批工单ID[{}] 成功", rData.get("processInstanceId"));
+
+                    if ("0".equals(String.valueOf(rData.get("code")))) {
+                        logger.info("建站需求确认[{}] 成功", addressCheck.getActProcInstId());
                     }
                 }
             } else if ("5".equals(groupId)) {
                 List<BuildOrderConfirm> list = ExcelUtil.readExcel(file, BuildOrderConfirm.class, 1, 2);
                 List<Supervisor> supervisorList = BeanCopyUtils.convert(list, Supervisor.class);
                 for (Supervisor orderConfirm : supervisorList) {
-                    if ("4".equals(orderConfirm.getActProcStatus())) {
+                    orderConfirm.setGroupId("5");
+                    if ("6".equals(orderConfirm.getActProcStatus())) {
                         orderConfirm.setApprove("1");
-                    } else if ("5".equals(orderConfirm.getActProcStatus())) {
+                    } else if ("7".equals(orderConfirm.getActProcStatus())) {
                         orderConfirm.setApprove("0");
                     }
                     RData rData = checkProcesses(orderConfirm);
-                    if ("0".equals(String.valueOf(rData.get("code"))) && StringUtils.isNotEmpty(String.valueOf(rData.get("processInstanceId")))) {
-                        logger.info("建站需求确认ID[{}] 工单成功", rData.get("processInstanceId"));
+                    if ("0".equals(String.valueOf(rData.get("code")))) {
+                        logger.info("建站工程[{}] 状态确认", orderConfirm.getActProcInstId());
                     }
                 }
             }

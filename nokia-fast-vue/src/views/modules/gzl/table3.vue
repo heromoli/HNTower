@@ -9,6 +9,7 @@
                 <el-button size="mini" @click="getDataList()">查询</el-button>
                 <el-button v-if="isAuth('gzl:table3:add')" type="success" size="mini" @click="uploadHandle()">导入</el-button>
                 <el-button type="primary" size="mini" @click="exportHandle()">导出</el-button>
+                <el-button v-if="isAuth('gzl:table3:add')" type="success" size="mini" @click="startWF()">新需求</el-button>
             </el-form-item>
         </el-form>
         <el-row>
@@ -143,10 +144,12 @@
         <show-processes v-if="showProcessesVisible" ref="showProcesses"></show-processes>
         <show-change-confirm v-if="showChangeConfirmVisible" ref="showChangeConfirm"></show-change-confirm>
         <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
+        <new-processes v-if="newProcessesVisible" ref="newProcesses"></new-processes>
     </div>
 </template>
 
 <script>
+    import NewProcesses from './new_station_demand'
     import ShowProcesses from './table3_detail'
     import ShowChangeConfirm from './table6_detail'
     import Upload from './upload'
@@ -154,6 +157,7 @@
     export default {
         data() {
             return {
+                newProcessesVisible: false,
                 dataForm: {
                     actProcInstId: '',
                     actProcStatus: '',
@@ -177,11 +181,18 @@
             this.getDataList()
         },
         components: {
+            NewProcesses,
             ShowProcesses,
             ShowChangeConfirm,
             Upload
         },
         methods: {
+            startWF() {
+                this.newProcessesVisible = true;
+                this.$nextTick(() => {
+                    this.$refs.newProcesses.init()
+                })
+            },
             // 获取数据列表
             getDataList() {
                 this.dataListLoading = true;

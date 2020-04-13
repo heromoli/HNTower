@@ -14,7 +14,7 @@ $(function () {
     loadcenter2('center2', datacenter23);
     loadcenter3('center3', dataFormate(datacenter23), datacenter23);
 
-    loadtable('right1',dataright1);
+    // loadtable('right1',dataright1);
     loadDynamicTable('right2',dataright2);
     loadtable('right3',dataright3);
 })
