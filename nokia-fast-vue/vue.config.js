@@ -4,6 +4,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+    // mode: 'production',
     publicPath: process.env.VUE_APP_BASE_CONTENT,
 
     // 输出文件目录

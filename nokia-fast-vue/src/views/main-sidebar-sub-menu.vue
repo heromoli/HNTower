@@ -17,7 +17,7 @@
     <el-menu-item v-else :index="menu.menuId + ''" @click="gotoRouteHandle(menu)">
         <icon-svg :name="menu.icon || ''" class="site-sidebar__menu-icon"></icon-svg>
         <span>{{ menu.name }}</span>
-        <el-badge v-if="menu.proGroupId" v-model="badgeCount" class="item">
+        <el-badge :max="999" v-if="menu.proGroupId" v-model="badgeCount" class="item">
         </el-badge>
     </el-menu-item>
 </template>

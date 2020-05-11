@@ -410,7 +410,7 @@
 
     }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     .site-wrapper.site-page--lcgl {
         position: absolute;
         top: 0;

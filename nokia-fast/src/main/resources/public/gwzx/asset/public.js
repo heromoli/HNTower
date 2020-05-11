@@ -537,7 +537,7 @@ function notgundong(){
 }
 
 function isgundong(){
-    gundong = setInterval(scrollTop, 1000);
+    gundong = setInterval(scrollTop, 3000);
 }
 
 function scrollTop() {

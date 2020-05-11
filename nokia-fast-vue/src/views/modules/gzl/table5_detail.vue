@@ -283,7 +283,7 @@
     </el-dialog>
 </template>
 
-<style>
+<style scoped>
     .el-header, .el-footer {
         background-color: #B3C0D1;
         color: #333;

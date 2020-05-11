@@ -5,14 +5,14 @@
                 <el-input size="mini"  v-model="dataForm.key" placeholder="用户名／用户操作" clearable></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button @click="getDataList()">查询</el-button>
+                <el-button size="mini" @click="getDataList()">查询</el-button>
             </el-form-item>
         </el-form>
         <el-table
                 :data="dataList"
                 border
                 v-loading="dataListLoading"
-                :row-class-name="tableRowClassName"
+                stripe
                 style="height: auto; width: auto">
             <el-table-column
                     prop="id"
@@ -136,13 +136,7 @@
             currentChangeHandle(val) {
                 this.pageIndex = val;
                 this.getDataList()
-            },
-            tableRowClassName({row, rowIndex}) {
-                if (rowIndex % 2 === 1) {
-                    return 'success-row';
-                }
-                return '';
-            },
+            }
         }
     }
 </script>

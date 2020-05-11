@@ -1,6 +1,5 @@
 <template>
     <div class="mod-log">
-
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
                 <el-input size="mini" v-model="dataForm.param" placeholder="站点名称" clearable></el-input>
@@ -14,8 +13,7 @@
                 :data="dataList"
                 border
                 v-loading="dataListLoading"
-                :row-class-name="tableRowClassName"
-                size="mini"
+                stripe
                 style="height: auto; width: auto">
             <el-table-column
                     fixed
@@ -216,8 +214,7 @@
         created() {
             this.getDataList()
         },
-        components: {
-        },
+        components: {},
         methods: {
             // 获取数据列表
             getDataList() {
@@ -252,20 +249,10 @@
                 this.pageIndex = val;
                 this.getDataList()
             },
-            tableRowClassName({row, rowIndex}) {
-                if (rowIndex % 2 === 1) {
-                    return 'success-row';
-                }
-                return '';
-            },
             exportHandle() {
                 window.location.href = this.$http.adornUrl(`/api/wf/export?groupId=${this.dataForm.groupId}&token=${this.$cookie.get('token')}`)
             }
         }
     }
 </script>
-<style lang="scss" scoped>
-    .el-table .success-row {
-        background: #f0f9eb;
-    }
-</style>
+

@@ -37,6 +37,9 @@ public class reportController extends BaseController {
     private CountyDailyReportService countyDailyReportService;
 
     @Autowired
+    private OperatorDailyReportService operatorDailyReportService;
+
+    @Autowired
     private BranchDailyReportProService branchDailyReportProService;
 
     @Autowired
@@ -85,6 +88,13 @@ public class reportController extends BaseController {
         return RData.ok().put("page", page);
     }
 
+    @GetMapping("/queryOperatorDailyReport")
+    public RData queryOperatorDailyReport(@RequestParam Map<String, Object> params) {
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+        PageUtils page = operatorDailyReportService.selectDataByParam(params, queryParams);
+        return RData.ok().put("page", page);
+    }
 
     @GetMapping("/queryBranchDailyReportPro")
     public RData queryBranchDailyReportPro(@RequestParam Map<String, Object> params) {
@@ -122,7 +132,7 @@ public class reportController extends BaseController {
 
         PageUtils page = branchDailyReportService.selectDataByParam(pageParams, queryParams);
         List<BranchDailyReport> checkList = BeanCopyUtils.convert(page.getList(), BranchDailyReport.class);
-        ExcelUtil.writeExcel(response, checkList, "branchDailyReport_export", "sheet1", ExcelTypeEnum.XLSX, BranchDailyReport.class);
+        ExcelUtil.writeExcel(response, checkList, "branchDaily5GReport_export", "sheet1", ExcelTypeEnum.XLSX, BranchDailyReport.class);
     }
 
     @GetMapping("/exportCountyReport")
@@ -137,7 +147,22 @@ public class reportController extends BaseController {
 
         PageUtils page = countyDailyReportService.selectDataByParam(pageParams, queryParams);
         List<CountyDailyReport> checkList = BeanCopyUtils.convert(page.getList(), CountyDailyReport.class);
-        ExcelUtil.writeExcel(response, checkList, "countyDailyReport_export", "sheet1", ExcelTypeEnum.XLSX, CountyDailyReport.class);
+        ExcelUtil.writeExcel(response, checkList, "countyDaily5GReport_export", "sheet1", ExcelTypeEnum.XLSX, CountyDailyReport.class);
+    }
+
+    @GetMapping("/exportOperatorReport")
+    public void exportOperatorReport(@RequestParam("operatorQueryDate") String operatorQueryDate,
+                                   HttpServletResponse response) {
+        Map<String, Object> queryParams = new HashMap<>();
+        Map<String, Object> pageParams = new HashMap<>();
+        pageParams.put("page", "1");
+        pageParams.put("limit", "10000");
+
+        queryParams.put("operatorQueryDate", operatorQueryDate);
+
+        PageUtils page = operatorDailyReportService.selectDataByParam(pageParams, queryParams);
+        List<OperatorDailyReport> checkList = BeanCopyUtils.convert(page.getList(), OperatorDailyReport.class);
+        ExcelUtil.writeExcel(response, checkList, "operatorDaily5GReport_export", "sheet1", ExcelTypeEnum.XLSX, OperatorDailyReport.class);
     }
 
     @GetMapping("/exportBranchReportPro")

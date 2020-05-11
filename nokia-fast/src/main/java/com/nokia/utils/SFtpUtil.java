@@ -176,9 +176,8 @@ public class SFtpUtil {
      *
      * @param remotePath   远程路径
      * @param localPath    本地的路径
-     * @param downloadFile 下载的文件
      */
-    public List<String> batchDownloadFiles(String remotePath, String localPath, String downloadFile, String fileFormat, String fileEndFormat, boolean del) throws SftpException {
+    public List<String> batchDownloadFiles(String remotePath, String localPath, String fileFormat, String fileEndFormat, boolean del) throws SftpException {
 //        if (remotePath != null && !"".equals(remotePath)) {
 //            sftp.cd(remotePath);
 //        }
@@ -436,7 +435,7 @@ public class SFtpUtil {
             return true;
         } catch (SftpException e) {
             logger.error("异常：目标为文件而不是路径：" + directory);
-//            e.printStackTrace();
+            e.printStackTrace();
             return false;
         }
     }
@@ -501,6 +500,47 @@ public class SFtpUtil {
      */
     public Vector listFiles(String remotePath) throws SftpException {
         return sftp.ls(remotePath);
+    }
+
+    /**
+     * 根据输入的文字找出正确文件
+     *
+     * @param remotePath 要列出的目录
+     * @param fileName 文件名包含的文字
+     */
+    public String listTrueFileName(String remotePath, String fileName) {
+        if (!remotePath.startsWith("/")) {
+            remotePath = "/" + remotePath;
+        }
+        // 目录标志符，若为有效地址，则为true，否则为false
+        boolean flag = isDirExist(remotePath);
+        if (flag) {
+            try {
+                Vector vv = sftp.ls(remotePath);
+                if (vv == null && vv.size() == 0) {
+                    logger.info("对应的目录" + remotePath + "不存在！");
+                    return "";
+                } else {
+                    // 遍历当前目录所有文件及子文件夹
+                    for (Object object : vv) {
+                        ChannelSftp.LsEntry entry = (ChannelSftp.LsEntry) object;
+                        // 得到当前项的名称（可能是文件名，也可能是文件夹名）
+                        String trueFileName = entry.getFilename();
+                        // 去除无关项
+                        if (trueFileName.contains(fileName)) {
+                            return trueFileName;
+                        }
+                    }
+                }
+            } catch (SftpException e) {
+                logger.error("遍历目录失败：" + remotePath, e);
+            }
+        } else {
+            logger.info("对应的目录" + remotePath + "不存在！");
+            return "";
+        }
+
+        return "";
     }
 
 

@@ -57,7 +57,7 @@ public class WFProjectController extends BaseController {
     private ProjectRightConfigService projectRightConfigService;
 
     @Autowired
-    private CustomerDemandCollectionService cncService;
+    private CustomerDemandCollectionService cdcService;
 
     @Autowired
     private StationAddressCheckService sacService;
@@ -133,13 +133,13 @@ public class WFProjectController extends BaseController {
             params.setActProcStatus("1");
 
             try {
-                cncService.save(params);
+                cdcService.save(params);
             } catch (Exception e) {
                 e.printStackTrace();
                 return rData.error(451, "需求编码有重复！");
             }
         } else {
-            cncService.updateById(params);
+            cdcService.updateById(params);
         }
 
         return rData;
@@ -375,6 +375,9 @@ public class WFProjectController extends BaseController {
         List<String> groupList = projectWorkflowGroupService.getStringListByUserId(user_id);
         String groupId = (String) params.get("groupId");
         String key = (String) params.get("key");
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+
         if (groupList.contains(groupId)) {
             //当前用户有权查看的工单集合processInstanceId Set
             RData rData = new RData();
@@ -387,7 +390,7 @@ public class WFProjectController extends BaseController {
             if ("0".equals(String.valueOf(rData.get("code")))) {
                 List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
                 Set<String> processInstanceId = (Set) rData.get("processInstanceId");
-                PageUtils page = cncService.findData(prcList, processInstanceId, params);
+                PageUtils page = cdcService.findData(prcList, processInstanceId, params, queryParams);
                 return RData.ok().put("page", page);
             }
         }
@@ -405,6 +408,10 @@ public class WFProjectController extends BaseController {
         List<String> groupList = projectWorkflowGroupService.getStringListByUserId(user_id);
         String groupId = (String) params.get("groupId");
         String key = (String) params.get("key");
+
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+
         if (groupList.contains(groupId)) {
             //当前用户有权查看的工单集合processInstanceId Set
             RData rData = new RData();
@@ -417,7 +424,7 @@ public class WFProjectController extends BaseController {
             if ("0".equals(String.valueOf(rData.get("code")))) {
                 List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
                 Set<String> processInstanceId = (Set) rData.get("processInstanceId");
-                PageUtils page = sacService.findData(prcList, processInstanceId, params);
+                PageUtils page = sacService.findData(prcList, processInstanceId, params, queryParams);
                 return RData.ok().put("page", page);
             }
         }
@@ -434,8 +441,11 @@ public class WFProjectController extends BaseController {
         long user_id = sysUserEntity.getUserId();
         List<String> groupList = projectWorkflowGroupService.getStringListByUserId(user_id);
         String groupId = (String) params.get("groupId");
-
         String key = (String) params.get("key");
+
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+
         if (groupList.contains(groupId)) {
             //当前用户有权查看的工单集合processInstanceId Set
             RData rData = new RData();
@@ -448,7 +458,7 @@ public class WFProjectController extends BaseController {
             if ("0".equals(String.valueOf(rData.get("code")))) {
                 List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
                 Set<String> processInstanceId = (Set) rData.get("processInstanceId");
-                PageUtils page = bocService.findData(prcList, processInstanceId, params);
+                PageUtils page = bocService.findData(prcList, processInstanceId, params, queryParams);
                 return RData.ok().put("page", page);
             }
         }
@@ -468,7 +478,10 @@ public class WFProjectController extends BaseController {
         List<String> groupList = projectWorkflowGroupService.getStringListByUserId(user_id);
         String groupId = (String) params.get("groupId");
         String key = (String) params.get("key");
-//        params.put("actProcstatus", "1");
+
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+
         if (groupList.contains(groupId)) {
             RData rData = new RData();
             if (!"".equals(key)) {
@@ -479,7 +492,7 @@ public class WFProjectController extends BaseController {
             if ("0".equals(String.valueOf(rData.get("code")))) {
                 List<ProjectRightConfigEntity> prcList = projectRightConfigService.getListByUserId(user_id);
                 Set<String> processInstanceId = (Set) rData.get("processInstanceId");
-                PageUtils page = bnccService.findData(prcList, processInstanceId, params);
+                PageUtils page = bnccService.findData(prcList, processInstanceId, params, queryParams);
                 return RData.ok().put("page", page);
             }
         }
@@ -593,7 +606,6 @@ public class WFProjectController extends BaseController {
                 Integer resultCount = supervisorService.findDataCount(prcList, processInstanceId, params);
                 return RData.ok().put("count", resultCount);
             }
-
         }
         return RData.ok("0");
     }

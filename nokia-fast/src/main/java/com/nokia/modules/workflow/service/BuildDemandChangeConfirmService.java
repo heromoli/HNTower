@@ -11,11 +11,11 @@ import java.util.Set;
 
 public interface BuildDemandChangeConfirmService extends IService<BuildDemandChangeConfirm> {
 
-    public BuildDemandChangeConfirm selectDataByInsId(String actProcInstId);
+    BuildDemandChangeConfirm selectDataByInsId(String actProcInstId);
 
-    public PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+    PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params, Map<String, Object> queryParams);
 
-    public Integer findDataCount(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+    Integer findDataCount(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
 
-    public List<BuildDemandChangeConfirm> findDataAll(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+    List<BuildDemandChangeConfirm> findDataAll(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
 }

@@ -1,60 +1,90 @@
 <template>
-    <div class="mod-home">
-        <el-container style="height: 720px; border: #eee">
-            <el-main>
-                <el-row :gutter="20">
-                    <el-col :span="6">
-                        <el-card shadow="always">
-                            <!--<span>光网在线</span>-->
-                            <el-image :src="analytics"></el-image>
-                            <div style="padding: 5px;" >
-                                <div class="bottom clearfix">
-                                    <el-button type="primary" @click="gwzx()">光网在线</el-button>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-card shadow="always">
-                            <!--<span>资源管理</span>-->
-                            <el-image :src="virtualbox"></el-image>
-                            <div style="padding: 5px;">
-                                <div class="bottom clearfix">
-                                    <el-button type="primary" @click="zygl()">光网资源</el-button>
-                                </div>
-                            </div>
-                        </el-card>
-                    </el-col>
-                    <!--<el-col :span="6">-->
-                        <!--<el-card shadow="always">-->
-                            <!--<span>工程管理</span>-->
-                            <!--<el-image :src="travelplanner"></el-image>-->
-                            <!--<div style="padding: 5px;">-->
-                                <!--<div class="bottom clearfix">-->
-                                    <!--<el-button type="primary" @click="">工程管理</el-button>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</el-card>-->
-                    <!--</el-col>-->
-                </el-row>
-            </el-main>
+    <el-container style="height: 760px;">
+        <el-main>
+            <el-row :gutter="20">
+                <el-col :span="4">
+                    <el-card :body-style="{ padding: '0px 20px' }" shadow="always">
+                        <!--<span>光网在线</span>-->
+                        <el-image :src="duibifenxi"></el-image>
+                        <div class="bottom">
+                            <el-button type="primary" @click="gwzx()">光网在线</el-button>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="4">
+                    <el-card :body-style="{ padding: '0px 20px' }" shadow="always">
+                        <!--<span>资源管理</span>-->
+                        <el-image :src="fenxi"></el-image>
+                        <div class="bottom">
+                            <el-button type="primary" @click="zygl()">光网资源</el-button>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="4">
+                    <el-card :body-style="{ padding: '0px 20px' }" shadow="always">
+                        <!--<span>光网在线</span>-->
+                        <el-image :src="liucheng"></el-image>
+                        <div class="bottom">
+                            <el-button type="primary">工作流程</el-button>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="4">
+                    <el-card :body-style="{ padding: '0px 20px' }" shadow="always">
+                        <!--<span>光网在线</span>-->
+                        <el-image :src="baobiao"></el-image>
+                        <div class="bottom">
+                            <el-button type="primary">报表管理</el-button>
+                        </div>
+                    </el-card>
+                </el-col>
 
-        </el-container>
-    </div>
+                <el-col :span="4">
+                    <el-card :body-style="{ padding: '0px 20px' }" shadow="always">
+                        <!--<span>工程管理</span>-->
+                        <el-image :src="jiankong"></el-image>
+                        <div class="bottom">
+                            <el-button type="primary">智慧运维</el-button>
+                        </div>
+                    </el-card>
+                </el-col>
+                <el-col :span="4">
+                    <el-card :body-style="{ padding: '0px 20px' }" shadow="always">
+                        <!--<span>工程管理</span>-->
+                        <el-image :src="keshihua"></el-image>
+                        <div class="bottom">
+                            <el-button type="primary">AI识别</el-button>
+                        </div>
+                    </el-card>
+                </el-col>
+            </el-row>
+        </el-main>
+    </el-container>
 </template>
 
 <script>
 
-    import analytics from '@/assets/img/analytics.png'
-    import virtualbox from '@/assets/img/virtualbox.png'
-    import travelplanner from '@/assets/img/travelplanner.png'
+    import baobiao from '@/assets/icon/baobiao.png'
+    import bendihua from '@/assets/icon/bendihua.png'
+    import duibifenxi from '@/assets/icon/duibifenxi.png'
+    import fenxi from '@/assets/icon/fenxi.png'
+    import gaojing from '@/assets/icon/gaojing.png'
+    import jiankong from '@/assets/icon/jiankong.png'
+    import keshihua from '@/assets/icon/keshihua.png'
+    import liucheng from '@/assets/icon/liucheng.png'
 
     export default {
         data() {
             return {
-                analytics: analytics,
-                virtualbox: virtualbox,
-                travelplanner:travelplanner
+                baobiao: baobiao,
+                bendihua: bendihua,
+                duibifenxi: duibifenxi,
+                fenxi: fenxi,
+                gaojing: gaojing,
+                jiankong: jiankong,
+                keshihua: keshihua,
+                liucheng: liucheng
+
             }
         },
         methods: {
@@ -71,15 +101,61 @@
                     name: 'zhzygl'
                 });
                 window.open(href, '_blank')
-            }
+            },
+            gzlc() {
+                const {href} = this.$router.resolve({
+                    name: 'larg_screen'
+                });
+                // var href = this.$http.adornUrl("/gwzx/index.html");
+                window.open(href, '_blank')
+
+            },
+            bbgl() {
+                const {href} = this.$router.resolve({
+                    name: 'larg_screen'
+                });
+                // var href = this.$http.adornUrl("/gwzx/index.html");
+                window.open(href, '_blank')
+
+            },
         }
     }
 </script>
 
-<style>
-    .time {
-        font-size: 13px;
-        color: #999;
+<style scoped>
+
+    .el-header, .el-footer {
+        background-color: #B3C0D1;
+        color: #333;
+        text-align: center;
+        line-height: 60px;
+    }
+
+    .el-aside {
+        background-color: #D3DCE6;
+        color: #333;
+        text-align: center;
+        line-height: 200px;
+    }
+
+    .el-main {
+        background-color: #E9EEF3;
+        color: #333;
+        text-align: center;
+        line-height: 160px;
+    }
+
+    body > .el-container {
+        margin-bottom: 40px;
+    }
+
+    .el-container:nth-child(5) .el-aside,
+    .el-container:nth-child(6) .el-aside {
+        line-height: 260px;
+    }
+
+    .el-container:nth-child(7) .el-aside {
+        line-height: 320px;
     }
 
     .bottom {
@@ -87,25 +163,5 @@
         margin-bottom: 15px;
         line-height: 12px;
     }
-
-    .button {
-        padding: 0;
-        float: right;
-    }
-
-    .image {
-        width: 100%;
-        display: block;
-    }
-
-    /*.clearfix:before,*/
-    /*.clearfix:after {*/
-        /*display: table;*/
-        /*content: "";*/
-    /*}*/
-
-    /*.clearfix:after {*/
-        /*clear: both*/
-    /*}*/
 </style>
 

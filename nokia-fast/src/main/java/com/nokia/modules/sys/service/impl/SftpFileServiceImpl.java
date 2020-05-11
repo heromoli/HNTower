@@ -65,7 +65,15 @@ public class SftpFileServiceImpl implements SftpFileService {
         }
         String path = sftpBasePath + countyFolder + File.separator;
         String fileName = county + "-" + plan_name + "-" + plan_form_time + ".pptx";
-        logger.info(path + fileName);
+        logger.info("文件名：" + path + fileName);
+
+        SFtpUtil sftp = new SFtpUtil(sftpAccount, sftpPassword, sftpHost, Integer.valueOf(sftpPort));
+        sftp.connectSFtp();
+        String trueFileName = sftp.listTrueFileName(path, plan_name);
+        sftp.closeFtp();
+
+        logger.info("真实文件名：" + path + trueFileName);
+
 
         BufferedInputStream bis = null;
         OutputStream outputStream = null;
@@ -74,19 +82,14 @@ public class SftpFileServiceImpl implements SftpFileService {
         try {
             response.reset();
             response.setContentType("application/x-download;charset=GBK");
-            response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes("GBK"), "ISO-8859-1"));
+            response.setHeader("Content-Disposition", "attachment;filename=" + new String(trueFileName.getBytes("GBK"), "ISO-8859-1"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-//        response.reset();
-//        response.setContentType("application/x-download;charset=GBK");
-//        response.setHeader("Content-Disposition", "attachment;filename=" + plan_name);utf-8 GBK
-//        logger.info("response文件头");
-
         try {
             outputStream = response.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(new File(path + fileName)));
+            bis = new BufferedInputStream(new FileInputStream(new File(path + trueFileName)));
             int i = bis.read(buff);
             while (i != -1) {
                 outputStream.write(buff, 0, buff.length);

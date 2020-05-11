@@ -1,13 +1,13 @@
 <template>
-    <div id="container" class="amap-demo amap-page-container">
+    <div id="container" class="amap-page-container">
         <!--<img src="@/icons/base_station.png">-->
         <el-amap ref="map" vid="'amap-vue'" :amap-manager="amapManager" :center="center" :zoom="zoom" :plugin="plugin"
                  :events="events" class="amap-demo" v-loading="dataListLoading">
         </el-amap>
         <el-form :inline="true" :model="queryParam" ref="queryParam" @keyup.enter.native="massSearch()"
                  :rules="dataRule" style="margin-left: 80px">
-            <el-form-item label=" " prop="county" style="width: 150px">
-                <el-select size="mini" v-model="queryParam.county" placeholder="区县" >
+            <el-form-item prop="county" style="width: 150px">
+                <el-select size="mini" v-model="queryParam.county">
                     <el-option
                             v-for="item in options"
                             :key="item.value"
@@ -16,25 +16,24 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="   " prop="address" style="width: 150px">
+            <el-form-item prop="address" style="width: 150px">
                 <el-input size="mini" v-model="queryParam.address" placeholder="地址" clearable
                           suffix-icon="el-icon-search"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="station_name" style="width: 150px">
+            <el-form-item prop="station_name" style="width: 150px">
                 <el-input size="mini" v-model="queryParam.station_name" placeholder="站点名称" clearable
                           suffix-icon="el-icon-search"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="longitude" style="width: 150px">
+            <el-form-item prop="longitude" style="width: 150px">
                 <el-input size="mini" type="number" v-model="queryParam.longitude" placeholder="经度"
                           clearable suffix-icon="el-icon-edit"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="latitude" style="width: 150px">
+            <el-form-item prop="latitude" style="width: 150px">
                 <el-input size="mini" type="number" v-model="queryParam.latitude" placeholder="纬度" clearable
                           suffix-icon="el-icon-edit"></el-input>
             </el-form-item>
-            <el-form-item label="   " prop="rangeValue" style="width: 150px">
-                <el-select size="mini" v-model="queryParam.rangeValue" filterable allow-create default-first-option
-                           placeholder="范围">
+            <el-form-item prop="rangeValue" style="width: 150px">
+                <el-select size="mini" v-model="queryParam.rangeValue" filterable allow-create default-first-option>
                     <el-option
                             v-for="item in rangeOptions"
                             :key="item.value"
@@ -43,8 +42,8 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="   " prop="biz_scene" style="width: 150px">
-                <el-select size="mini" v-model="queryParam.biz_scene" placeholder="场景划分">
+            <el-form-item prop="biz_scene" style="width: 150px">
+                <el-select size="mini" v-model="queryParam.biz_scene">
                     <el-option
                             v-for="item in sceneOptions"
                             :key="item.value"
@@ -53,11 +52,9 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item style="">
-                <el-button size="small" type="success" @click="massSearch()">查询</el-button>
-            </el-form-item>
             <el-form-item>
-                <el-button size="small" type="primary"  @click="exportHandle()">导出</el-button>
+                <el-button size="mini" type="success" icon="el-icon-search" @click="massSearch()">查询</el-button>
+                <el-button size="mini" type="primary" icon="el-icon-download" @click="exportHandle()">导出</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -372,8 +369,8 @@
 <style scoped>
     .amap-demo {
         /*height: 640px;*/
-        height: 99%;
-        width: 99%;
+        height: 94%;
+        width: 96%;
         position: absolute;
         /*top: 5px;*/
         /*right: 10px;*/

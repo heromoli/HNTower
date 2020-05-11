@@ -34,8 +34,19 @@ const mainRoutes = {
         // 1. isTab: 是否通过tab展示内容, true: 是, false: 否
         // 2. iframeUrl: 是否通过iframe嵌套展示内容, '以http[s]://开头': 是, '': 否
         // 提示: 如需要通过iframe嵌套展示内容, 但不通过tab打开, 请自行创建组件使用iframe处理!
-        {path: '/home', component: _import('common/home'), name: 'home', meta: {title: '首页'}},
-        {path: '/theme', component: _import('common/theme'), name: 'theme', meta: {title: '主题'}}
+        {
+            path: '/home',
+            component: _import('common/home'),
+            // component: resolve => require([_import('common/home')], resolve),
+            name: 'home',
+            meta: {title: '首页'}
+        },
+        {
+            path: '/theme',
+            component: _import('common/theme'),
+            name: 'theme',
+            meta: {title: '主题'}
+        }
     ],
     beforeEnter(to, from, next) {
         //钩子函数 判断token 是否有效
@@ -76,7 +87,7 @@ router.beforeEach((to, from, next) => {
         } else {
             document.title = "光网在线";
         }
-        next()
+        next()   //确保要调用next() 方法，否则钩子不会被resolved
     } else {
         http({
             url: http.adornUrl('/sys/menu/nav'),
@@ -132,7 +143,7 @@ function fnAddDynamicMenuRoutes(menuList = [], routes = []) {
             menuList[i].url = menuList[i].url.replace(/^\//, '');
             var route = {
                 path: menuList[i].url.replace('/', '-'),
-                component: null,
+                component: null,   //映射的组件
                 name: menuList[i].url.replace('/', '-'),
                 meta: {
                     menuId: menuList[i].menuId,

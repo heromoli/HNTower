@@ -268,20 +268,21 @@
                         layout="total, sizes, prev, pager, next, jumper">
                 </el-pagination>
             </el-tab-pane>
-            <el-tab-pane label="运营商报表"><el-form :inline="true" :model="dataForm" @keyup.enter.native="getOperatorData()">
-                <el-form-item>
-                    <el-date-picker
-                            v-model="dataForm.operatorQueryDate"
-                            type="date" style="width: 100%"
-                            placeholder="选择日期"
-                            value-format="yyyy-MM-dd">
-                    </el-date-picker>
-                </el-form-item>
-                <el-form-item>
-                    <el-button size="mini" @click="getOperatorData()">查询</el-button>
-                    <el-button type="primary" size="mini" @click="operatorExportHandle()">导出</el-button>
-                </el-form-item>
-            </el-form>
+            <el-tab-pane label="运营商报表">
+                <el-form :inline="true" :model="dataForm" @keyup.enter.native="getOperatorData()">
+                    <el-form-item>
+                        <el-date-picker
+                                v-model="dataForm.operatorQueryDate"
+                                type="date" style="width: 100%"
+                                placeholder="选择日期"
+                                value-format="yyyy-MM-dd">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button size="mini" @click="getOperatorData()">查询</el-button>
+                        <el-button type="primary" size="mini" @click="operatorExportHandle()">导出</el-button>
+                    </el-form-item>
+                </el-form>
                 <el-table
                         :data="operatorList"
                         border
@@ -402,7 +403,8 @@
                         :page-size="operatorPageSize"
                         :total="operatorTotalPage"
                         layout="total, sizes, prev, pager, next, jumper">
-                </el-pagination></el-tab-pane>
+                </el-pagination>
+            </el-tab-pane>
             <!--<el-tab-pane label="特殊站点报表">定时任务补偿</el-tab-pane>-->
         </el-tabs>
     </div>

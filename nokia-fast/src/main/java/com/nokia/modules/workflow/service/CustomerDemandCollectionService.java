@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 public interface CustomerDemandCollectionService extends IService<CustomerDemandCollection> {
-    PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
+    PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params, Map<String, Object> queryParams);
 
     Integer findDataCount(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params);
 

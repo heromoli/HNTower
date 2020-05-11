@@ -30,7 +30,8 @@
         },
         methods: {
             init(id) {
-                this.url = this.$http.adornUrl(`/api/zhzygl/stationManageUpload?token=${this.$cookie.get('token')}`);
+                this.url = this.$http.adornUrl(`/api/alarm/fileUpload?token=${this.$cookie.get('token')}`);
+                // this.url = this.$http.adornUrl(`/api/zhzygl/stationManageUpload?token=${this.$cookie.get('token')}`);
                 this.visible = true;
             },
             // 上传之前

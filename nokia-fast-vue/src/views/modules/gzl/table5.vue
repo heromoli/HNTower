@@ -2,7 +2,10 @@
     <div class="mod-log">
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-                <el-input size="mini" v-model="dataForm.param" placeholder="用户名／用户操作" clearable></el-input>
+                <el-input size="mini" v-model="dataForm.demandNum" placeholder="需求编号" clearable></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-input size="mini" v-model="dataForm.stationName" placeholder="站点名称" clearable></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button size="mini" @click="getDataList()">查询</el-button>
@@ -32,7 +35,7 @@
                     prop="id"
                     header-align="center"
                     align="center"
-                    width="50"
+                    width="80"
                     label="ID">
             </el-table-column>
             <el-table-column
@@ -171,7 +174,8 @@
                     actProcInstId: '',
                     actProcStatus: '',
                     approve: '',
-                    param :'',
+                    stationName: '',
+                    demandNum: '',
                     key: 'usertask3',
                     groupId: '5'
                 },
@@ -206,7 +210,7 @@
                         'limit': this.pageSize,
                         'key': this.dataForm.key,
                         'groupId': this.dataForm.groupId,
-                        'param': this.dataForm.param
+                        'queryParam': this.dataForm
                     })
                 }).then(({data}) => {
                     if (data.page != null && data.code === 0) {
