@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-
 @Service("SupervisorService")
 public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor> implements SupervisorService {
     private static final Logger logger = LoggerFactory.getLogger(SupervisorServiceImpl.class);
@@ -147,13 +146,8 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
 
     @Override
     public Integer findDataCount(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceIds, Map<String, Object> params) {
+        int listSize = 0;
         if (prcList != null && prcList.size() > 0 && (processInstanceIds != null && processInstanceIds.size() > 0)) {
-            QueryWrapper queryWrapper = getQueryWrapper(prcList);
-
-//            List<String> actProcStatus = (List<String>) params.get("actProcStatus");
-//            Set<String> set = new HashSet<>(actProcStatus);
-//            queryWrapper.in("ACT_PROC_STATUS", set);
-
             List<String> processInstanceIdList = new ArrayList<>(processInstanceIds);
             int size = processInstanceIdList.size();
             List<List<String>> ret = new ArrayList<>();
@@ -176,32 +170,58 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
                     }
                     ret.add(itemList);
                 }
-
             } else {
                 ret.add(processInstanceIdList);
             }
 
-            for(List<String> idList : ret){
+            for (List<String> idList : ret) {
+                QueryWrapper queryWrapper = getQueryWrapper(prcList);
                 queryWrapper.in("ACT_PROC_INST_ID", idList);
-                queryWrapper.or();
+                int queryWrapperSize = this.listMaps(queryWrapper).size();
+                listSize += queryWrapperSize;
             }
-//            queryWrapper.or();
-//            queryWrapper.in("ACT_PROC_INST_ID", processInstanceIds);
-            return this.listMaps(queryWrapper).size();
         }
-        return 0;
+        return listSize;
     }
 
     @Override
     public List<Supervisor> findDataAll(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params) {
+        List<Supervisor> supervisorList = new ArrayList<>();
         if (prcList != null && prcList.size() > 0 && (processInstanceId != null && processInstanceId.size() > 0)) {
             String actProcStatus = (String) params.get("actProcStatus");
-            QueryWrapper queryWrapper = getQueryWrapper(prcList);
-            queryWrapper.eq("ACT_PROC_STATUS", actProcStatus);
-            queryWrapper.in("ACT_PROC_INST_ID", processInstanceId);    //根据字段给出查询参数
-            return this.list(queryWrapper);
+            List<String> processInstanceIdList = new ArrayList<>(processInstanceId);
+            int size = processInstanceIdList.size();
+            List<List<String>> ret = new ArrayList<>();
+            if (size > 1000) {
+                int pre = size / 1000;
+                int last = size % 1000;
+                // 前面pre个集合，每个大小都是 subListLength 个元素
+                for (int i = 0; i < pre; i++) {
+                    List<String> itemList = new ArrayList<>();
+                    for (int j = 0; j < 1000; j++) {
+                        itemList.add(processInstanceIdList.get(i * 1000 + j));
+                    }
+                    ret.add(itemList);
+                }
+                // last的进行处理
+                if (last > 0) {
+                    List<String> itemList = new ArrayList<>();
+                    for (int i = 0; i < last; i++) {
+                        itemList.add(processInstanceIdList.get(pre * 1000 + i));
+                    }
+                    ret.add(itemList);
+                }
+            } else {
+                ret.add(processInstanceIdList);
+            }
+            for (List<String> idList : ret) {
+                QueryWrapper queryWrapper = getQueryWrapper(prcList);
+                queryWrapper.eq("ACT_PROC_STATUS", actProcStatus);
+                queryWrapper.in("ACT_PROC_INST_ID", idList);
+                supervisorList.addAll(this.list(queryWrapper));
+            }
         }
-        return null;
+        return supervisorList;
     }
 
     @Override
@@ -262,5 +282,9 @@ public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor
         result = String.format("%0" + num + "d", Integer.parseInt(code));
         return result;
     }
+
+//    public Function<QueryWrapper<Supervisor>, QueryWrapper<Supervisor>> makeWrapperFunction(List<String> idList) {
+//        return func -> func.in("ACT_PROC_INST_ID", idList);
+//    }
 
 }
