@@ -12,8 +12,8 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
-                        <el-button size="mini" @click="getBranchData()">查询</el-button>
-                        <el-button type="primary" size="mini" @click="branchExportHandle()">导出</el-button>
+                        <el-button @click="getBranchData()">查询</el-button>
+                        <el-button type="primary" @click="branchExportHandle()">导出</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table
@@ -31,21 +31,19 @@
                     </el-table-column>
                     <el-table-column
                             fixed
-                            prop="branch"
+                            prop="branchCompany"
                             header-align="center"
                             align="center"
                             label="分公司">
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="任务">
                         <el-table-column
-
-                                prop="task"
+                                prop="taskNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="taskIncrement"
                                 align="center"
                                 header-align="center"
@@ -54,14 +52,12 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="征址">
                         <el-table-column
-
-                                prop="locationNeg"
+                                prop="locationNegNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="locationIncrement"
                                 align="center"
                                 header-align="center"
@@ -70,14 +66,12 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="开工">
                         <el-table-column
-
-                                prop="projectStart"
+                                prop="projectStartNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="startIncrement"
                                 align="center"
                                 header-align="center"
@@ -86,14 +80,12 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="完工">
                         <el-table-column
-
-                                prop="complete"
+                                prop="completeNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="completeIncrement"
                                 align="center"
                                 header-align="center"
@@ -114,7 +106,6 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-
                             prop="ratioComplete"
                             align="center"
                             header-align="center"
@@ -150,8 +141,8 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
-                        <el-button size="mini" @click="getCountyData()">查询</el-button>
-                        <el-button type="primary" size="mini" @click="countyExportHandle()">导出</el-button>
+                        <el-button @click="getCountyData()">查询</el-button>
+                        <el-button type="primary" @click="countyExportHandle()">导出</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table
@@ -169,7 +160,7 @@
                     </el-table-column>
                     <el-table-column
                             fixed
-                            prop="branch"
+                            prop="branchCompany"
                             header-align="center"
                             align="center"
                             label="分公司">
@@ -183,14 +174,12 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="任务">
                         <el-table-column
-
                                 prop="taskNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="taskIncrement"
                                 align="center"
                                 header-align="center"
@@ -199,14 +188,12 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="征址">
                         <el-table-column
-
                                 prop="locationNegNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="locationIncrement"
                                 align="center"
                                 header-align="center"
@@ -215,14 +202,12 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="开工">
                         <el-table-column
-
                                 prop="projectStartNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="startIncrement"
                                 align="center"
                                 header-align="center"
@@ -231,14 +216,12 @@
                     </el-table-column>
                     <el-table-column header-align="center" align="center" label="完工">
                         <el-table-column
-
                                 prop="completeNumber"
                                 header-align="center"
                                 align="center"
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-
                                 prop="completeIncrement"
                                 align="center"
                                 header-align="center"
@@ -294,8 +277,8 @@
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item>
-                        <el-button size="mini" @click="getOperatorData()">查询</el-button>
-                        <el-button type="primary" size="mini" @click="operatorExportHandle()">导出</el-button>
+                        <el-button @click="getOperatorData()">查询</el-button>
+                        <el-button type="primary"  @click="operatorExportHandle()">导出</el-button>
                     </el-form-item>
                 </el-form>
                 <el-table
@@ -347,7 +330,7 @@
                                 label="总量">
                         </el-table-column>
                         <el-table-column
-                                prop="locatoinIncrement"
+                                prop="locationIncrement"
                                 align="center"
                                 header-align="center"
                                 label="增量">
@@ -482,7 +465,7 @@
                 branchPageSize: 10,
                 branchTotalPage: 0,
                 countyPageIndex: 1,
-                countyPageSize: 10,
+                countyPageSize: 20,
                 countyTotalPage: 0,
                 operatorPageIndex: 1,
                 operatorPageSize: 20,

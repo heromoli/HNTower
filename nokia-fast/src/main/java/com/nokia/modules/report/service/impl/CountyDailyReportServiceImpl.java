@@ -41,7 +41,7 @@ public class CountyDailyReportServiceImpl extends ServiceImpl<CountyDailyReportD
 //                queryWrapper.eq("sdate", sdate);
 //            }
 //        }
-        queryWrapper.orderByAsc("sdate", "county");
+        queryWrapper.orderByAsc( "branch_Company");
         IPage<CountyDailyReport> page = this.page(new Query<CountyDailyReport>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }

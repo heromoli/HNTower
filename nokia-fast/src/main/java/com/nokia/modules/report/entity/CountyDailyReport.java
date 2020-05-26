@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@TableName("COUNTY_DAILY_REPORT")
+@TableName("TIETA_SHIXIAN_DAILY_REPORT_VG")
 public class CountyDailyReport extends RowModel implements Serializable {
 
     @ExcelProperty(index = 0, value = {"时间","时间"})
@@ -20,7 +20,7 @@ public class CountyDailyReport extends RowModel implements Serializable {
     private Date sdate;
 
     @ExcelProperty(index = 1, value = {"分公司","分公司"})
-    private String branch;
+    private String branchCompany;
 
     @ExcelProperty(index = 2, value = {"区县","区县"})
     private String county;
@@ -49,10 +49,22 @@ public class CountyDailyReport extends RowModel implements Serializable {
     @ExcelProperty(index = 10, value = {"完工","增量"})
     private double completeIncrement;
 
-    @ExcelProperty(index = 11, value = {"征址率","征址率"})
+    @ExcelProperty(index = 11, value = {"交付","总量"})
+    private double deliverNumber;
+
+    @ExcelProperty(index = 12, value = {"交付","增量"})
+    private double deliverIncrement;
+
+    @ExcelProperty(index = 13, value = {"起租","总量"})
+    private double hireNumber;
+
+    @ExcelProperty(index = 14, value = {"起租","增量"})
+    private double hireIncrement;
+
+    @ExcelProperty(index = 15, value = {"征址率","征址率"})
     private String ratioLocationNeg;
 
-    @ExcelProperty(index = 12, value = {"完工率","完工率"})
+    @ExcelProperty(index = 16, value = {"完工率","完工率"})
     private String ratioComplete;
 
 }

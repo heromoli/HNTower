@@ -39,7 +39,7 @@ public class BranchDailyReportServiceImpl extends ServiceImpl<BranchDailyReportD
 //                queryWrapper.eq("sdate", sdate);
 //            }
 //        }
-        queryWrapper.orderByAsc("sdate", "branch");
+        queryWrapper.orderByAsc( "branch_Company");
         IPage<BranchDailyReport> page = this.page(new Query<BranchDailyReport>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }
