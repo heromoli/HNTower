@@ -11,6 +11,7 @@ import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service("TowerSolutionDetailService")
@@ -28,6 +29,16 @@ public class TowerSolutionDetailServiceImpl extends ServiceImpl<TowerSolutionDet
 //        queryWrapper.eq("project_Name",projectName);
         IPage<TowerSolutionDetail> page = this.page(new Query<TowerSolutionDetail>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
+    }
+
+    @Override
+    public List<TowerSolutionDetail> selectDataByParam(Map<String, Object> queryParams) {
+        QueryWrapper queryWrapper = new QueryWrapper<TowerSolutionDetail>();
+
+        for (String key : queryParams.keySet()) {
+            queryWrapper.like(key, queryParams.get(key));
+        }
+        return this.list(queryWrapper);
     }
 
     @Override

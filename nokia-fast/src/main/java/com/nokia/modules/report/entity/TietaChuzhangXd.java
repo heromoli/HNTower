@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @TableName("TIETA_CHUZHANG_XD")
-public class TietaChuzhangXd extends RowModel implements Serializable {
+public class   TietaChuzhangXd extends RowModel implements Serializable {
 
     @ExcelProperty(index = 0, value = {""})
     private String smonth;

@@ -235,11 +235,11 @@
 			<artifactId>easyexcel</artifactId>
 			<version>${easyexcel.version}</version>
 		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>com.uetty</groupId>-->
-			<!--<artifactId>common-excel</artifactId>-->
-			<!--<version>1.0.3</version>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.7</version>
+		</dependency>
 	</dependencies>
 
 	<build>

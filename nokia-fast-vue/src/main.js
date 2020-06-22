@@ -29,12 +29,13 @@ Vue.config.productionTip = false;
 // });
 
 import VueAMap from 'vue-amap';
-import { lazyAMapApiLoaderInstance } from 'vue-amap';
+import {lazyAMapApiLoaderInstance} from 'vue-amap';
+
 Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
     key: '2800cd2c93696eaab6f192523cc5271e',
-    plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'AMap.MarkerClusterer'],
-    v: '1.4.4',
+    plugin: ['Autocomplete', 'PlaceSearch', 'Scale', 'OverView', 'ToolBar', 'MapType', 'PolyEditor', 'CircleEditor', 'MarkerCluster','CloudDataLayer', 'CloudDataSearch','Weather','RangingTool'],
+    v: '1.4.13',
     uiVersion: '1.0.11'
 });
 // lazyAMapApiLoaderInstance.load().then(() => {
@@ -45,9 +46,11 @@ VueAMap.initAMapApiLoader({
 
 //echarts的引入
 import echarts from 'echarts'
+
 Vue.prototype.$echarts = echarts;
 //highcharts的引入
 import VueHighcharts from 'vue-highcharts';
+
 Vue.use(VueHighcharts);
 
 // 挂载全局

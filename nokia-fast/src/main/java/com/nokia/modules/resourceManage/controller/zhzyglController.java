@@ -454,12 +454,20 @@ public class zhzyglController extends BaseController {
         return RData.ok().put("page", page);
     }
 
-    @GetMapping("/queryTowerSolutionDetail")
-    public RData querytowerSolutionDetail(@RequestParam Map<String, Object> params) {
+    @GetMapping("/queryTowerSolutionDetailPage")
+    public RData queryTowerSolutionDetailPage(@RequestParam Map<String, Object> params) {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         PageUtils page = towerSolutionDetailService.selectDataByParam(params, queryParams);
         return RData.ok().put("page", page);
+    }
+
+    @GetMapping("/queryTowerSolutionDetailList")
+    public RData queryTowerSolutionDetailList(@RequestParam Map<String, Object> params) {
+        String queryParamString = params.get("queryParam").toString();
+        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
+        List<TowerSolutionDetail> towerSolutionDetailList = towerSolutionDetailService.selectDataByParam( queryParams);
+        return RData.ok().put("list", towerSolutionDetailList);
     }
 
     @GetMapping("/downloadFile")

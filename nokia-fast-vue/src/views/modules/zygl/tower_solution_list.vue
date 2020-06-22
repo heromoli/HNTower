@@ -271,7 +271,8 @@
                 })
             },
             jumpToDetail(serialNumber) {
-                this.$router.push({name: 'zygl-tower_solution_detail', params: {serialNumber: serialNumber}})
+                // this.$router.push({name: 'zygl-tower_solution_detail', params: {serialNumber: serialNumber}});
+                this.$router.push({name: 'zygl-tower_solution_detail_list', params: {serialNumber: serialNumber}})
             },
             downLoadFile(row) {
                 this.dataListLoading = true;

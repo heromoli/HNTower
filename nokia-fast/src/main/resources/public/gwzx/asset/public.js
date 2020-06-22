@@ -1,23 +1,41 @@
 document.write("<script type='text/javascript' src='asset/data.js'></script>");
+document.write("<script type='text/javascript' src='asset/loaddata.js'></script>");
+
+var time_len = 5*60*1000;
 
 $(function () {
+    setInterval(init,time_len);
+    init();
+});
+
+function init(){
     pagelogin();
     startClock();
 
-    loadleft1('pie1', dataleft1.产权,'产权退服率', (dataleft1.产权.退服/dataleft1.产权.合计).toFixed(4));
-    loadleft1('pie2', dataleft1.光缆,'光缆修复率', (dataleft1.光缆.修复/dataleft1.光缆.中断).toFixed(4));
-    loadleft1('pie3', dataleft1.逻辑,'逻辑退服率', (dataleft1.逻辑.退服/dataleft1.逻辑.合计).toFixed(4));
-    loadleft2('left2', dataleft2);
-    loadtable('left3', dataleft3);
 
-    loadcenter1(datacenter1);
-    loadcenter2('center2', datacenter23);
-    loadcenter3('center3', dataFormate(datacenter23), datacenter23);
+    loss();
+    left_up();
+
+    // loadleft1('pie1', dataleft1.产权,'产权退服率', (dataleft1.产权.退服/dataleft1.产权.合计).toFixed(4));
+    // loadleft1('pie2', dataleft1.光缆,'光缆修复率', (dataleft1.光缆.修复/dataleft1.光缆.中断).toFixed(4));
+    // loadleft1('pie3', dataleft1.逻辑,'逻辑退服率', (dataleft1.逻辑.退服/dataleft1.逻辑.合计).toFixed(4));
+
+    left_centre();
+    left_down();
+    centre_down();
+    // loadleft2('left2', dataleft2);
+    // loadtable('left3', dataleft3);
+
+    // loadcenter1(datacenter1);
+    // loadcenter2('center2', datacenter23);
+    // loadcenter3('center3', dataFormate(datacenter23), datacenter23);
 
     // loadtable('right1',dataright1);
     loadDynamicTable('right2',dataright2);
-    loadtable('right3',dataright3);
-})
+    // loadtable('right3',dataright3);
+    righ_down();
+
+}
 
 // 刷新界面元素高度
 function pagelogin() {
@@ -74,6 +92,7 @@ function loadleft1(divid, dd, title, value) {
     var data = [value, value, value, value, value, ];
     var arr = [];
     for (let i in dd) {
+        if(i!='RATE')
         arr.push(i + ':' + dd[i]);
     }
 
@@ -126,7 +145,7 @@ function loadleft1(divid, dd, title, value) {
             },
             label: {
                 normal: {
-                    formatter: (value * 100).toFixed(2) + '%',
+                    formatter: (value*100 ).toFixed(2) + '%',
                 }
             }
         }]
@@ -166,7 +185,9 @@ function loadleft2(divid, data){
                         str = str + '			<td ><img src="asset/icon/yidong.png"></img></td>';
                     }
                 }else if(j == '修复率'){
-                    str = str + '			<td ><div id="scheduleX"><div class="xList" style="width:' + data[i][j] + ';"><span class="xNum">' + data[i][j] + '</span></span></div></div></td>';
+                    str = str + '			<td ><div id="scheduleX"><div class="xList" style="width:' + data[i][j] + ';"><span class="xNum">' + data[i][j] + '%</span></span></div></div></td>';
+                }else if(j == '退服率'){
+                    str = str + '			<td >' + data[i][j] + '%</td>';
                 }else{
                     str = str + '			<td >' + data[i][j] + '</td>';
                 }
@@ -204,7 +225,12 @@ function loadtable(divid, data){
         for (let i = 0; i < data.length; i++) {
             str = str + '			<tr>';
             for(let j in data[i]){
-                str = str + '			<td >' + data[i][j] + '</td>';
+                if(j.indexOf('率')==j.length-1){
+                    str = str + '			<td >' + data[i][j] + '%</td>';
+                }else{
+                    str = str + '			<td >' + data[i][j] + '</td>';
+                }
+                
             }
             str = str + '			</tr>';
         }

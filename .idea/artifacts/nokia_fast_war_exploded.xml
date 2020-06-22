@@ -134,6 +134,7 @@
           <element id="library" level="project" name="Maven: com.github.virtuald:curvesapi:1.04" />
           <element id="library" level="project" name="Maven: cglib:cglib:3.1" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm:4.2" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.7" />
         </element>
       </element>
       <element id="directory" name="META-INF">

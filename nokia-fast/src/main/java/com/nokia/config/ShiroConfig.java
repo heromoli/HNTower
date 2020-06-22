@@ -52,6 +52,7 @@ public class ShiroConfig {
         filterMap.put("/swagger/**", "anon");
         filterMap.put("/workflow/**", "anon");
         filterMap.put("/gwzx/**", "anon");
+        filterMap.put("/api/gwzx/**", "anon");
 
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");

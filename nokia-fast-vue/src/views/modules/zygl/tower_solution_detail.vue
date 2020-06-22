@@ -213,7 +213,7 @@
                 var params = this.$route.params.serialNumber;
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetail'),
+                    url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetailPage'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,
