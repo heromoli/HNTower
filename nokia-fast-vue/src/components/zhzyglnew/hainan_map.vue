@@ -6,7 +6,7 @@
 <script>
     import echarts from 'echarts'
     import hainan_json from '@/utils/460000.json'
-    // import hainan_json from '@/utils/hainan.json'
+    // import hainan_json from '@/utils/460000_full.json'
     // import hainan_json from 'echarts/map/json/province/hainan.json'
     // import china_json from 'echarts/map/json/china'
 

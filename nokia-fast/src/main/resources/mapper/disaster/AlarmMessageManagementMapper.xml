@@ -44,7 +44,7 @@
             and a.BELONG_OPERATOR like concat(concat('%',#{belongOperator}),'%')
         </if>
         <if test="bizScene != null and bizScene != ''">
-            and a.BIZ_SCENE like concat(concat('%',#{bizScene})),'%')
+            and a.BIZ_SCENE like concat(concat('%',#{bizScene}),'%')
         </if>
         group by a.ALARM_NAME ),
         a2 as (

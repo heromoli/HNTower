@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from '@/App'
-import ElementUI from 'element-ui'
-// import '@/element-ui'                          // api: https://github.com/ElemeFE/element
+import ElementUI from 'element-ui'            // api: https://github.com/ElemeFE/element
 import '@/element-ui-theme'
 import store from '@/store'                   // api: https://github.com/vuejs/vuex
 import VueCookie from 'vue-cookie'            // api: https://github.com/alfhen/vue-cookie
@@ -21,13 +20,6 @@ Vue.use(ElementUI);
 // Vue.use(vueResource)
 Vue.config.productionTip = false;
 
-// import BaiduMap from 'vue-baidu-map'
-//
-// Vue.use(BaiduMap, {
-//     ak: 't8kjxQX0YzyotRuL4uzt84Nusvb1rlN5'
-//
-// });
-
 import VueAMap from 'vue-amap';
 import {lazyAMapApiLoaderInstance} from 'vue-amap';
 
@@ -38,11 +30,6 @@ VueAMap.initAMapApiLoader({
     v: '1.4.13',
     uiVersion: '1.0.11'
 });
-// lazyAMapApiLoaderInstance.load().then(() => {
-//      var map = new AMap.Map('container', {
-//         center: new AMap.LngLat(110.317312, 20.022712)
-//     });
-// });
 
 //echarts的引入
 import echarts from 'echarts'

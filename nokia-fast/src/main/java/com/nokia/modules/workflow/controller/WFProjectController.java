@@ -124,9 +124,10 @@ public class WFProjectController extends BaseController {
                     String seq_num = supervisorService.queryDXSequence();
                     params.setDemandNum("DXB" + dateFormat.format(new Date()) + seq_num);
                 }
-            } else if (!demandNum.equals("") && demandNum.length() != 15) {
-                return rData.error(450, "需求编码长度不合规！");
             }
+//            else if (!demandNum.equals("") && demandNum.length() != 15) {
+//                return rData.error(450, "需求编码长度不合规！");
+//            }
 
             params.setDemandProposeTime(new Date());
             params.setActProcInstId((String) rData.get("processInstanceId"));

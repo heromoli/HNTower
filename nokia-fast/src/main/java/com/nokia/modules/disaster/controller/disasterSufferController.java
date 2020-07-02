@@ -7,6 +7,7 @@ import com.nokia.modules.disaster.entity.AlarmMessageManagement;
 import com.nokia.modules.disaster.entity.DisasterSufferMessage;
 import com.nokia.modules.disaster.service.AlarmInfoAmountService;
 import com.nokia.modules.disaster.service.AlarmMessageManagementService;
+import com.nokia.modules.disaster.service.DisasterSufferDataService;
 import com.nokia.modules.disaster.service.DisasterSufferMessageService;
 import com.nokia.modules.sys.controller.BaseController;
 import com.nokia.utils.PageUtils;
@@ -22,6 +23,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/disaster")
 public class disasterSufferController extends BaseController {
+
+    @Autowired
+    private DisasterSufferDataService dsdService;
 
     @Autowired
     private DisasterSufferMessageService messageService;

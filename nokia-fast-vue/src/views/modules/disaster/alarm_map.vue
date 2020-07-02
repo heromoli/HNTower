@@ -1,12 +1,12 @@
 <template>
     <div style="width: 100%">
-        <el-row style="top: 32%">
+        <el-row style="top: 33%">
             <el-col :span="6" :offset="17">
                 <el-table
                         :data="dataList"
                         border
                         stripe
-                        height="560"
+                        height="530"
                         size="mini"
                         style="height: auto; width: auto">
                     <el-table-column
@@ -93,15 +93,14 @@
                             <el-button size="mini" type="primary" icon="el-icon-news" @click="typhoonTrajectory()">
                                 台风轨迹
                             </el-button>
-                            <el-button size="mini" type="danger" icon="el-icon-minus" @click="clearMap()">
+                            <el-button size="mini" type="danger" @click="clearMap()">
                                 清除覆盖
                             </el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-if="typhoonDateVisible" style="margin-top: 730px; margin-left: 1030px">
+                    <el-form v-if="typhoonDateVisible" style="margin-top: 680px; margin-left: 980px">
                         <el-form-item>
                             <div class="info">
-                                <!--<h4></h4>-->
                                 云图拍摄时间: {{this.typhoonDate}}
                             </div>
                         </el-form-item>
@@ -148,6 +147,10 @@
     import {isLongitude, isLatitude} from '@/utils/validate';
     import typhoon from '@/icons/typhoon.png';
     import base_station_red from '@/icons/base_station_red.png';
+    import base_station_orange from '@/icons/base_station_orange.png';
+    import base_station_green from '@/icons/base_station_green.png';
+    import base_station_blue from '@/icons/base_station_blue.png';
+    import base_station_white from '@/icons/base_station_white.png';
 
     let amapManager = new AMapManager();
     export default {
@@ -161,6 +164,7 @@
                 typhoonDate: '',
                 typhoonDateVisible: false,
                 dataListLoading: false,
+                pointSimplifierIns: null,
                 queryParam: {
                     operator: '',
                     county: '',
@@ -208,21 +212,6 @@
                 amapManager,
                 zoom: 9,
                 center: [109.724, 19.22],
-                events: {
-                    init: (o) => {
-                        lazyAMapApiLoaderInstance.load().then(() => {
-                            // console.log(o);
-                            // o.getCity(result => { })
-                            // this.massMarksSearch();
-                        });
-                    },
-                    'moveend': () => {
-                    },
-                    'zoomchange': () => {
-                    },
-                    'click': (e) => {
-                    }
-                },
                 plugin: ['ToolBar',
                     {
                         pName: 'MapType',
@@ -234,20 +223,19 @@
             };
         },
         mounted() {
-            // setInterval(() => {
-            //     this.linkQuery()
-            // }, 180000);
-            //
-            // setInterval(() => {
-            //     this.getAlarmAmount()
-            // }, 300000);
+            setInterval(() => {
+                this.linkQuery()
+            }, 180000);
 
+            setInterval(() => {
+                this.getAlarmAmount()
+            }, 600000);
         },
         created() {
             this.getAlarmAmount();
             this.getAlarmList();
             this.getBizScene();
-            // this.scroll();
+            this.scroll();
         },
         beforeDestroy() {
             clearInterval(this.timer);
@@ -332,12 +320,13 @@
             },
             //告警站点标记
             massSearch() {
-                var map = this.amapManager.getMap();
+                let map = this.amapManager.getMap();
+
                 if (window.pointSimplifierIns) {
                     //清空上次查询的海量点
                     window.pointSimplifierIns.setData([]);
                 }
-                var pointsData = [];
+                let pointsData = [];
                 this.dataListLoading = true;
                 this.$http({
                     url: this.$http.adornUrl('/api/disaster/queryAmm'),
@@ -351,71 +340,100 @@
                         this.marksList.forEach(element => {
                             pointsData.push({
                                 stationName: element.stationName,
-                                icon: base_station_red,
+                                operator: element.belongOperator,
                                 position: [element.longitude, element.latitude],
                                 alarmName: element.alarmName,
                                 level: element.stationSecurityLevel
                             })
                         });
 
-                        AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
-                            if (!PointSimplifier.supportCanvas) {
-                                alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
-                                return;
-                            }
-                            let pointSimplifierIns = new PointSimplifier({
-                                map: map,
-                                // zIndex: 200, //绘制用图层的叠加顺序值,选高一点的
-                                // data : {},
-                                autoSetFitView: false,  //不自动调整地图视野以适合全部点
-                                compareDataItem: function (a, b, aIndex, bIndex) {
-                                    //数据源中靠后的元素优先，index大的排到前面去
-                                    return aIndex > bIndex ? -1 : 1;
-                                },
-                                getPosition: function (dataItem) {
-                                    //返回数据项的经纬度，AMap.LngLat实例或者经纬度数组
-                                    return dataItem.position;
-                                },
-                                getHoverTitle: function (dataItem, idx) {
-                                    //返回数据项的Title信息，鼠标hover时显示
-                                    return '' + dataItem.stationName;
-                                },
-                                // renderConstructor: PointSimplifier.Render.Canvas.GroupStyleRender,
-                                renderOptions: {
-                                    pointStyle: {
-                                        // fillStyle: '#f08200', //颜色填充 blue
-                                        content: PointSimplifier.Render.Canvas.getImageContent(base_station_red,
-                                            function onload() {
-                                                pointSimplifierIns.renderLater();
-                                            },
-                                            function onerror(e) {
-                                                alert('图片加载失败！');
-                                            }),
-                                        width: 16,
-                                        //高度
-                                        height: 16
+                        lazyAMapApiLoaderInstance.load().then(() => {
+                            // let iconGroup = [base_station_red, base_station_orange, base_station_blue, base_station_green, base_station_white];
+                            let colorGroup = [
+                                '#7030a0',
+                                '#fa0000',
+                                '#ff9a07',
+                                '#f3ee0e',
+                                '#7af366'
+                            ];
+                            AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
+                                if (!PointSimplifier.supportCanvas) {
+                                    alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
+                                    return;
+                                }
+                                let pointSimplifierIns = new PointSimplifier({
+                                    map: map,
+                                    // zIndex: 200, //绘制用图层的叠加顺序值,选高一点的
+                                    autoSetFitView: false,  //不自动调整地图视野以适合全部点
+                                    compareDataItem: function (a, b, aIndex, bIndex) {
+                                        //数据源中靠后的元素优先，index大的排到前面去
+                                        return aIndex > bIndex ? -1 : 1;
                                     },
-                                    hoverTitleStyle: {
-                                        position: 'top'
+                                    getPosition: function (dataItem) {
+                                        //返回数据项的经纬度，AMap.LngLat实例或者经纬度数组
+                                        return dataItem.position;
                                     },
-                                },
-                            });
-
-                            window.pointSimplifierIns = pointSimplifierIns;
-                            pointSimplifierIns.setData(pointsData);
-                            pointSimplifierIns.on('pointClick', function (event, point) {
-                                let info = [];
-                                info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>" + point.data.stationName + "</b>");
-                                info.push("坐标：" + point.data.position);
-                                // info.push("站点名称： " + point.data.stationName);
-                                info.push("告警名称： " + point.data.alarmName);
-                                info.push("保障等级： " + point.data.level);
-                                let infoWindow = new AMap.InfoWindow({
-                                    content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容
+                                    getHoverTitle: function (dataItem, idx) {
+                                        //返回数据项的Title信息，鼠标hover时显示
+                                        return '' + dataItem.stationName;
+                                    },
+                                    renderConstructor: PointSimplifier.Render.Canvas.GroupStyleRender,
+                                    renderOptions: {
+                                        pointStyle: {
+                                            fillStyle: '#000000',
+                                            width: 16,
+                                            height: 16
+                                        },
+                                        getGroupId: function (item, idx) {
+                                            if (item.level == null) {
+                                                return 4
+                                            } else {
+                                                return item.level.slice(1, 2) - 1;
+                                            }
+                                        },
+                                        groupStyleOptions: function (gid) {
+                                            let size = 14;
+                                            return {
+                                                pointStyle: {
+                                                    fillStyle: colorGroup[gid],
+                                                    // content: PointSimplifier.Render.Canvas.getImageContent(iconGroup[gid],
+                                                    //     function onLoad() {
+                                                    //         pointSimplifierIns.renderLater();
+                                                    //     },
+                                                    //     function onError(e) {
+                                                    //         alert('图片加载失败！');
+                                                    //     }),
+                                                    width: size,
+                                                    height: size,
+                                                    offset: ['-50%', '-50%'],
+                                                },
+                                                pointHardcoreStyle: {
+                                                    width: size - 2,
+                                                    height: size - 2
+                                                }
+                                            };
+                                        },
+                                        hoverTitleStyle: {
+                                            position: 'top'
+                                        },
+                                    },
                                 });
-                                infoWindow.open(map, point.data.position);
+
+                                window.pointSimplifierIns = pointSimplifierIns;
+                                pointSimplifierIns.on('pointClick', function (event, point) {
+                                    let info = [];
+                                    info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>" + point.data.stationName + "</b>");
+                                    info.push("坐标：" + point.data.position);
+                                    info.push("站点名称： " + point.data.stationName);
+                                    info.push("告警名称： " + point.data.alarmName);
+                                    info.push("保障等级： " + point.data.level);
+                                    let infoWindow = new AMap.InfoWindow({
+                                        content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容
+                                    });
+                                    infoWindow.open(map, point.data.position);
+                                });
+                                pointSimplifierIns.setData(pointsData);
                             });
-                            map.setFitView();
                         });
                     }
                     this.dataListLoading = false
@@ -424,9 +442,8 @@
             exportHandle() {
                 window.location.href = this.$http.adornUrl(`/api/zhzygl/exportStationAddress?county=${this.queryParam.county}&station_name=${this.queryParam.station_name}&address=${this.queryParam.address}&longitude=${this.queryParam.longitude}&latitude=${this.queryParam.latitude}&rangeValue=${this.queryParam.rangeValue}&biz_scene=${this.queryParam.biz_scene}&token=${this.$cookie.get('token')}`)
             },
-            // [{lati:55.040614,long:69.916992},{lati:55.046909,long:140.031738},{lati:14.944785,long:69.916992},{lati:14.934170,long:140.042725}]
-            cloud() {
-                var map = this.amapManager.getMap();
+            cloud() {  //卫星云图
+                let map = this.amapManager.getMap();
                 this.$http({
                     url: this.$http.adornUrl('/api/weather/clouds_list'),
                     method: 'get',
@@ -484,7 +501,7 @@
                     }
                 });
             },
-            clearMap() {
+            clearMap() { //清除标记
                 this.typhoonDateVisible = false;
                 let map = this.amapManager.getMap();
                 map.clearMap();
@@ -501,10 +518,9 @@
                     }
                 })
             },
-            //台风轨迹
-            typhoonTrajectory() {
+            typhoonTrajectory() {  //台风轨迹
                 let map = this.amapManager.getMap();
-
+                map.clearMap();
                 this.$http({
                     url: this.$http.adornUrl('/api/weather/typhoon_list'),
                     method: 'get',
@@ -520,17 +536,16 @@
                                 })
                             }).then(({data}) => {
                                 let pointPath = [];
-
                                 data.json.typhoon[8].forEach(item => {
                                     let typhoonMarker = new AMap.Marker({
                                         map: map,
-                                        offset:new AMap.Pixel(-8,-8),  //图标基准位置在右下角，要根据大小调整到正中间
+                                        offset: new AMap.Pixel(-8, -8),  //图标基准位置在右上角，要根据大小调整到正中间
                                         position: [item[4], item[5]],
                                         icon: typhoon,
                                         title: item[12][1]
                                     });
                                     typhoonMarker.on('click', function () {
-                                        var info = [];
+                                        let info = [];
                                         info.push("<div style=\"padding:0px 0px 0px 5px;\"><b>" + data.json.typhoon[2] + "(" + data.json.typhoon[1] + ") 状态：" + data.json.typhoon[7] + " </b>");
                                         info.push("中心经度：" + item[4] + " 纬度：" + item[5]);
                                         info.push("到达时间：" + item[1]);
@@ -548,7 +563,7 @@
                                     pointPath.push([item[4], item[5]]);
                                     let polyline = new AMap.Polyline({
                                         map: map,
-                                        path:pointPath,
+                                        path: pointPath,
                                         isOutline: false,
                                         borderWeight: 2,
                                         strokeColor: "#ff9a07",
@@ -559,7 +574,6 @@
                                         lineCap: 'round'
                                     });
                                     map.add(polyline);
-
                                 })
                             });
                         })
