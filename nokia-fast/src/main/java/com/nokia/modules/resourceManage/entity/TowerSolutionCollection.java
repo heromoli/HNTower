@@ -17,7 +17,6 @@ import java.util.Date;
 public class TowerSolutionCollection extends RowModel implements Serializable {
 
     //	(type = IdType.INPUT)
-    @TableId
     private Long id;
 
     @ExcelProperty(index = 1, value = {"序号"})
@@ -53,302 +52,377 @@ public class TowerSolutionCollection extends RowModel implements Serializable {
     @ExcelProperty(index = 11, value = {"中心纬度"})
     private String latitude;
 
-    @ExcelProperty(index = 12, value = {""})
+    @ExcelProperty(index = 12, value = {"方案类型"})
+    private String projectType;
+
+    //现状
+    //塔类宏站
+    //存量站址数
+    @ExcelProperty(index = 13, value = {""})
     private int xzHzClzzs;
 
-    @ExcelProperty(index = 13, value = {""})
+    //电信企业存量站址情况
+    //其中移动站址数
+    @ExcelProperty(index = 14, value = {""})
     private int xzHzYdzzs;
 
-    @ExcelProperty(index = 14, value = {""})
+    @ExcelProperty(index = 15, value = {""})
     private int xzHzLtzzs;
 
-    @ExcelProperty(index = 15, value = {""})
+    @ExcelProperty(index = 16, value = {""})
     private int xzHzDxzzs;
 
-    @ExcelProperty(index = 16, value = {""})
+    //宏站站址类型
+    @ExcelProperty(index = 17, value = {""})
     private int xzHzDmts;
 
-    @ExcelProperty(index = 17, value = {""})
+    @ExcelProperty(index = 18, value = {""})
     private int xzHzJyts;
 
-    @ExcelProperty(index = 18, value = {""})
+    @ExcelProperty(index = 19, value = {""})
     private int xzHzLmts;
 
-    @ExcelProperty(index = 19, value = {""})
+    @ExcelProperty(index = 20, value = {""})
     private int xzHzShzyts;
 
-    @ExcelProperty(index = 20, value = {""})
+    //塔类微站
+    //存量微站点位数
+    @ExcelProperty(index = 21, value = {""})
     private int xzWzClzzs;
 
-    @ExcelProperty(index = 21, value = {""})
+    //电信企业存量站址情况
+    @ExcelProperty(index = 22, value = {""})
     private int xzWzYdzzs;
 
-    @ExcelProperty(index = 22, value = {""})
+    @ExcelProperty(index = 23, value = {""})
     private int xzWzLtzzs;
 
-    @ExcelProperty(index = 23, value = {""})
+    @ExcelProperty(index = 24, value = {""})
     private int xzWzDxzzs;
 
-    @ExcelProperty(index = 24, value = {""})
+    //微站站址类型
+    @ExcelProperty(index = 25, value = {""})
     private int xzWzLmdws;
 
-    @ExcelProperty(index = 25, value = {""})
+    @ExcelProperty(index = 26, value = {""})
     private int xzWzGtdws;
 
-    @ExcelProperty(index = 26, value = {""})
+    @ExcelProperty(index = 27, value = {""})
     private int xzWzShzydws;
 
-    @ExcelProperty(index = 27, value = {""})
-    private int wxHzWldwxq;
-
+    //无线部分
+    //塔类宏站
+    //规划数
+    //规划点位
     @ExcelProperty(index = 28, value = {""})
-    private int wxHzYdxq;
+    private int wxHzWlghdw;
 
     @ExcelProperty(index = 29, value = {""})
-    private int wxHzLtxq;
+    private int wxHzYdghdw;
 
     @ExcelProperty(index = 30, value = {""})
-    private int wxHzDxxq;
+    private int wxHzLtghdw;
 
     @ExcelProperty(index = 31, value = {""})
-    private int wxHzGdxq;
+    private int wxHzDxghdw;
 
     @ExcelProperty(index = 32, value = {""})
-    private int wxHzZzsClzggs;
+    private int wxHzGdghdw;
 
+    //需求数
+    //已下需求点位
     @ExcelProperty(index = 33, value = {""})
-    private int wxHzZzsClzgydgs;
+    private int wxHzWldwxq;
 
     @ExcelProperty(index = 34, value = {""})
-    private int wxHzZzsClzgltgs;
+    private int wxHzYdxq;
 
     @ExcelProperty(index = 35, value = {""})
-    private int wxHzZzsClzgdxgs;
+    private int wxHzLtxq;
 
     @ExcelProperty(index = 36, value = {""})
-    private int wxHzZzsClljgs;
+    private int wxHzDxxq;
 
     @ExcelProperty(index = 37, value = {""})
-    private int wxHzZzsClljydgs;
+    private int wxHzGdxq;
 
+    //站址数
+    //存量自改规模
     @ExcelProperty(index = 38, value = {""})
-    private int wxHzZzsClljltgs;
+    private int wxHzZzsClzggs;
 
     @ExcelProperty(index = 39, value = {""})
-    private int wxHzZzsClljdxgs;
+    private int wxHzZzsClzgydgs;
 
     @ExcelProperty(index = 40, value = {""})
-    private int wxHzZzsClljgdgs;
+    private int wxHzZzsClzgltgs;
 
     @ExcelProperty(index = 41, value = {""})
-    private int wxHzZzsXjzgs;
+    private int wxHzZzsClzgdxgs;
 
+    //存量利旧规模
     @ExcelProperty(index = 42, value = {""})
-    private int wxHzZzsXjzydgs;
+    private int wxHzZzsClljgs;
 
     @ExcelProperty(index = 43, value = {""})
-    private int wxHzZzsXjzltgs;
+    private int wxHzZzsClljydgs;
 
     @ExcelProperty(index = 44, value = {""})
-    private int wxHzZzsXjzdxgs;
+    private int wxHzZzsClljltgs;
 
     @ExcelProperty(index = 45, value = {""})
-    private int wxHzZzsXjz2jgxgs;
+    private int wxHzZzsClljdxgs;
 
     @ExcelProperty(index = 46, value = {""})
-    private int wxHzZzsXjz3jgxgs;
+    private int wxHzZzsClljgdgs;
 
+    //新建站规模
     @ExcelProperty(index = 47, value = {""})
-    private int wxHzZzsXjzgdgs;
+    private int wxHzZzsXjzgs;
 
     @ExcelProperty(index = 48, value = {""})
-    private int wxHzZzsXjzdmtgs;
+    private int wxHzZzsXjzydgs;
 
     @ExcelProperty(index = 49, value = {""})
-    private int wxHzZzsXjzjytgs;
+    private int wxHzZzsXjzltgs;
 
     @ExcelProperty(index = 50, value = {""})
-    private int wxHzZzsXjzlmtgs;
+    private int wxHzZzsXjzdxgs;
 
     @ExcelProperty(index = 51, value = {""})
-    private int wxHzZzsXjzshzytgs;
+    private int wxHzZzsXjz2jgxgs;
 
     @ExcelProperty(index = 52, value = {""})
-    private double wxHzCltzWsdgz;
+    private int wxHzZzsXjz3jgxgs;
 
     @ExcelProperty(index = 53, value = {""})
-    private double wxHzCltzPzgz;
+    private int wxHzZzsXjzgdgs;
 
+    //新建站站址类型
     @ExcelProperty(index = 54, value = {""})
-    private double wxHzCltzTwgz;
+    private int wxHzZzsXjzdmtgs;
 
     @ExcelProperty(index = 55, value = {""})
-    private double wxHzCltzZjgz;
+    private int wxHzZzsXjzjytgs;
 
     @ExcelProperty(index = 56, value = {""})
-    private double wxHzLjtzWsdgz;
+    private int wxHzZzsXjzlmtgs;
 
     @ExcelProperty(index = 57, value = {""})
-    private double wxHzLjtzPzgz;
+    private int wxHzZzsXjzshzytgs;
 
+    //投资
+    //存量自改投资
     @ExcelProperty(index = 58, value = {""})
-    private double wxHzLjtzTwgz;
+    private double wxHzCltzWsdgz;
 
     @ExcelProperty(index = 59, value = {""})
-    private double wxHzLjtzZjgz;
+    private double wxHzCltzPzgz;
 
     @ExcelProperty(index = 60, value = {""})
-    private double wxHzXjztzDmt;
+    private double wxHzCltzTwgz;
 
     @ExcelProperty(index = 61, value = {""})
-    private double wxHzXjztzJyt;
+    private double wxHzCltzZjgz;
 
+    //利旧存量投资
     @ExcelProperty(index = 62, value = {""})
-    private double wxHzXjztzLmt;
+    private double wxHzLjtzWsdgz;
 
     @ExcelProperty(index = 63, value = {""})
-    private double wxHzXjztzShzyt;
+    private double wxHzLjtzPzgz;
 
     @ExcelProperty(index = 64, value = {""})
-    private double wxHzHzztz;
+    private double wxHzLjtzTwgz;
 
     @ExcelProperty(index = 65, value = {""})
-    private int wxWzxqWldw;
+    private double wxHzLjtzZjgz;
 
+    //新建站站址类型分类投资
     @ExcelProperty(index = 66, value = {""})
-    private int wxWzxqYdxq;
+    private double wxHzXjztzDmt;
 
     @ExcelProperty(index = 67, value = {""})
-    private int wxWzxqLtxq;
+    private double wxHzXjztzJyt;
 
     @ExcelProperty(index = 68, value = {""})
-    private int wxWzxqDxxq;
+    private double wxHzXjztzLmt;
 
     @ExcelProperty(index = 69, value = {""})
-    private int wxWzxqGdxq;
+    private double wxHzXjztzShzyt;
 
+    //宏站总投资
     @ExcelProperty(index = 70, value = {""})
-    private int wxWzdwzs;
+    private double wxHzHzztz;
 
+    //无线
+    //塔类微站
+    //微站规划点位
     @ExcelProperty(index = 71, value = {""})
-    private int wxWzdwLmz;
+    private int wxWzghWldw;
 
     @ExcelProperty(index = 72, value = {""})
-    private int wxWzdwZjtg;
+    private int wxWzghYddw;
 
     @ExcelProperty(index = 73, value = {""})
-    private int wxWzdwShzy;
+    private int wxWzghLtdw;
 
     @ExcelProperty(index = 74, value = {""})
-    private double wxWztzLmz;
+    private int wxWzghDxdw;
 
     @ExcelProperty(index = 75, value = {""})
-    private double wxWztzZjtg;
+    private int wxWzghGddw;
 
+    //微站已下需求点位
     @ExcelProperty(index = 76, value = {""})
-    private double wxWztzShzy;
+    private int wxWzxqWldw;
 
     @ExcelProperty(index = 77, value = {""})
-    private double wxWztzzs;
+    private int wxWzxqYdxq;
 
     @ExcelProperty(index = 78, value = {""})
-    private double wxZtz;
+    private int wxWzxqLtxq;
 
     @ExcelProperty(index = 79, value = {""})
-    private double csZtz;
+    private int wxWzxqDxxq;
 
     @ExcelProperty(index = 80, value = {""})
-    private double qtZtz;
+    private int wxWzxqGdxq;
 
+    //微站点位
     @ExcelProperty(index = 81, value = {""})
-    private double zyZtz;
+    private int wxWzdwzs;
 
     @ExcelProperty(index = 82, value = {""})
+    private int wxWzdwLmz;
+
+    @ExcelProperty(index = 83, value = {""})
+    private int wxWzdwZjtg;
+
+    @ExcelProperty(index = 84, value = {""})
+    private int wxWzdwShzy;
+
+    //投资
+    @ExcelProperty(index = 85, value = {""})
+    private double wxWztzLmz;
+
+    @ExcelProperty(index = 86, value = {""})
+    private double wxWztzZjtg;
+
+    @ExcelProperty(index = 87, value = {""})
+    private double wxWztzShzy;
+
+    @ExcelProperty(index = 88, value = {""})
+    private double wxWztzzs;
+
+    //无线总投资
+    @ExcelProperty(index = 89, value = {""})
+    private double wxZtz;
+
+    //传输投资
+    @ExcelProperty(index = 90, value = {""})
+    private double csZtz;
+
+    //其他投资
+    @ExcelProperty(index = 91, value = {""})
+    private double qtZtz;
+
+    //总投资
+    @ExcelProperty(index = 92, value = {""})
+    private double zyZtz;
+
+    @ExcelProperty(index = 93, value = {"建设年份"})
     private String buildYear;
 
     @JsonProperty("planFormTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 83, value = {"计划编制时间"})
+    @ExcelProperty(index = 94, value = {"计划编制时间"})
     private Date planFormTime;
 
-    @ExcelProperty(index = 84, value = {"网络类型"})
+    @ExcelProperty(index = 95, value = {"网络类型"})
     private String netType;
 
-    @ExcelProperty(index = 85, value = {"方案类型"})
+    @ExcelProperty(index = 96, value = {"方案类型"})
     private String planType;
 
-    @ExcelProperty(index = 86, value = {"方案状态"})
+    @ExcelProperty(index = 97, value = {"方案状态"})
     private String planStatus;
 
-    @ExcelProperty(index = 87, value = {"", ""})
+    //方案状态跟进
+    //运营商方案推送情况
+    //移动推送跟踪
+    @ExcelProperty(index = 98, value = {"", ""})
     private String mobilePlanProgress;
 
     @JsonProperty("mobileCameTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 88, value = {"", ""})
+    @ExcelProperty(index = 99, value = {"", ""})
     private Date mobileCameTime;
 
     @JsonProperty("mobilePlanConfirmTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 89, value = {"", ""})
+    @ExcelProperty(index = 100, value = {"", ""})
     private Date mobilePlanConfirmTime;
 
     @JsonProperty("mobileDemandTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 90, value = {"", ""})
+    @ExcelProperty(index = 101, value = {"", ""})
     private Date mobileDemandTime;
 
-    @ExcelProperty(index = 91, value = {"", ""})
+    //联通推送跟踪
+    @ExcelProperty(index = 102, value = {"", ""})
     private String unicomPlanProgress;
 
     @JsonProperty("unicomCameTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 92, value = {"", ""})
+    @ExcelProperty(index = 103, value = {"", ""})
     private Date unicomCameTime;
 
     @JsonProperty("unicomPlanConfirmTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 93, value = {"", ""})
+    @ExcelProperty(index = 104, value = {"", ""})
     private Date unicomPlanConfirmTime;
 
     @JsonProperty("unicomDemandTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 94, value = {"", ""})
+    @ExcelProperty(index = 105, value = {"", ""})
     private Date unicomDemandTime;
 
-    @ExcelProperty(index = 95, value = {"", ""})
+    //电信推送跟踪
+    @ExcelProperty(index = 106, value = {"", ""})
     private String telecomPlanProgress;
 
     @JsonProperty("telecomCameTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 96, value = {"", ""})
+    @ExcelProperty(index = 107, value = {"", ""})
     private Date telecomCameTime;
 
     @JsonProperty("telecomPlanConfirmTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 97, value = {"", ""})
+    @ExcelProperty(index = 108, value = {"", ""})
     private Date telecomPlanConfirmTime;
 
     @JsonProperty("telecomDemandTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 98, value = {"", ""})
+    @ExcelProperty(index = 109, value = {"", ""})
     private Date telecomDemandTime;
 
-    @ExcelProperty(index = 99, value = {"", ""})
+    //广电推送跟踪
+    @ExcelProperty(index = 110, value = {"", ""})
     private String guangdianPlanProgress;
 
     @JsonProperty("guangdianCameTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 100, value = {"", ""})
+    @ExcelProperty(index = 111, value = {"", ""})
     private Date guangdianCameTime;
 
     @JsonProperty("guangdianPlanConfirmTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 101, value = {"", ""})
+    @ExcelProperty(index = 112, value = {"", ""})
     private Date guangdianPlanConfirmTime;
 
     @JsonProperty("guangdianDemandTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ExcelProperty(index = 102, value = {"", ""})
+    @ExcelProperty(index = 113, value = {"", ""})
     private Date guangdianDemandTime;
 }

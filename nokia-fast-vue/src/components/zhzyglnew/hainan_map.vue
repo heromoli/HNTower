@@ -4,11 +4,7 @@
 </template>
 
 <script>
-    import echarts from 'echarts'
     import hainan_json from '@/utils/460000.json'
-    // import hainan_json from '@/utils/460000_full.json'
-    // import hainan_json from 'echarts/map/json/province/hainan.json'
-    // import china_json from 'echarts/map/json/china'
 
     export default {
         name: "hainan_map",
@@ -30,8 +26,8 @@
             this.initChartMap();
 
             let myChart = this.$echarts.init(document.getElementById('J_chartMapBox'), 'light');
-            var hourIndex = 0;
-            var fhourTime = null;
+            let hourIndex = 0;
+            let fhourTime = null;
 
             fhourTime = setInterval(function () {
                 myChart.dispatchAction({
@@ -101,7 +97,7 @@
         },
         methods: {
             initChartMap() {
-                var option = {
+                let option = {
                     title: {
                         text: '海南各市县基站数',
                         left: 'center',
@@ -119,7 +115,7 @@
                         showDelay: 0,
                         transitionDuration: 0.2,
                         formatter: function (params) {
-                            var value = (params.value + '').split('.');
+                            let value = (params.value + '').split('.');
                             value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
                             return params.seriesName + '<br/>' + params.name + ': ' + value;
                         }
@@ -152,8 +148,9 @@
                         {
                             name: '基站数',
                             type: 'map',
-                            map: 'hainan', // 自定义扩展图表类型
+                            map: 'hainan',    // 自定义地图名称
                             roam: false,     //设置缩放
+                            aspectScale:0.95,    //设置地图的长宽比
                             itemStyle: {
                                 normal: {label: {show: true}},
                                 emphasis: {label: {show: true}}
@@ -178,10 +175,8 @@
                     ]
                 };
 
-                this.$echarts.registerMap('hainan', hainan_json);
-                // let myChart = this.$echarts.init(document.getElementById('J_chartMapBox'), 'light');
+                this.$echarts.registerMap('hainan', hainan_json);     //自定义地图名称
                 this.chartMap = this.$echarts.init(document.getElementById('J_chartMapBox'), 'light');
-                // this.chartMap = myChart;
                 this.chartMap.setOption(option);
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/getStationAmount'),

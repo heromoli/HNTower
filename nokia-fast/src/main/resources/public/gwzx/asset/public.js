@@ -1,18 +1,18 @@
 document.write("<script type='text/javascript' src='asset/data.js'></script>");
 document.write("<script type='text/javascript' src='asset/loaddata.js'></script>");
 
-var time_len = 5*60*1000;
+var time_len = 5 * 60 * 1000;
 
 $(function () {
-    setInterval(init,time_len);
+
+    setInterval(init, time_len);
     init();
 });
 
-function init(){
+function init() {
+    $(".loading").fadeOut();
     pagelogin();
     startClock();
-
-
     loss();
     left_up();
 
@@ -25,15 +25,14 @@ function init(){
     centre_down();
     // loadleft2('left2', dataleft2);
     // loadtable('left3', dataleft3);
-
     // loadcenter1(datacenter1);
     // loadcenter2('center2', datacenter23);
     // loadcenter3('center3', dataFormate(datacenter23), datacenter23);
-
     // loadtable('right1',dataright1);
-    loadDynamicTable('right2',dataright2);
-    // loadtable('right3',dataright3);
+    loadDynamicTable('right2', dataright2);
+    // loadright3('right3', dataright3);
     righ_down();
+    document.getElementById('zhezhao').style.display = "none";
 
 }
 
@@ -41,32 +40,35 @@ function init(){
 function pagelogin() {
     var h = document.body.clientHeight;
     var h1 = $(".header").height();
-    $(".contain").height((h - 16 - h1 +20) + 'px');
+    $(".contain").height((h - 16 - h1 + 10) + 'px');
 
     var ch = $(".contain").height() - 6 * 7;
     $(".row-1").height(ch + 'px');
-    $(".row-2").height(ch / 2 + 'px');
+    $(".row-2").height(ch * 2 / 3 + 12 + 'px');
     $(".row-3").height(ch / 3 + 'px');
-    $(".row-4").height(ch / 4 + 'px');
+    $(".row-4").height(ch / 4 + 27 + 'px');
     $(".main").height('100%');
     $(".piestl").height($(".row-3 .main").height() + 'px');
-    $(".datadiv").height($(".row-3 .main").height() + 'px');
-    $(".card").width(($(".col-6").width() / 4+1) + 'px');
+    // $(".datadiv").height($(".row-3 .main").height() + 'px');
+    $(".card").width(($(".col-6").width() / 4) + 'px');
 
     $(".card2").height('96%');
     $(".card1").height('46%');
-    $(".card-3").height();
+    // $(".card-3").height();
+    $("#center1").height($(".row-3 .main").height() - 30 + 'px');
     $("#center2").height($(".row-2 .main").height() + 'px');
-    $("#center3").height($(".row-4 .main").height() + 'px');
+    // $("#center3").height($(".row-4 .main").height() + 'px');
     $("#right2").height($(".row-3 .main").height() + 'px');
+    $("#right3").height($(".row-3 .main").height() - $(".row-3 .divtitle").height() - 10 + 'px');
 }
 
 window.onresize = function () {
     pagelogin()
-}
+};
 
 // 时钟》》》》》》》》》》》》》》》》》》》》
 var timer = null;
+
 function displayClock(num) {//num是传入的startClock中的动态值
     if (num < 10) {
         return "0" + num;
@@ -85,24 +87,25 @@ function startClock() {
     stime.innerHTML = time.getFullYear() + "-" + month + "-" + time.getDate() + " " + hours + minutes + seconds;//在id为show的块区域显示
     timer = setTimeout("startClock()", 1000);//延时器
 }
+
 // 时钟《《《《《《《《《《《《《《《《《《《《《《
 
 function loadleft1(divid, dd, title, value) {
     var myChartpie = echarts.init(document.getElementById(divid));
-    var data = [value, value, value, value, value, ];
+    var data = [value, value, value, value, value,];
     var arr = [];
     for (let i in dd) {
-        if(i!='RATE')
-        arr.push(i + ':' + dd[i]);
+        if (i != 'RATE')
+            arr.push(i + ':' + dd[i]);
     }
 
-    var option = {
+    var option1 = {
         title: {
             text: title,
             left: 'center',
             top: 5,
             textStyle: {
-                color: '#e6e2e2d9',
+                color: '#fff',
                 fontSize: '16px Microsoft YaHei'
             }
         },
@@ -145,26 +148,26 @@ function loadleft1(divid, dd, title, value) {
             },
             label: {
                 normal: {
-                    formatter: (value*100 ).toFixed(2) + '%',
+                    formatter: (value * 100).toFixed(2) + '%',
                 }
             }
         }]
     };
 
-    myChartpie.setOption(option);
+    myChartpie.setOption(option1);
 
-    window.addEventListener("resize",()=>{
+    window.addEventListener("resize", () => {
         myChartpie.resize();
     });
 }
 
-function loadleft2(divid, data){
+function loadleft2(divid, data) {
     var str = '';
-    if(data.length >0 ){
+    if (data.length > 0) {
         str = str + '<table class="jingtai_top">';
         str = str + '	<thead>';
         str = str + '		<tr>';
-        for(let i in data[0]){
+        for (let i in data[0]) {
             str = str + '			<th >' + i + '</th>';
         }
         str = str + '		</tr>';
@@ -175,20 +178,20 @@ function loadleft2(divid, data){
         str = str + '		<tbody>';
         for (let i = 0; i < data.length; i++) {
             str = str + '			<tr>';
-            for(let j in data[i]){
-                if(j == '运营商'){
-                    if(data[i][j] == '联通'){
+            for (let j in data[i]) {
+                if (j == '运营商') {
+                    if (data[i][j] == '联通') {
                         str = str + '			<td ><img src="asset/icon/liantong.png"></img></td>';
-                    }else if(data[i][j] == '电信'){
+                    } else if (data[i][j] == '电信') {
                         str = str + '			<td ><img src="asset/icon/dianxin.png"></img></td>';
-                    }else if(data[i][j] == '移动'){
+                    } else if (data[i][j] == '移动') {
                         str = str + '			<td ><img src="asset/icon/yidong.png"></img></td>';
                     }
-                }else if(j == '修复率'){
+                } else if (j == '修复率') {
                     str = str + '			<td ><div id="scheduleX"><div class="xList" style="width:' + data[i][j] + ';"><span class="xNum">' + data[i][j] + '%</span></span></div></div></td>';
-                }else if(j == '退服率'){
+                } else if (j == '退服率') {
                     str = str + '			<td >' + data[i][j] + '%</td>';
-                }else{
+                } else {
                     str = str + '			<td >' + data[i][j] + '</td>';
                 }
 
@@ -202,18 +205,18 @@ function loadleft2(divid, data){
         $("#" + divid).html(str);
 
 
-    }else{
+    } else {
         $('#' + divid).html("无数据");
     }
 }
 
-function loadtable(divid, data){
+function loadtable(divid, data) {
     var str = '';
-    if(data.length >0 ){
+    if (data.length > 0) {
         str = str + '<table class="jingtai_top">';
         str = str + '	<thead>';
         str = str + '		<tr>';
-        for(let i in data[0]){
+        for (let i in data[0]) {
             str = str + '			<th >' + i + '</th>';
         }
         str = str + '		</tr>';
@@ -224,13 +227,13 @@ function loadtable(divid, data){
         str = str + '		<tbody>';
         for (let i = 0; i < data.length; i++) {
             str = str + '			<tr>';
-            for(let j in data[i]){
-                if(j.indexOf('率')==j.length-1){
+            for (let j in data[i]) {
+                if (j.indexOf('率') == j.length - 1) {
                     str = str + '			<td >' + data[i][j] + '%</td>';
-                }else{
+                } else {
                     str = str + '			<td >' + data[i][j] + '</td>';
                 }
-                
+
             }
             str = str + '			</tr>';
         }
@@ -241,9 +244,100 @@ function loadtable(divid, data){
         $("#" + divid).html(str);
 
 
-    }else{
+    } else {
         $('#' + divid).html("无数据");
     }
+}
+
+function loadright3(divid, data) {
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById(divid));
+    var legendarr = [];
+    var c = ['#33b565', '#20cc98', '#2089cf', '#205bcf', '#211fdd'];
+    var seriesdata = [];
+    for (let i = 0; i < data.length; i++) {
+        legendarr[data.length - i] = data[i].告警名称;
+        seriesdata[i] = {
+            value: data[i].告警基站数量,
+            name: data[i].告警名称,
+            itemStyle: {
+                normal: {
+                    color: c[i]
+                }
+            }
+        }
+    }
+
+    for (let l = 0; l < 4; l++) {
+        seriesdata[data.length + l] = {
+            value: 0,
+            name: "",
+            label: {
+                show: false
+            },
+            labelLine: {
+                show: false
+            }
+        }
+    }
+    var option2 = {
+        backgroundColor: 'rgba(0,0,0,0)',
+        tooltip: {
+            trigger: 'item',
+            formatter: "{b}  <br/>{c}"
+        },
+        legend: {
+            x: 'center',
+            y: '2%',
+            data: legendarr,
+            icon: 'circle',
+            textStyle: {
+                color: '#fff',
+            }
+        },
+        calculable: true,
+        series: [{
+            name: '应急信息',
+            type: 'pie',
+            //起始角度，支持范围[0, 360]
+            startAngle: 0,
+            //饼图的半径，数组的第一项是内半径，第二项是外半径
+            radius: [51, 80],
+            //支持设置成百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度
+            center: ['50%', '30%'],
+            //是否展示成南丁格尔图，通过半径区分数据大小。可选择两种模式：
+            // 'radius' 面积展现数据的百分比，半径展现数据的大小。
+            //  'area' 所有扇区面积相同，仅通过半径展现数据大小
+            roseType: 'area',
+            //是否启用防止标签重叠策略，默认开启，圆环图这个例子中需要强制所有标签放在中心位置，可以将该值设为 false。
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: true,
+                    formatter: '{c}'
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: true,
+                    length2: 1,
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data: seriesdata
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option2);
+    window.addEventListener("resize", function () {
+        myChart.resize();
+    });
 }
 
 function dataFormate(data) {
@@ -264,8 +358,8 @@ function dataFormate(data) {
     return newdata;
 }
 
-function loadcenter1(data){
-    for(var i =1;i <8 ;i++){
+function loadcenter1(data) {
+    for (var i = 1; i < 8; i++) {
         var t = $('#d' + i + ' p.title').html();
         $('#d' + i + ' p.value').html(data[t]);
     }
@@ -274,7 +368,7 @@ function loadcenter1(data){
 // 加载柱状图
 function loadcenter3(divid, dataList, dd) {
     var myChartbarline = echarts.init(document.getElementById(divid));
-    var option = {
+    var option3 = {
         title: {text: ''},
         grid: {
             top: '15%',
@@ -408,114 +502,179 @@ function loadcenter3(divid, dataList, dd) {
         }]
     };
 
-    myChartbarline.setOption(option);
+    myChartbarline.setOption(option3);
 
-    window.addEventListener("resize",()=>{
+    window.addEventListener("resize", () => {
         myChartbarline.resize();
     });
 }
 
+var geoCoordMap = {
+    '海口': [110.3893, 19.8516],
+    '三亚': [109.3716, 18.3698],
+    '临高': [109.6957, 19.8063],
+    '琼海': [110.4208, 19.224],
+    '文昌': [110.8905, 19.7823],
+    '儋州': [109.3291, 19.5653],
+    '东方': [108.8498, 19.0414],
+    '昌江': [109.0407, 19.2837],
+    '白沙': [109.3703, 19.211],
+    '万宁': [110.3137, 18.8388],
+    '定安': [110.3384, 19.4698],
+    '保亭': [109.6284, 18.6108],
+    '乐东': [109.0283, 18.6301],
+    '澄迈': [109.9937, 19.7314],
+    '琼中': [109.8413, 19.0736],
+    '屯昌': [110.0377, 19.362],
+    '陵水': [109.9924, 18.5415],
+    '五指山': [109.5282, 18.8299],
+};
+
+// 转换地图数据
+var convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+        var geoCoord = geoCoordMap[data[i].name];
+        if (geoCoord) {
+            res.push({
+                name: data[i].name,
+                value: geoCoord.concat(data[i].value)
+            });
+        }
+    }
+    return res;
+};
+
 // 加载地图
 function loadcenter2(divid, dataList) {
-
-    echarts.registerMap('海南', geoJson);
+    echarts.registerMap('hainan', hainanJson);
     var myMapChart = echarts.init(document.getElementById(divid));
-    option = {
+    var option4 = {
         title: {
             text: '退服率',
             textStyle: {
-                color: '#e6e2e2d9',
+                color: '#006be4',
                 fontSize: 18
             }
         },
         tooltip: {
-            formatter: function (params, ticket, callback) {
-                return params.name + '<br />'
-                    + params.seriesName + '：' + params.value + '%<br />'
-                    + ' 退服数：' + params.data['退服数'] + '<br />'
-                    + ' 总站数：' + params.data['总站数']
+            trigger: 'item',
+            formatter: function (params) {
+                var num = 0;
+                var all = 0;
+                dataList.forEach(e => {
+                    if (e.name == params.name) {
+                        num = e.退服数;
+                        all = e.总站数
+                    }
+                });
+                return params.name + "<br>" +
+                    "退服率: " + params.value.toString().split(",")[2] + "%" + "<br>" +
+                    "退服数: " + num + "<br>" +
+                    "总站数: " + all;
             },
-            // extraCssText:'width:100px;height:85px;'
         },
-        // visualMap: {
-        //     min: 0,
-        //     max: 10,
-        //     left: 'left',
-        //     top: 'bottom',
-        //     text: ['高', '低'],
+        // dataRange: {
+        //     x: 'right',
+        //     y: 'bottom',
+        //     splitList: [
+        //         {start: 10, end: 100, label: '10 到 100（严重）', color: 'red'},
+        //         {start: 5, end: 10, color:'#e8e051'},
+        //         {start: 1, end: 5, color:'#9ed35f'},
+        //         {end: 1, color: '#6ad367'}
+        //     ],
         //     textStyle: {
-        //         color: '#fff',
-        //         fontSize: 12
+        //         fontSize: '14',
+        //         color: '#e6e2e2d9'
         //     },
-        //     inRange: {
-        //         color: ['#2c7ba8', '#8cceff']
-        //     },
-        //     show: true
         // },
-        dataRange: {
-            x: 'left',
-            y: 'bottom',
-            splitList: [
-                {start: 10, end: 100, label: '10 到 100（严重）', color: 'red'},
-                {start: 5, end: 10, color:'#e8e051'},
-                {start: 2, end: 5, color:'#9ed35f'},
-                {end: 2, color: '#6ad367'}
-            ],
-            textStyle: {
-                fontSize: '14',
-                color: '#e6e2e2d9'
-            },
-        },
         geo: {
-            map: '海南',
-            roam: false,
-            zoom: 1.23,
+            map: 'hainan',
+            roam: false,     //设置缩放
+            zoom: 1.2,
+            aspectScale: 0.95,    //设置地图的长宽比
             label: {
-                normal: {
-                    show: true,
-                    fontSize: '14',
-                    color: '#e6e2e2d9'
+                emphasis: {
+                    show: false
                 }
             },
             itemStyle: {
                 normal: {
-                    // areaColor: '#98FB98',
                     borderWidth: 1,//设置外层边框
-                    borderColor: '#5cc0f7',
-                    // shadowColor: '#5cd5e4',
-                    shadowBlur: 100
+                    areaColor: '#3eabff',
+                    borderColor: '#fff',
+                    shadowBlur: 5
                 },
                 emphasis: {
-                    areaColor: '#75ddc8',
-                    shadowOffsetX: 0,
-                    shadowOffsetY: 0,
-                    shadowBlur: 20,
-                    borderWidth: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    areaColor: '#006be4'
                 }
-            },
-            // left: '6%',
-            // top: 40,
-            // bottom: '54%',
-            // right: '14%',
-            // roam: true,
-            // scaleLimit:{                       //所属组件的z分层，z值小的图形会被z值大的图形覆盖
-            //     min: 1,                          //最小的缩放值
-            //     max:10,                            //最大的缩放值
-            // }
+            }
         },
         series: [
             {
                 name: '退服率',
-                type: 'map',
-                geoIndex: 0,
-                data: dataList,
+                type: 'scatter',
+                coordinateSystem: 'geo',
+                data: convertData(dataList),
+                symbolSize: function (val) {
+                    return val[2] * 10 / 2;
+                },
+                label: {
+                    normal: {
+                        formatter: '{b}',
+                        position: 'right',
+                        show: false
+                    },
+                    emphasis: {
+                        show: true
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#ffffff'
+                    }
+                }
+            },
+            {
+                name: 'Top 5',
+                type: 'effectScatter',
+                coordinateSystem: 'geo',
+                data: convertData(dataList.sort(function (a, b) {
+                    return b.value - a.value;
+                }).slice(0, 6)),
+                // data: convertData(dataList),
+                symbolSize: function (val) {
+                    return val[2] * 10 / 5;
+                },
+                encode: {
+                    value: 2
+                },
+                showEffectOn: 'render',
+                rippleEffect: {
+                    brushType: 'stroke'
+                },
+                hoverAnimation: true,
+                label: {
+                    normal: {
+                        formatter: '{b}',
+                        position: 'right',
+                        show: true
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#0041d2',
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(0,0,0,.3)'
+                    }
+                },
+                zlevel: 1
             }
         ]
     };
-    myMapChart.setOption(option);
 
-    window.addEventListener("resize",()=>{
+    myMapChart.setOption(option4);
+    window.addEventListener("resize", () => {
         myMapChart.resize();
     });
 }
@@ -523,9 +682,9 @@ function loadcenter2(divid, dataList) {
 var gundong;
 
 // 加载table
-function loadDynamicTable(divid,data){
+function loadDynamicTable(divid, data) {
     var str = '';
-    if(data.length >0 ){
+    if (data.length > 0) {
         str = str + '<table class="top">';
         str = str + '	<thead>';
         str = str + '		<tr>';
@@ -553,16 +712,16 @@ function loadDynamicTable(divid,data){
 
         gundong = setInterval(scrollTop, 1000);
 
-    }else{
-       $('#' + divid).html("无数据");
+    } else {
+        $('#' + divid).html("无数据");
     }
 }
 
-function notgundong(){
+function notgundong() {
     clearInterval(gundong);
 }
 
-function isgundong(){
+function isgundong() {
     gundong = setInterval(scrollTop, 3000);
 }
 
@@ -570,16 +729,36 @@ function scrollTop() {
     var sTab = document.getElementsByClassName('tab-scroll')[0];//要滚动的表
     var tbody = sTab.getElementsByTagName('tbody')[0];//要滚动表格的内容
     sTab.appendChild(tbody.cloneNode(true));//追加一次滚动内容,以防滚动后可视区域无内容
-    var speed = sTab.getElementsByTagName('td')[0].offsetHeight+1;//每次滚动的距离
-    var tbdh = tbody.offsetHeight+1;//整个表的高度,是因为上边的边不算滚动
+    var speed = sTab.getElementsByTagName('td')[0].offsetHeight + 1;//每次滚动的距离
+    var tbdh = tbody.offsetHeight + 1;//整个表的高度,是因为上边的边不算滚动
 
     var t = sTab.offsetTop;//获取要滚动表的位置
     if (-tbdh == t) {//比较  滚动的距离等于整个表的高度   即第一个表完全看不见
         sTab.style.transition = '0s';//过渡动画设为0秒
         sTab.style.top = 0;//位置设为初始位置
         scrollTop();//因为偷梁换柱消耗了一次过程,所以把这一次过程补回来
-    }else{
+    } else {
         sTab.style.transition = '1s';
         sTab.style.top = t - speed + 'px';
     }
+}
+
+function ditubigScreen() {
+    document.getElementById('zhezhao').style.display = "";
+    document.getElementById('oframe').style.display = "none";
+    loadcenter2('bigditu', datacenter23);
+}
+
+function bigScreen() {
+    document.getElementById('oframe').style.display = "";
+    document.getElementById('zhezhao').style.display = "";
+    // document.getElementById('bigtaifeng').className = "fullScreen";
+    // $("#tankuang").html('<iframe id="bigtaifeng" width="100%" height="100%" src="http://typhoon.weather.com.cn/gis/typhoon_full.shtml" frameborder="0"></iframe>')
+    // var qrdiv = $("<div></div>").qrcode("http://typhoon.weather.com.cn/gis/typhoon_full.shtml");
+    // $("#qrcode-iframe").contents().find("body").append(qrdiv);
+    document.getElementById("oframe").src = "http://typhoon.weather.com.cn/gis/typhoon_full.shtml";
+}
+
+function hidder() {
+    document.getElementById('zhezhao').style.display = "none";
 }

@@ -40,4 +40,24 @@ public interface StationAmountService extends IService<StationInfoAmount> {
 
     List<StationInfoAmount> selectStation5gAmountByMonth();
 
+    List<StationInfoAmount> selectProvinceTuisong();
+
+    List<StationInfoAmount> selectByProjectType(String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhBuildType(String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhStationType(String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhOperator(String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhNetType(String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqBuildType(String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqStationType(String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqOperator(String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqNetType(String cityBranchCompany);
+
 }

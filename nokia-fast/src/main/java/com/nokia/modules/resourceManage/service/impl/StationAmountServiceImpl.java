@@ -181,11 +181,58 @@ public class StationAmountServiceImpl extends ServiceImpl<StationAmountDao, Stat
         return baseMapper.selectMonthlyStation5GAmount();
     }
 
+    @Override
+    public List<StationInfoAmount> selectProvinceTuisong() {
+        return baseMapper.selectProvinceTuisong();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectByProjectType(String cityBranchCompany) {
+        return baseMapper.selectByProjectType(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectGhBuildType(String cityBranchCompany) {
+        return baseMapper.selectGhBuildType(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectGhStationType(String cityBranchCompany) {
+        return baseMapper.selectGhStationType(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectGhOperator(String cityBranchCompany) {
+        return baseMapper.selectGhOperator(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectGhNetType(String cityBranchCompany) {
+        return baseMapper.selectGhNetType(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectXqBuildType(String cityBranchCompany) {
+        return baseMapper.selectXqBuildType(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectXqStationType(String cityBranchCompany) {
+        return baseMapper.selectXqStationType(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectXqOperator(String cityBranchCompany) {
+        return baseMapper.selectXqOperator(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectXqNetType(String cityBranchCompany) {
+        return baseMapper.selectXqNetType(cityBranchCompany);
+    }
+
     public static void main(String[] args) {
         Calendar cal = Calendar.getInstance();
-//        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
 
         for (long i = 1L; i <= 6L; i++) {
             LocalDate localDate = LocalDate.now().minusYears(i);

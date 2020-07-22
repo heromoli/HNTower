@@ -1,7 +1,7 @@
 /**
  加载数据
  */
-var url = "/fast/api/gwzx/"
+var url = "/fast/api/gwzx/";
 
 function loss(){
     $.ajax({url:url+"loss",success:function(result){
@@ -23,24 +23,21 @@ function loss(){
 function centre_down(){
 
     $.ajax({url:url+"centre_down",success:function(result){
-        // console.log(result)
         var page = result.page;
         var datacenter23 = [];
         for(var i = 0 ;i< page.length;  i ++){
-            var o = {}
+            var o = {};
             for(var key in page[i]){
                 o[key.toLowerCase()]=page[i][key];
             }
             datacenter23.push(o);
         }
         loadcenter2('center2', datacenter23);
-        loadcenter3('center3', dataFormate(datacenter23), datacenter23);
     }});
 }
 
 function left_up(){
     $.ajax({url:url+"left_up",success:function(result){
-        // console.log(result)
         var pageData = result.page[0];
         var dataleft1 =
             {
@@ -90,7 +87,7 @@ function left_down(){
 function righ_down(){
 
     $.ajax({url:url+"righ_down",success:function(result){
-        console.log(result)
-        loadtable('right3', result.page);
+        // console.log(result);
+        loadright3('right3', result.page);
     }});
 }

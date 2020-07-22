@@ -29,7 +29,7 @@
 		order by value desc
 	</select>
 
-	<select id="selectCountyAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+    <select id="selectCountyAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
 		select t.county name,count(*) value from STATION_ADDRESS_MANAGEMENT t
       		where t.county in ('龙华区','美兰区','秀英区','琼山区','崖州区','吉阳区','天涯区','海棠区','琼海市','儋州市')
     	group by t.county
@@ -51,7 +51,7 @@
             group by t.if_operator_share
 	</select>
 
-	<select id="selectStationAloneAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+    <select id="selectStationAloneAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
 		  select '移动' as name,sum(case when instr(t.if_operator_share,'移动')>0 then 1 else 0 end） value
 			from station_address_management t
 		union all
@@ -79,14 +79,14 @@
 		order by 1 desc
 	</select>
 
-	<select id="selectStationIncreaseByYear" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+    <select id="selectStationIncreaseByYear" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
    		select nvl(name, '未知') name, value
 			from (select substr(t.delivery_time,0,4) name,count(*) value from STATION_ADDRESS_MANAGEMENT t
 				group by substr(t.delivery_time,0,4) order by name)
 		order by 1 desc
 	</select>
 
-	<select id="selectStationAmountByMonth" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+    <select id="selectStationAmountByMonth" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
    		select nvl(name, '未知') name, value
 			from (select substr(t.delivery_time,0,7) name,count(*) value from STATION_ADDRESS_MANAGEMENT t
 				group by substr(t.delivery_time,0,7) order by name)
@@ -106,7 +106,7 @@
           from dual
 	</select>
 
-	<select id="selectOperatorStationAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+    <select id="selectOperatorStationAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
 		select t.operator name,sum(site_equity_num) value from OPERATOR_STATION_INFO t
 		group by operator
 	</select>
@@ -123,6 +123,165 @@
 		where t.delivery_time is not null
 		group by to_char(to_date(t.delivery_time,'yyyy-mm-dd'),'yyyy-mm')
 		order by name
+	</select>
+
+    <select id="selectProvinceTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
+        <if test="cityBranchCompany != null and cityBranchCompany != ''">
+            where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+        </if>
+		group by plan_status
+	</select>
+
+    <select id="selectHaikouTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
+		where city_branch_company = '海口分公司'
+		group by plan_status
+	</select>
+
+    <select id="selectSanyaTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
+		where city_branch_company = '三亚分公司'
+		group by plan_status
+	</select>
+
+    <select id="selectQionghaiTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
+		where city_branch_company = '琼海分公司'
+		group by plan_status
+	</select>
+
+    <select id="selectDanzhouTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
+		where city_branch_company = '儋州分公司'
+		group by plan_status
+	</select>
+
+	<select id="selectByProjectType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.project_type as name,count(t.project_type) as value from TOWER_SOLUTION_COLLECTION t
+        where t.project_type is not null
+        <if test="cityBranchCompany != null and cityBranchCompany != ''">
+          and city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+        </if>
+        group by t.project_type
+	</select>
+
+    <select id="selectGhBuildType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '存量利旧' as name,sum(t.wx_Hz_Zzs_Clljgs) as  value from TOWER_SOLUTION_COLLECTION t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '新建站点' as name,sum(t.WX_HZ_ZZS_XJZGS) as  value from TOWER_SOLUTION_COLLECTION t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+
+	</select>
+
+    <select id="selectGhStationType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '宏站' as name,sum(t.wx_Hz_Wlghdw) as  value from TOWER_SOLUTION_COLLECTION t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.SERIAL_NUMBER like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '微站' as name,sum(t.wx_Wzgh_Wldw) as  value from TOWER_SOLUTION_COLLECTION t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.SERIAL_NUMBER like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '室分' as name,count(d.station_type) as  value from TOWER_SOLUTION_DETAIL d
+			where d.station_type = '室分'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and d.PROJECT_NUMBER like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+	</select>
+
+    <select id="selectGhOperator" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '移动' as name,sum(t.wx_Hz_Ydghdw) + sum(t.wx_Wzgh_Yddw) as value from TOWER_SOLUTION_COLLECTION t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '联通' as name,sum(t.wx_Hz_ltghdw) + sum(t.wx_Wzgh_ltdw) as  value from TOWER_SOLUTION_COLLECTION t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '电信' as name,sum(t.wx_Hz_dxghdw) + sum(t.wx_Wzgh_dxdw) as  value from TOWER_SOLUTION_COLLECTION t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+	</select>
+
+    <select id="selectGhNetType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '4G' as name,sum(t.wx_Hz_Wlghdw) + sum(t.wx_Wzgh_Wldw) as value from TOWER_SOLUTION_COLLECTION t
+			where t.net_Type like '%4G%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '5G' as name,sum(t.wx_Hz_Wlghdw) + sum(t.wx_Wzgh_Wldw) as value from TOWER_SOLUTION_COLLECTION t
+			where t.net_Type like '%5G%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+	</select>
+
+    <select id="selectXqBuildType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '存量利旧' as name,count(t.build_type) as value from TOWER_SOLUTION_SUBMITTED t
+		where t.build_type like '%利旧%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '新建站点' as name,count(t.build_type) as value from TOWER_SOLUTION_SUBMITTED t
+		  where t.build_type like '%新建%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+	</select>
+
+    <select id="selectXqStationType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select t.station_type as name,count(t.station_type) as value from TOWER_SOLUTION_SUBMITTED t
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		group by t.station_type
+	</select>
+
+	<select id="selectXqOperator" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '移动' as name,count(operator_name) as value from TOWER_SOLUTION_SUBMITTED t
+			where t.operator_name like '%移动%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '联通' as name,count(operator_name) as value from TOWER_SOLUTION_SUBMITTED t
+			where t.operator_name like '%联通%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '电信' as name,count(operator_name) as value from TOWER_SOLUTION_SUBMITTED t
+			where t.operator_name like '%电信%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+	</select>
+
+	<select id="selectXqNetType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '4G' as name,count(net_type) as value from TOWER_SOLUTION_SUBMITTED t
+			where t.net_type like '%4G%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
+		union all
+		select '5G' as name,count(net_type) as value from TOWER_SOLUTION_SUBMITTED t
+			where t.net_type like '%5G%'
+		<if test="cityBranchCompany != null and cityBranchCompany != ''">
+			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
+		</if>
 	</select>
 
 </mapper>

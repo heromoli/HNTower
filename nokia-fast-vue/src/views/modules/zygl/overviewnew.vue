@@ -4,16 +4,10 @@
         <el-row :gutter="3" :style="'height:'+heights.t+'px'">
             <el-col :span="24" align="center">
                 <img :src="logo" alt="" align="center" style="margin-top: 15px"/>
-                <!--<template style="color:white">-->
-                <!--&lt;!&ndash;<iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=48" width="auto" height="50px" frameborder="0" marginwidth="10" marginheight="0" scrolling="no"></iframe>&ndash;&gt;-->
-                <!--<iframe name="weather_inc" src="http://i.tianqi.com/index.php?c=code&id=9" width="500" height="60"-->
-                <!--frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>-->
-                <!--</template>-->
                 <div class="currenttime">
                     <span>{{times}}</span>
                 </div>
                 <div class="tianqi">
-                    <!--<img src="asset/image/tianqi.png" alt="" align="right">-->
                     <iframe width="365" scrolling="no" height="24" frameborder="0" allowtransparency="true"
                             src="//i.tianqi.com/index.php?c=code&id=1&color=%23FFFFFF&icon=1&py=haikou&wind=1&num=1&site=12"></iframe>
                 </div>
@@ -99,9 +93,6 @@
                 </div>
             </el-col>
         </el-row>
-        <!--</el-main>-->
-        <!--<el-footer></el-footer>-->
-        <!--</el-container>-->
     </div>
 </template>
 

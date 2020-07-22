@@ -45,6 +45,9 @@ public class zhzyglController extends BaseController {
     private TowerSolutionDetailService towerSolutionDetailService;
 
     @Autowired
+    private TowerSolutionSubmittedService sdService;
+
+    @Autowired
     private TowerSolutionStatisticService statisticService;
 
     @Autowired
@@ -397,7 +400,7 @@ public class zhzyglController extends BaseController {
             throw new RRException("上传文件不能为空");
         }
         //上传文件
-        List<TowerSolutionCollection> list = ExcelUtil.readExcel(file, TowerSolutionCollection.class, 3, 9);
+        List<TowerSolutionCollection> list = ExcelUtil.readExcel(file, TowerSolutionCollection.class, 4, 8);
         if (list.size() > 0) {
             towerSolutionCollectionService.deleteAll();
         }
@@ -409,12 +412,6 @@ public class zhzyglController extends BaseController {
                 continue;
             }
         }
-
-//        try {
-//                towerSolutionCollectionService.saveBatch(list);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         return RData.ok();
     }
 
@@ -424,14 +421,34 @@ public class zhzyglController extends BaseController {
             throw new RRException("上传文件不能为空");
         }
         //上传文件
-
-        List<TowerSolutionDetail> list = ExcelUtil.readExcel(file, TowerSolutionDetail.class, 4, 1);
+        List<TowerSolutionDetail> list = ExcelUtil.readExcel(file, TowerSolutionDetail.class, 5, 0);
         if (list.size() > 0) {
             towerSolutionDetailService.deleteAll();
         }
         for (TowerSolutionDetail detail : list) {
             try {
                 towerSolutionDetailService.save(detail);
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return RData.ok();
+    }
+
+    @PostMapping("/submittedDemandUpload")
+    public RData submittedDemandUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+        //上传文件
+        List<TowerSolutionSubmitted> list = ExcelUtil.readExcel(file, TowerSolutionSubmitted.class, 7, 1);
+//        if (list.size() > 0) {
+//            sdService.deleteAll();
+//        }
+        for (TowerSolutionSubmitted collection : list) {
+            try {
+                sdService.save(collection);
             } catch (Exception e) {
                 e.printStackTrace();
                 continue;
@@ -466,7 +483,7 @@ public class zhzyglController extends BaseController {
     public RData queryTowerSolutionDetailList(@RequestParam Map<String, Object> params) {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
-        List<TowerSolutionDetail> towerSolutionDetailList = towerSolutionDetailService.selectDataByParam( queryParams);
+        List<TowerSolutionDetail> towerSolutionDetailList = towerSolutionDetailService.selectDataByParam(queryParams);
         return RData.ok().put("list", towerSolutionDetailList);
     }
 
@@ -482,7 +499,177 @@ public class zhzyglController extends BaseController {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         List<TowerSolutionStatistics> statisticsList = statisticService.selectDataByParam(params, queryParams);
-
         return RData.ok().put("amountList", statisticsList);
+    }
+
+    @GetMapping("/getProvinceTuisongStatus")
+    public RData getProvinceTuisongStatus() {
+        List<StationInfoAmount> amountList = stationAmountService.selectProvinceTuisong();
+        String[] statusNameList = new String[amountList.size()];
+        for (int i = 0; i < amountList.size(); i++) {
+            statusNameList[i] = amountList.get(i).getName();
+        }
+        RData rData = new RData().ok();
+        rData.put("amountList", amountList);
+        rData.put("nameList", statusNameList);
+        return rData;
+    }
+
+    @GetMapping("/getProjectType")
+    public RData getProjectType(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectByProjectType(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+
+        return rData;
+    }
+
+    @GetMapping("/getGuihuaByBuildType")
+    public RData getGuihuaByBuildType(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectGhBuildType(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+
+        return rData;
+    }
+
+    @GetMapping("/getGuihuaByStationType")
+    public RData getGuihuaByStationType(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectGhStationType(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+
+        return rData;
+    }
+
+    @GetMapping("/getGuihuaByOperator")
+    public RData getGuihuaByOperator(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectGhOperator(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+
+        return rData;
+    }
+
+    @GetMapping("/getGuihuaByNetType")
+    public RData getGuihuaByNetType(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectGhNetType(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+        return rData;
+    }
+
+    @GetMapping("/getXuqiuByBuildType")
+    public RData getXuqiuByBuildType(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectXqBuildType(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+
+        return rData;
+    }
+
+
+    @GetMapping("/getXuqiuByStationType")
+    public RData getXuqiuByStationType(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectXqStationType(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+
+        return rData;
+    }
+
+    @GetMapping("/getXuqiuByOperator")
+    public RData getXuqiuByOperator(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectXqOperator(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+
+        return rData;
+    }
+
+    @GetMapping("/getXuqiuByNetType")
+    public RData getXuqiuByNetType(@RequestParam String cityBranchCompany) {
+        List<StationInfoAmount> amountList = stationAmountService.selectXqNetType(cityBranchCompany);
+        String[] nameList = new String[amountList.size()];
+        int totalData = 0;
+        for (int i = 0; i < amountList.size(); i++) {
+            nameList[i] = amountList.get(i).getName();
+            totalData += amountList.get(i).getValue();
+        }
+        RData rData = new RData().ok();
+
+        rData.put("nameList", nameList);
+        rData.put("amountList", amountList);
+        rData.put("totalData", totalData);
+        return rData;
     }
 }

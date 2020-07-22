@@ -27,7 +27,7 @@
                 @selection-change="handleSelectionChange">
             <el-table-column
                     type="selection"
-                    width="35">
+                    width="40">
             </el-table-column>
             <el-table-column
                     prop="projectNumber"
@@ -76,7 +76,7 @@
                     prop="netType"
                     header-align="center"
                     align="center"
-                    width="60"
+                    width="90"
                     label="网络类型">
             </el-table-column>
             <el-table-column
@@ -138,13 +138,13 @@
 
         </el-table>
         <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
-        <gaodeMap v-if="mapVisible" ref="gaodeMap" @refreshDataList="drawMarkerHandle"></gaodeMap>
+        <towerMap v-if="mapVisible" ref="towerMap" @refreshDataList="drawMarkerHandle"></towerMap>
     </div>
 </template>
 
 <script>
     import Upload from './tower_solution_detail_upload';
-    import gaodeMap from './tower_solution_map';
+    import towerMap from './tower_solution_map';
 
     export default {
         data() {
@@ -166,7 +166,7 @@
         },
         components: {
             Upload,
-            gaodeMap
+            towerMap
         },
         methods: {
             handleSelectionChange(val) {
@@ -175,7 +175,7 @@
             },
             // 获取数据列表
             getDataList() {
-                var params = this.$route.params.serialNumber;
+                let params = this.$route.params.serialNumber;
                 this.dataListLoading = true;
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetailList'),
@@ -206,9 +206,7 @@
             drawMarkerHandle() {
                 this.mapVisible = true;
                 this.$nextTick(() => {
-                    this.$refs.gaodeMap.init(this.multipleSelection);
-                    // this.$refs.gaodeMap.initPage();
-                    // this.$refs.gaodeMap.drawMarker(this.multipleSelection);
+                    this.$refs.towerMap.init(this.multipleSelection);
                 });
             }
         }

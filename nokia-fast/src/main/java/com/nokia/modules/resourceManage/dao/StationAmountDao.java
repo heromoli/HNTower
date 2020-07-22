@@ -45,4 +45,34 @@ public interface StationAmountDao extends BaseMapper<StationInfoAmount> {
 
     List<StationInfoAmount> selectMonthlyStation5GAmount();
 
+    List<StationInfoAmount> selectProvinceTuisong();
+
+    List<StationInfoAmount> selectHaikouTuisong();
+
+    List<StationInfoAmount> selectSanyaTuisong();
+
+    List<StationInfoAmount> selectQionghaiTuisong();
+
+    List<StationInfoAmount> selectDanzhouTuisong();
+
+    List<StationInfoAmount> selectByProjectType(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhBuildType(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhStationType(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhOperator(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectGhNetType(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqBuildType(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqStationType(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqOperator(@Param("cityBranchCompany") String cityBranchCompany);
+
+    List<StationInfoAmount> selectXqNetType(@Param("cityBranchCompany") String cityBranchCompany);
+
+
+
 }

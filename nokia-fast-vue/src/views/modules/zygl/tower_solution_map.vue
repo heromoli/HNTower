@@ -10,8 +10,7 @@
             :visible.sync="mapVisible">
         <div id="container" class="amap-demo">
             <el-amap ref="map" vid="'amap-vue'" :amap-manager="amapManager" :center="center" :zoom="zoom"
-                     :plugin="plugin"
-                     :events="events" v-loading="dataListLoading">
+                     :plugin="plugin"  v-loading="dataListLoading">
             </el-amap>
         </div>
     </el-dialog>
@@ -41,44 +40,38 @@
                 mapVisible: false,
                 dataList: [],
                 dataListLoading: false,
-
                 amapManager,
                 zoom: 12,
                 center: [110.317312, 20.022712],
-                events: {
-                    init: (o) => {
-                        lazyAMapApiLoaderInstance.load().then(() => {
-                            o.getCity(result => {
-                            });
-                            // this.massMarksSearch();
-                        });
-                    },
-                    'moveend': () => {
-                    },
-                    'zoomchange': () => {
-                    },
-                    'click': (e) => {
-                    }
-                },
-                plugin: ['ToolBar', {
-                    pName: 'MapType',
-                    defaultType: 0,
-                }]
+                plugin: ['ToolBar',
+                    {
+                        pName: 'MapType',
+                        defaultType: 0,
+                        showTraffic: false,
+                        showRoad: false
+                    }, 'Scale'
+                ]
             };
         },
-        mounted() {
-            //可以操作DOM
-        },
         methods: {
+            initMapUI(){
+                let map = this.amapManager.getMap();
+                AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
+                        let pointSimplifierIns1 = new PointSimplifier({
+                            map: map
+                        });
+                    window.pointSimplifierIns = pointSimplifierIns1;
+                });
+            },
             init(dataList) {
                 this.mapVisible = true;
                 this.dataList = dataList;
-                var map = this.amapManager.getMap();
+                let map = this.amapManager.getMap();
                 if (window.pointSimplifierIns) {
                     //清空上次查询的海量点
                     window.pointSimplifierIns.setData([]);
                 }
-                var pointsData = [];
+                let pointsData = [];
                 this.dataList.forEach(element => {
                     pointsData.push({
                         title: element.projectName,
@@ -86,12 +79,13 @@
                         address: element.planningStationName
                     })
                 });
+
                 AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
                     if (!PointSimplifier.supportCanvas) {
                         alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
                         return;
                     }
-                    var pointSimplifierIns = new PointSimplifier({
+                    let pointSimplifierIns = new PointSimplifier({
                         map: map,
                         // zIndex: 200, //绘制用图层的叠加顺序值,选高一点的
                         // data : {},
@@ -154,10 +148,9 @@
                     })
                     .catch(_ => {
                     });
-            }
-            ,
+            },
             closeHandle() {
-                this.fileList = [];
+                this.dataList = [];
                 // this.$emit('refreshDataList')
             }
 

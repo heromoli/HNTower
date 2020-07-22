@@ -12,7 +12,7 @@ import java.io.Serializable;
 @TableName("TOWER_SOLUTION_DETAIL")
 public class TowerSolutionDetail extends RowModel implements Serializable {
 
-    @TableId
+    @ExcelProperty(index = 0, value = {"序号"})
     private Long id;
 
     @ExcelProperty(index = 1, value = {"项目编号"})

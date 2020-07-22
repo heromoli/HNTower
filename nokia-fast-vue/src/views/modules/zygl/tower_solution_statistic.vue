@@ -14,9 +14,13 @@
                 <el-button @click="getDataList()">查询</el-button>
             </el-form-item>
         </el-form>
+        <!--:span-method="objectSpanMethod"-->
         <el-table :data="dataList"
                   border
                   stripe
+                  :span-method="objectSpanMethod"
+                  @cell-mouse-leave="cellMouseLeave"
+                  @cell-mouse-enter="cellMouseEnter"
                   v-loading="dataListLoading"
                   style="width: 100%">
             <el-table-column
@@ -206,22 +210,26 @@
 <script>
 
     import {formatDate} from '@/utils/initDateFormat'
+
     export default {
         name: "tower_solution_statistic",
         data() {
             return {
                 dataForm: {
-                    smonth:  formatDate(new Date(), 'yyyyMM'),
+                    smonth: formatDate(new Date(), 'yyyyMM'),
                 },
                 dataList: [],
-                // pageIndex: 1,
-                // pageSize: 23,
-                // totalPage: 0,
+                rowIndex: '-1',
+                OrderIndexArr: [],
+                hoverOrderArr: [],
                 dataListLoading: false,
             }
         },
+        mounted() {
+            this.getOrderNumber();
+        },
         created() {
-            this.getDataList()
+            this.getDataList();
         },
         methods: {
             // 获取数据列表
@@ -231,18 +239,82 @@
                     url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionStatistic'),
                     method: 'get',
                     params: this.$http.adornParams({
-                        // 'page': this.pageIndex,
-                        // 'limit': this.pageSize,
                         'queryParam': this.dataForm
                     })
                 }).then(({data}) => {
                     if (data && data.code === 0) {
                         this.dataList = data.amountList;
+                        this.getOrderNumber();
                     } else {
                         this.dataList = [];
                     }
                     this.dataListLoading = false
                 })
+            },
+            //相同内容的行合并
+            getOrderNumber() {
+                let OrderObj = {};
+                this.dataList.forEach((element, index) => {
+                    element.rowIndex = index;
+                    if (OrderObj[element.branch]) {
+                        OrderObj[element.branch].push(index)
+                    } else {
+                        OrderObj[element.branch] = [];
+                        OrderObj[element.branch].push(index)
+                    }
+                });
+                // 将数组长度大于1的值 存储到this.OrderIndexArr（也就是需要合并的项）
+                for (let k in OrderObj) {
+                    if (OrderObj[k].length > 1) {
+                        this.OrderIndexArr.push(OrderObj[k])
+                    }
+                }
+            },
+            // 合并单元格
+            objectSpanMethod({row, column, rowIndex, columnIndex}) {
+                if (columnIndex === 0) {
+                    for (let i = 0; i < this.OrderIndexArr.length; i++) {
+                        let element = this.OrderIndexArr[i];
+                        for (let j = 0; j < element.length; j++) {
+                            let item = element[j];
+                            if (rowIndex == item) {
+                                if (j == 0) {
+                                    return {
+                                        rowspan: element.length,
+                                        colspan: 1
+                                    }
+                                } else if (j != 0) {
+                                    return {
+                                        rowspan: 0,
+                                        colspan: 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+
+            tableRowClassName({row, rowIndex}) {
+                let arr = this.hoverOrderArr;
+                for (let i = 0; i < arr.length; i++) {
+                    if (rowIndex == arr[i]) {
+                        return 'hovered-row'
+                    }
+                }
+            },
+            cellMouseEnter(row, column, cell, event) {
+                this.rowIndex = row.rowIndex;
+                this.hoverOrderArr = [];
+                this.OrderIndexArr.forEach(element => {
+                    if (element.indexOf(this.rowIndex) >= 0) {
+                        this.hoverOrderArr = element
+                    }
+                })
+            },
+            cellMouseLeave(row, column, cell, event) {
+                this.rowIndex = '-1';
+                this.hoverOrderArr = [];
             }
         }
     }

@@ -31,6 +31,7 @@
         methods: {
             init(id) {
                 this.url = this.$http.adornUrl(`/api/zhzygl/towerSolutionCollectionUpload?token=${this.$cookie.get('token')}`);
+                // this.url = this.$http.adornUrl(`/api/zhzygl/towerSolutionDetailUpload?token=${this.$cookie.get('token')}`);
                 this.visible = true;
             },
             // 上传之前
