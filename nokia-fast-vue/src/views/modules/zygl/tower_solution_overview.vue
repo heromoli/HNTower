@@ -59,238 +59,301 @@
                     </el-col>
                 </el-row>
             </el-tab-pane>
-            <el-tab-pane label="海口" name="hk">
+            <el-tab-pane label="分公司" name="city">
                 <el-row :gutter="2">
                     <el-col :span="12">
                         <div class="main">
-                            <hkPlanStatus_bar v-if="'hk' === activeName"/>
+                            <cityPlanStatus_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
                     <el-col :span="12">
                         <div class="main">
-                            <hkProjectType_bar v-if="'hk' === activeName"/>
+                            <cityProjectType_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
                 </el-row>
                 <el-row :gutter="2">
-                    <el-col :span="6">
+                    <el-col :span="12">
                         <div class="main">
-                            <hkGuihuaByBuildType_pie v-if="'hk' === activeName"/>
+                            <city-gh-by-build-type_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="12">
                         <div class="main">
-                            <hkGuihuaByStationType_pie v-if="'hk' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <hkGuihuaByOperator_pie v-if="'hk' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <hkGuihuaByNetType_pie v-if="'hk' === activeName"/>
+                            <city-gh-by-station-type_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
                 </el-row>
                 <el-row :gutter="2">
-                    <el-col :span="6">
+                    <el-col :span="12">
                         <div class="main">
-                            <hkXuqiuByBuildType_pie v-if="'hk' === activeName"/>
+                            <city-gh-by-operator_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="12">
                         <div class="main">
-                            <hkXuqiuByStationType_pie v-if="'hk' === activeName"/>
+                            <city-gh-by-net-type_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
-                    <el-col :span="6">
+                </el-row>
+                <el-row :gutter="2">
+                    <el-col :span="12">
                         <div class="main">
-                            <hkXuqiuByOperator_pie v-if="'hk' === activeName"/>
+                            <city-xq-by-build-type_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="12">
                         <div class="main">
-                            <hkXuqiuByNetType_pie v-if="'hk' === activeName"/>
+                            <city-xq-by-station-type_bar v-if="'city' === activeName"/>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="2">
+                    <el-col :span="12">
+                        <div class="main">
+                            <city-xq-by-operator_bar v-if="'city' === activeName"/>
+                        </div>
+                    </el-col>
+                    <el-col :span="12">
+                        <div class="main">
+                            <city-xq-by-net-type_bar v-if="'city' === activeName"/>
                         </div>
                     </el-col>
                 </el-row>
             </el-tab-pane>
-            <el-tab-pane label="三亚" name="sy">
-                <el-row :gutter="2">
-                    <el-col :span="12">
-                        <div class="main">
-                            <syPlanStatus_bar v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <div class="main">
-                            <syProjectType_bar v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="2">
-                    <el-col :span="6">
-                        <div class="main">
-                            <syGuihuaByBuildType_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <syGuihuaByStationType_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <syGuihuaByOperator_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <syGuihuaByNetType_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="2">
-                    <el-col :span="6">
-                        <div class="main">
-                            <syXuqiuByBuildType_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <syXuqiuByStationType_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <syXuqiuByOperator_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <syXuqiuByNetType_pie v-if="'sy' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-            </el-tab-pane>
-            <el-tab-pane label="琼海" name="qh">
-                <el-row :gutter="2">
-                    <el-col :span="12">
-                        <div class="main">
-                            <qhPlanStatus_bar v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <div class="main">
-                            <qhProjectType_bar v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="2">
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhGuihuaByBuildType_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhGuihuaByStationType_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhGuihuaByOperator_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhGuihuaByNetType_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="2">
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhXuqiuByBuildType_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhXuqiuByStationType_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhXuqiuByOperator_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <qhXuqiuByNetType_pie v-if="'qh' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-            </el-tab-pane>
-            <el-tab-pane label="儋州" name="dz">
-                <el-row :gutter="2">
-                    <el-col :span="12">
-                        <div class="main">
-                            <dzPlanStatus_bar v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <div class="main">
-                            <dzProjectType_bar v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="2">
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzGuihuaByBuildType_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzGuihuaByStationType_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzGuihuaByOperator_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzGuihuaByNetType_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="2">
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzXuqiuByBuildType_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzXuqiuByStationType_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzXuqiuByOperator_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                    <el-col :span="6">
-                        <div class="main">
-                            <dzXuqiuByNetType_pie v-if="'dz' === activeName"/>
-                        </div>
-                    </el-col>
-                </el-row>
-            </el-tab-pane>
+
+            <!--<el-tab-pane label="海口" name="hk">-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<hkPlanStatus_bar v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<hkProjectType_bar v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkGuihuaByBuildType_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkGuihuaByStationType_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkGuihuaByOperator_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkGuihuaByNetType_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkXuqiuByBuildType_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkXuqiuByStationType_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkXuqiuByOperator_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<hkXuqiuByNetType_pie v-if="'hk' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+            <!--</el-tab-pane>-->
+            <!--<el-tab-pane label="三亚" name="sy">-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<syPlanStatus_bar v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<syProjectType_bar v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syGuihuaByBuildType_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syGuihuaByStationType_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syGuihuaByOperator_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syGuihuaByNetType_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syXuqiuByBuildType_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syXuqiuByStationType_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syXuqiuByOperator_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<syXuqiuByNetType_pie v-if="'sy' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+            <!--</el-tab-pane>-->
+            <!--<el-tab-pane label="琼海" name="qh">-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<qhPlanStatus_bar v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<qhProjectType_bar v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhGuihuaByBuildType_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhGuihuaByStationType_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhGuihuaByOperator_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhGuihuaByNetType_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhXuqiuByBuildType_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhXuqiuByStationType_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhXuqiuByOperator_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<qhXuqiuByNetType_pie v-if="'qh' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+            <!--</el-tab-pane>-->
+            <!--<el-tab-pane label="儋州" name="dz">-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<dzPlanStatus_bar v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="12">-->
+                        <!--<div class="main">-->
+                            <!--<dzProjectType_bar v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzGuihuaByBuildType_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzGuihuaByStationType_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzGuihuaByOperator_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzGuihuaByNetType_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+                <!--<el-row :gutter="2">-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzXuqiuByBuildType_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzXuqiuByStationType_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzXuqiuByOperator_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                    <!--<el-col :span="6">-->
+                        <!--<div class="main">-->
+                            <!--<dzXuqiuByNetType_pie v-if="'dz' === activeName"/>-->
+                        <!--</div>-->
+                    <!--</el-col>-->
+                <!--</el-row>-->
+            <!--</el-tab-pane>-->
         </el-tabs>
     </div>
 </template>
@@ -310,50 +373,60 @@
     import xuqiuByOperator_pie from '@/components/tower_solution/xuqiuByOperator_pie'
     import xuqiuByNetType_pie from '@/components/tower_solution/xuqiuByNetType_pie'
 
-    import hkPlanStatus_bar from '@/components/tower_solution/hkPlanStatus_bar'
-    import hkProjectType_bar from '@/components/tower_solution/hkProjectType_bar'
-    import hkGuihuaByBuildType_pie from '@/components/tower_solution/hkGuihuaByBuildType_pie'
-    import hkGuihuaByStationType_pie from '@/components/tower_solution/hkGuihuaByStationType_pie'
-    import hkGuihuaByOperator_pie from '@/components/tower_solution/hkGuihuaByOperator_pie'
-    import hkGuihuaByNetType_pie from '@/components/tower_solution/hkGuihuaByNetType_pie'
-    import hkXuqiuByBuildType_pie from '@/components/tower_solution/hkXuqiuByBuildType_pie'
-    import hkXuqiuByStationType_pie from '@/components/tower_solution/hkXuqiuByStationType_pie'
-    import hkXuqiuByOperator_pie from '@/components/tower_solution/hkXuqiuByOperator_pie'
-    import hkXuqiuByNetType_pie from '@/components/tower_solution/hkXuqiuByNetType_pie'
+    import cityPlanStatus_bar from '@/components/tower_solution/cityPlanStatus_bar'
+    import cityProjectType_bar from '@/components/tower_solution/cityProjectType_bar'
+    import cityGhByBuildType_bar from '@/components/tower_solution/cityGhByBuildType_bar'
+    import cityGhByNetType_bar from '@/components/tower_solution/cityGhByNetType_bar'
+    import cityGhByOperator_bar from '@/components/tower_solution/cityGhByOperator_bar'
+    import cityGhByStationType_bar from '@/components/tower_solution/cityGhByStationType_bar'
+    import cityXqByBuildType_bar from '@/components/tower_solution/cityXqByBuildType_bar'
+    import cityXqByNetType_bar from '@/components/tower_solution/cityXqByNetType_bar'
+    import cityXqByOperator_bar from '@/components/tower_solution/cityXqByOperator_bar'
+    import cityXqByStationType_bar from '@/components/tower_solution/cityXqByStationType_bar'
 
-    import syPlanStatus_bar from '@/components/tower_solution/syPlanStatus_bar'
-    import syProjectType_bar from '@/components/tower_solution/syProjectType_bar'
-    import syGuihuaByBuildType_pie from '@/components/tower_solution/syGuihuaByBuildType_pie'
-    import syGuihuaByStationType_pie from '@/components/tower_solution/syGuihuaByStationType_pie'
-    import syGuihuaByOperator_pie from '@/components/tower_solution/syGuihuaByOperator_pie'
-    import syGuihuaByNetType_pie from '@/components/tower_solution/syGuihuaByNetType_pie'
-    import syXuqiuByBuildType_pie from '@/components/tower_solution/syXuqiuByBuildType_pie'
-    import syXuqiuByStationType_pie from '@/components/tower_solution/syXuqiuByStationType_pie'
-    import syXuqiuByOperator_pie from '@/components/tower_solution/syXuqiuByOperator_pie'
-    import syXuqiuByNetType_pie from '@/components/tower_solution/syXuqiuByNetType_pie'
-
-    import qhPlanStatus_bar from '@/components/tower_solution/qhPlanStatus_bar'
-    import qhProjectType_bar from '@/components/tower_solution/qhProjectType_bar'
-    import qhGuihuaByBuildType_pie from '@/components/tower_solution/qhGuihuaByBuildType_pie'
-    import qhGuihuaByStationType_pie from '@/components/tower_solution/qhGuihuaByStationType_pie'
-    import qhGuihuaByOperator_pie from '@/components/tower_solution/qhGuihuaByOperator_pie'
-    import qhGuihuaByNetType_pie from '@/components/tower_solution/qhGuihuaByNetType_pie'
-    import qhXuqiuByBuildType_pie from '@/components/tower_solution/qhXuqiuByBuildType_pie'
-    import qhXuqiuByStationType_pie from '@/components/tower_solution/qhXuqiuByStationType_pie'
-    import qhXuqiuByOperator_pie from '@/components/tower_solution/qhXuqiuByOperator_pie'
-    import qhXuqiuByNetType_pie from '@/components/tower_solution/qhXuqiuByNetType_pie'
-
-    import dzPlanStatus_bar from '@/components/tower_solution/dzPlanStatus_bar'
-    import dzProjectType_bar from '@/components/tower_solution/dzProjectType_bar'
-    import dzGuihuaByBuildType_pie from '@/components/tower_solution/dzGuihuaByBuildType_pie'
-    import dzGuihuaByStationType_pie from '@/components/tower_solution/dzGuihuaByStationType_pie'
-    import dzGuihuaByOperator_pie from '@/components/tower_solution/dzGuihuaByOperator_pie'
-    import dzGuihuaByNetType_pie from '@/components/tower_solution/dzGuihuaByNetType_pie'
-    import dzXuqiuByBuildType_pie from '@/components/tower_solution/dzXuqiuByBuildType_pie'
-    import dzXuqiuByStationType_pie from '@/components/tower_solution/dzXuqiuByStationType_pie'
-    import dzXuqiuByOperator_pie from '@/components/tower_solution/dzXuqiuByOperator_pie'
-    import dzXuqiuByNetType_pie from '@/components/tower_solution/dzXuqiuByNetType_pie'
-
+    // import hkPlanStatus_bar from '@/components/tower_solution/hkPlanStatus_bar'
+    // import hkProjectType_bar from '@/components/tower_solution/hkProjectType_bar'
+    // import hkGuihuaByBuildType_pie from '@/components/tower_solution/hkGuihuaByBuildType_pie'
+    // import hkGuihuaByStationType_pie from '@/components/tower_solution/hkGuihuaByStationType_pie'
+    // import hkGuihuaByOperator_pie from '@/components/tower_solution/hkGuihuaByOperator_pie'
+    // import hkGuihuaByNetType_pie from '@/components/tower_solution/hkGuihuaByNetType_pie'
+    // import hkXuqiuByBuildType_pie from '@/components/tower_solution/hkXuqiuByBuildType_pie'
+    // import hkXuqiuByStationType_pie from '@/components/tower_solution/hkXuqiuByStationType_pie'
+    // import hkXuqiuByOperator_pie from '@/components/tower_solution/hkXuqiuByOperator_pie'
+    // import hkXuqiuByNetType_pie from '@/components/tower_solution/hkXuqiuByNetType_pie'
+    //
+    // import syPlanStatus_bar from '@/components/tower_solution/syPlanStatus_bar'
+    // import syProjectType_bar from '@/components/tower_solution/syProjectType_bar'
+    // import syGuihuaByBuildType_pie from '@/components/tower_solution/syGuihuaByBuildType_pie'
+    // import syGuihuaByStationType_pie from '@/components/tower_solution/syGuihuaByStationType_pie'
+    // import syGuihuaByOperator_pie from '@/components/tower_solution/syGuihuaByOperator_pie'
+    // import syGuihuaByNetType_pie from '@/components/tower_solution/syGuihuaByNetType_pie'
+    // import syXuqiuByBuildType_pie from '@/components/tower_solution/syXuqiuByBuildType_pie'
+    // import syXuqiuByStationType_pie from '@/components/tower_solution/syXuqiuByStationType_pie'
+    // import syXuqiuByOperator_pie from '@/components/tower_solution/syXuqiuByOperator_pie'
+    // import syXuqiuByNetType_pie from '@/components/tower_solution/syXuqiuByNetType_pie'
+    //
+    // import qhPlanStatus_bar from '@/components/tower_solution/qhPlanStatus_bar'
+    // import qhProjectType_bar from '@/components/tower_solution/qhProjectType_bar'
+    // import qhGuihuaByBuildType_pie from '@/components/tower_solution/qhGuihuaByBuildType_pie'
+    // import qhGuihuaByStationType_pie from '@/components/tower_solution/qhGuihuaByStationType_pie'
+    // import qhGuihuaByOperator_pie from '@/components/tower_solution/qhGuihuaByOperator_pie'
+    // import qhGuihuaByNetType_pie from '@/components/tower_solution/qhGuihuaByNetType_pie'
+    // import qhXuqiuByBuildType_pie from '@/components/tower_solution/qhXuqiuByBuildType_pie'
+    // import qhXuqiuByStationType_pie from '@/components/tower_solution/qhXuqiuByStationType_pie'
+    // import qhXuqiuByOperator_pie from '@/components/tower_solution/qhXuqiuByOperator_pie'
+    // import qhXuqiuByNetType_pie from '@/components/tower_solution/qhXuqiuByNetType_pie'
+    //
+    // import dzPlanStatus_bar from '@/components/tower_solution/dzPlanStatus_bar'
+    // import dzProjectType_bar from '@/components/tower_solution/dzProjectType_bar'
+    // import dzGuihuaByBuildType_pie from '@/components/tower_solution/dzGuihuaByBuildType_pie'
+    // import dzGuihuaByStationType_pie from '@/components/tower_solution/dzGuihuaByStationType_pie'
+    // import dzGuihuaByOperator_pie from '@/components/tower_solution/dzGuihuaByOperator_pie'
+    // import dzGuihuaByNetType_pie from '@/components/tower_solution/dzGuihuaByNetType_pie'
+    // import dzXuqiuByBuildType_pie from '@/components/tower_solution/dzXuqiuByBuildType_pie'
+    // import dzXuqiuByStationType_pie from '@/components/tower_solution/dzXuqiuByStationType_pie'
+    // import dzXuqiuByOperator_pie from '@/components/tower_solution/dzXuqiuByOperator_pie'
+    // import dzXuqiuByNetType_pie from '@/components/tower_solution/dzXuqiuByNetType_pie'
 
     export default {
         name: "disaster_county_view",
@@ -410,49 +483,60 @@
             xuqiuByOperator_pie,
             xuqiuByNetType_pie,
 
-            hkPlanStatus_bar,
-            hkProjectType_bar,
-            hkGuihuaByBuildType_pie,
-            hkGuihuaByStationType_pie,
-            hkGuihuaByOperator_pie,
-            hkGuihuaByNetType_pie,
-            hkXuqiuByBuildType_pie,
-            hkXuqiuByStationType_pie,
-            hkXuqiuByOperator_pie,
-            hkXuqiuByNetType_pie,
+            cityPlanStatus_bar,
+            cityProjectType_bar,
+            cityGhByBuildType_bar,
+            cityGhByNetType_bar,
+            cityGhByOperator_bar,
+            cityGhByStationType_bar,
+            cityXqByBuildType_bar,
+            cityXqByNetType_bar,
+            cityXqByOperator_bar,
+            cityXqByStationType_bar
 
-            syPlanStatus_bar,
-            syProjectType_bar,
-            syGuihuaByBuildType_pie,
-            syGuihuaByStationType_pie,
-            syGuihuaByOperator_pie,
-            syGuihuaByNetType_pie,
-            syXuqiuByBuildType_pie,
-            syXuqiuByStationType_pie,
-            syXuqiuByOperator_pie,
-            syXuqiuByNetType_pie,
-
-            qhPlanStatus_bar,
-            qhProjectType_bar,
-            qhGuihuaByBuildType_pie,
-            qhGuihuaByStationType_pie,
-            qhGuihuaByOperator_pie,
-            qhGuihuaByNetType_pie,
-            qhXuqiuByBuildType_pie,
-            qhXuqiuByStationType_pie,
-            qhXuqiuByOperator_pie,
-            qhXuqiuByNetType_pie,
-
-            dzPlanStatus_bar,
-            dzProjectType_bar,
-            dzGuihuaByBuildType_pie,
-            dzGuihuaByStationType_pie,
-            dzGuihuaByOperator_pie,
-            dzGuihuaByNetType_pie,
-            dzXuqiuByBuildType_pie,
-            dzXuqiuByStationType_pie,
-            dzXuqiuByOperator_pie,
-            dzXuqiuByNetType_pie
+            // hkPlanStatus_bar,
+            // hkProjectType_bar,
+            // hkGuihuaByBuildType_pie,
+            // hkGuihuaByStationType_pie,
+            // hkGuihuaByOperator_pie,
+            // hkGuihuaByNetType_pie,
+            // hkXuqiuByBuildType_pie,
+            // hkXuqiuByStationType_pie,
+            // hkXuqiuByOperator_pie,
+            // hkXuqiuByNetType_pie,
+            //
+            // syPlanStatus_bar,
+            // syProjectType_bar,
+            // syGuihuaByBuildType_pie,
+            // syGuihuaByStationType_pie,
+            // syGuihuaByOperator_pie,
+            // syGuihuaByNetType_pie,
+            // syXuqiuByBuildType_pie,
+            // syXuqiuByStationType_pie,
+            // syXuqiuByOperator_pie,
+            // syXuqiuByNetType_pie,
+            //
+            // qhPlanStatus_bar,
+            // qhProjectType_bar,
+            // qhGuihuaByBuildType_pie,
+            // qhGuihuaByStationType_pie,
+            // qhGuihuaByOperator_pie,
+            // qhGuihuaByNetType_pie,
+            // qhXuqiuByBuildType_pie,
+            // qhXuqiuByStationType_pie,
+            // qhXuqiuByOperator_pie,
+            // qhXuqiuByNetType_pie,
+            //
+            // dzPlanStatus_bar,
+            // dzProjectType_bar,
+            // dzGuihuaByBuildType_pie,
+            // dzGuihuaByStationType_pie,
+            // dzGuihuaByOperator_pie,
+            // dzGuihuaByNetType_pie,
+            // dzXuqiuByBuildType_pie,
+            // dzXuqiuByStationType_pie,
+            // dzXuqiuByOperator_pie,
+            // dzXuqiuByNetType_pie
 
         },
         methods: {

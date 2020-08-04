@@ -187,8 +187,18 @@ public class StationAmountServiceImpl extends ServiceImpl<StationAmountDao, Stat
     }
 
     @Override
+    public List<StationInfoAmount> selectStatusGroupCity(String planStatus) {
+        return baseMapper.selectStatusGroupCity(planStatus);
+    }
+
+    @Override
     public List<StationInfoAmount> selectByProjectType(String cityBranchCompany) {
         return baseMapper.selectByProjectType(cityBranchCompany);
+    }
+
+    @Override
+    public List<StationInfoAmount> selectProjectTypeGroupCity(String projectType) {
+        return baseMapper.selectProjectTypeGroupCity(projectType);
     }
 
     @Override
@@ -231,16 +241,104 @@ public class StationAmountServiceImpl extends ServiceImpl<StationAmountDao, Stat
         return baseMapper.selectXqNetType(cityBranchCompany);
     }
 
-    public static void main(String[] args) {
-        Calendar cal = Calendar.getInstance();
+    @Override
+    public List<StationInfoAmount> selectCityGhCllj() {
+        return baseMapper.selectCityGhCllj();
+    }
 
-        for (long i = 1L; i <= 6L; i++) {
-            LocalDate localDate = LocalDate.now().minusYears(i);
-            String ss = localDate.toString().substring(0, 4);
-            System.out.println(localDate);
-            System.out.println(ss);
-            System.out.println("==============");
-        }
+    @Override
+    public List<StationInfoAmount> selectCityGhXjzd() {
+        return baseMapper.selectCityGhXjzd();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGhHzwldw() {
+        return baseMapper.selectCityGhHzwldw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGhWzwldw() {
+        return baseMapper.selectCityGhWzwldw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGhSfwldw() {
+        return baseMapper.selectCityGhSfwldw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGhYddw() {
+        return baseMapper.selectCityGhYddw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGhLtdw() {
+        return baseMapper.selectCityGhLtdw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGhDxdw() {
+        return baseMapper.selectCityGhDxdw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGh4Gdw() {
+        return baseMapper.selectCityGh4Gdw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityGh5Gdw() {
+        return baseMapper.selectCityGh5Gdw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqCllj() {
+        return baseMapper.selectCityXqCllj();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqXjzd() {
+        return baseMapper.selectCityXqXjzd();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqHzwldw() {
+        return baseMapper.selectCityXqHzwldw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqWzwldw() {
+        return baseMapper.selectCityXqWzwldw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqSfwldw() {
+        return baseMapper.selectCityXqSfwldw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqYddw() {
+        return baseMapper.selectCityXqYddw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqLtdw() {
+        return baseMapper.selectCityXqLtdw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXqDxdw() {
+        return baseMapper.selectCityXqDxdw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXq4Gdw() {
+        return baseMapper.selectCityXq4Gdw();
+    }
+
+    @Override
+    public List<StationInfoAmount> selectCityXq5Gdw() {
+        return baseMapper.selectCityXq5Gdw();
     }
 
 }

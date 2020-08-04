@@ -34,7 +34,7 @@
                                 },
                                 name: {
                                     color: '#909399',
-                                    fontSize: 20,
+                                    fontSize: 14,
                                     lineHeight: 20
                                 },
                             },
@@ -58,13 +58,13 @@
                         {
                             name: '规划点位',
                             type: 'pie',
-                            radius: ['50%', '80%'],
+                            radius: ['55%', '90%'],
                             stillShowZeroSum: false,
                             avoidLabelOverlap: false,
                             zlevel: 1,
                             label: {
                                 normal: {
-                                    padding: [10, 10, 10, 10],
+                                    padding: [12, 12, 12, 12],
                                     backgroundColor: '#fff',
                                     show: false,
                                     position: 'center',
@@ -134,8 +134,8 @@
                             title: {
                                 text: [
                                     '{value|' + data.totalData + '}',
-                                    '{name|总计}',
-                                ].join('\n')
+                                    '{name|规划点位(网络)}',
+                                ].join('\n'),
                             },
                             legend: {
                                 data: data.nameList

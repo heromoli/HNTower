@@ -133,30 +133,6 @@
 		group by plan_status
 	</select>
 
-    <select id="selectHaikouTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
-		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
-		where city_branch_company = '海口分公司'
-		group by plan_status
-	</select>
-
-    <select id="selectSanyaTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
-		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
-		where city_branch_company = '三亚分公司'
-		group by plan_status
-	</select>
-
-    <select id="selectQionghaiTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
-		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
-		where city_branch_company = '琼海分公司'
-		group by plan_status
-	</select>
-
-    <select id="selectDanzhouTuisong" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
-		select plan_status name,count(plan_status) value from TOWER_SOLUTION_COLLECTION
-		where city_branch_company = '儋州分公司'
-		group by plan_status
-	</select>
-
 	<select id="selectByProjectType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
 		select t.project_type as name,count(t.project_type) as value from TOWER_SOLUTION_COLLECTION t
         where t.project_type is not null
@@ -176,7 +152,6 @@
 		<if test="cityBranchCompany != null and cityBranchCompany != ''">
 			where t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
 		</if>
-
 	</select>
 
     <select id="selectGhStationType" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
@@ -282,6 +257,354 @@
 		<if test="cityBranchCompany != null and cityBranchCompany != ''">
 			and t.city_branch_company like concat(concat('%',#{cityBranchCompany}),'%')
 		</if>
+	</select>
+
+	<select id="selectStatusGroupCity" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+			 SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		  SELECT city_branch_company name,NVL(count(plan_status) ,0) value FROM TOWER_SOLUTION_COLLECTION t
+		  WHERE t.plan_status = #{planStatus}
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<select id="selectProjectTypeGroupCity" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company name,NVL(count(t.project_type) ,0) value FROM TOWER_SOLUTION_COLLECTION t
+		  WHERE t.project_type is not null
+		  and t.project_type = #{projectType}
+		  GROUP BY city_branch_company
+
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划存量利旧 -->
+	<select id="selectCityGhCllj" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,sum(t.wx_Hz_Zzs_Clljgs) AS  value FROM TOWER_SOLUTION_COLLECTION t
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划新建站点 -->
+	<select id="selectCityGhXjzd" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,sum(t.WX_HZ_ZZS_XJZGS) AS  value FROM TOWER_SOLUTION_COLLECTION t
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划宏站物理点位 -->
+	<select id="selectCityGhHzwldw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,sum(t.wx_Hz_Wlghdw) AS  value FROM TOWER_SOLUTION_COLLECTION t
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划微站物理点位 -->
+	<select id="selectCityGhWzwldw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,sum(t.wx_Wzgh_Wldw) AS  value FROM TOWER_SOLUTION_COLLECTION t
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划室分物理点位 -->
+	<select id="selectCityGhSfwldw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		select '琼海分公司' as name,count(d.station_type) as  value from TOWER_SOLUTION_DETAIL d
+		where d.station_type = '室分'
+		and d.PROJECT_NUMBER like concat(concat('%','QH'),'%')
+		union all
+		select '海口分公司' as name,count(d.station_type) as  value from TOWER_SOLUTION_DETAIL d
+		where d.station_type = '室分'
+		and d.PROJECT_NUMBER like concat(concat('%','HK'),'%')
+		union all
+		select '儋州分公司' as name,count(d.station_type) as  value from TOWER_SOLUTION_DETAIL d
+		where d.station_type = '室分'
+		and d.PROJECT_NUMBER like concat(concat('%','DZ'),'%')
+		union all
+		select '三亚分公司' as name,count(d.station_type) as  value from TOWER_SOLUTION_DETAIL d
+		where d.station_type = '室分'
+		and d.PROJECT_NUMBER like concat(concat('%','SY'),'%')
+	</select>
+
+	<!-- 规划移动物理点位 -->
+	<select id="selectCityGhYddw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,SUM(t.wx_Hz_Ydghdw) + SUM(t.wx_Wzgh_Yddw) AS value FROM TOWER_SOLUTION_COLLECTION t
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划联通物理点位 -->
+	<select id="selectCityGhLtdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,SUM(t.wx_Hz_ltghdw) + SUM(t.wx_Wzgh_ltdw) AS value FROM TOWER_SOLUTION_COLLECTION t
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划电信物理点位 -->
+	<select id="selectCityGhDxdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,SUM(t.wx_Hz_dxghdw) + SUM(t.wx_Wzgh_dxdw) AS value FROM TOWER_SOLUTION_COLLECTION t
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划4G物理点位 -->
+	<select id="selectCityGh4Gdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,SUM(t.wx_Hz_Wlghdw) + SUM(t.wx_Wzgh_Wldw) AS value FROM TOWER_SOLUTION_COLLECTION t
+		  WHERE t.net_Type LIKE '%4G%'
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 规划5G物理点位 -->
+	<select id="selectCityGh5Gdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_COLLECTION
+		) a
+		LEFT JOIN
+		(
+		SELECT t.city_branch_company AS name,SUM(t.wx_Hz_Wlghdw) + SUM(t.wx_Wzgh_Wldw) AS value FROM TOWER_SOLUTION_COLLECTION t
+		  WHERE t.net_Type LIKE '%5G%'
+		  GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 已下需求存量利旧 -->
+	<select id="selectCityXqCllj" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(build_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE build_type like '%利旧%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 已下需求新建站点 -->
+	<select id="selectCityXqXjzd" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(build_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE build_type like '%新建%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求宏站物理点位 -->
+	<select id="selectCityXqHzwldw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE station_type like '%宏站%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求微站物理点位 -->
+	<select id="selectCityXqWzwldw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE station_type like '%微站%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求室分物理点位 -->
+	<select id="selectCityXqSfwldw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE station_type like '%室分%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求移动物理点位 -->
+	<select id="selectCityXqYddw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE operator_name like '%移动%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求联通物理点位 -->
+	<select id="selectCityXqLtdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE operator_name like '%联通%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求电信物理点位 -->
+	<select id="selectCityXqDxdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE operator_name like '%电信%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求4G物理点位 -->
+	<select id="selectCityXq4Gdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE net_type like '%4G%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
+	</select>
+
+	<!-- 需求5G物理点位 -->
+	<select id="selectCityXq5Gdw" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
+		SELECT a.name,nvl(value,0) AS value
+		FROM (
+		   SELECT DISTINCT city_branch_company AS name FROM TOWER_SOLUTION_SUBMITTED
+		) a
+		LEFT JOIN
+		(
+		SELECT city_branch_company AS name,COUNT(station_type) AS value FROM TOWER_SOLUTION_SUBMITTED
+		WHERE net_type like '%5G%'
+		GROUP BY city_branch_company
+		) b
+		ON a.name = b.name
+		ORDER BY a.name DESC
 	</select>
 
 </mapper>

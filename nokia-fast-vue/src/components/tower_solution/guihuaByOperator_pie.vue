@@ -35,7 +35,7 @@
                                 },
                                 name: {
                                     color: '#909399',
-                                    fontSize: 20,
+                                    fontSize: 14,
                                     lineHeight: 20
                                 },
                             },
@@ -59,13 +59,13 @@
                         {
                             name: '规划点位',
                             type: 'pie',
-                            radius: ['50%', '80%'],
+                            radius: ['55%', '90%'],
                             stillShowZeroSum: false,
                             avoidLabelOverlap: false,
                             zlevel: 1,
                             label: {
                                 normal: {
-                                    padding: [13, 13, 13, 13],
+                                    padding: [12, 25, 12, 25],
                                     backgroundColor: '#fff',
                                     show: false,
                                     position: 'center',
@@ -135,7 +135,7 @@
                             title:{
                                 text: [
                                     '{value|' + data.totalData + '}',
-                                    '{name|总计}',
+                                    '{name|规划点位(运营商)}',
                                 ].join('\n')
                             },
                             legend: {

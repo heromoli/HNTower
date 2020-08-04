@@ -84,6 +84,9 @@ public class WFProjectController extends BaseController {
     private NoAcceptedDemandService noAcceptedDemandService;
 
     @Autowired
+    private Station5GBuildDemandService station5GDemandService;
+
+    @Autowired
     private TowerDemandExportService towerDemandExportService;
 
     @Autowired
@@ -957,6 +960,28 @@ public class WFProjectController extends BaseController {
             e.printStackTrace();
         }
 
+        return RData.ok();
+    }
+
+    //批量提交流程
+    @PostMapping("/station5GDemandUpload")
+    public RData station5GDemandUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+        //上传文件
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        logger.info(suffix);
+
+        List<Station5GBuildDemand> list = ExcelUtil.readExcel(file, Station5GBuildDemand.class, 2, 1);
+        try {
+            for (Station5GBuildDemand demandList : list) {
+                station5GDemandService.save(demandList);
+            }
+//            station5GDemandService.saveBatch(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return RData.ok();
     }
 

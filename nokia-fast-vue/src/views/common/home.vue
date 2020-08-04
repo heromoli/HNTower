@@ -97,9 +97,10 @@
 
             },
             zygl() {
-                const {href} = this.$router.resolve({
-                    name: 'zhzygl'
-                });
+                // const {href} = this.$router.resolve({
+                //     name: 'zhzygl'
+                // });
+                var href = this.$http.adornUrl("/gwzy/index.html");
                 window.open(href, '_blank')
             },
             gzlc() {

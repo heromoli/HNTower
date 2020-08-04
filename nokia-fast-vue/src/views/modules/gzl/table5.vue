@@ -27,7 +27,7 @@
                 :data="dataList"
                 border
                 v-loading="dataListLoading"
-                :row-class-name="tableRowClassName"
+                stripe
                 size="mini"
                 style="height: auto; width: auto">
             <el-table-column
@@ -47,21 +47,21 @@
                     label="需求编号">
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="operatorName"
                     header-align="center"
                     align="center"
                     label="电信企业">
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="branchCompany"
                     header-align="center"
                     align="center"
                     label="分公司">
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="stationName"
                     header-align="center"
                     width="100"
@@ -69,7 +69,7 @@
                     label="站点名称">
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="buildType"
                     header-align="center"
                     align="center"
@@ -77,7 +77,7 @@
             </el-table-column>
             <el-table-column align="center" label="站点位置及要求">
                 <el-table-column
-
+                        fixed
                         prop="longitude"
                         header-align="center"
                         align="center"
@@ -85,7 +85,7 @@
                         label="经度">
                 </el-table-column>
                 <el-table-column
-
+                        fixed
                         prop="latitude"
                         header-align="center"
                         align="center"
@@ -93,7 +93,7 @@
                         label="纬度">
                 </el-table-column>
                 <el-table-column
-
+                        fixed
                         prop="address"
                         header-align="center"
                         align="center"
@@ -103,7 +103,7 @@
                 </el-table-column>
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="towerType"
                     header-align="center"
                     align="center"
@@ -111,7 +111,7 @@
                     label="铁塔类型">
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="towerTypeDetail"
                     header-align="center"
                     align="center"
@@ -119,7 +119,7 @@
                     label="铁塔类型细分">
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="roomType"
                     header-align="center"
                     align="center"
@@ -127,7 +127,7 @@
                     label="机房类型">
             </el-table-column>
             <el-table-column
-
+                    fixed
                     prop="productConfig"
                     header-align="center"
                     align="center"
@@ -233,12 +233,6 @@
             currentChangeHandle(val) {
                 this.pageIndex = val;
                 this.getDataList()
-            },
-            tableRowClassName({row, rowIndex}) {
-                if (rowIndex % 2 === 1) {
-                    return 'success-row';
-                }
-                return '';
             },
             submitProcess(row) {
                 row.approve = '1';

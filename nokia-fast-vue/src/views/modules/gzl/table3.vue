@@ -28,7 +28,7 @@
                 :data="dataList"
                 border
                 v-loading="dataListLoading"
-                :row-class-name="tableRowClassName"
+                stripe
                 size="mini"
                 style="height: auto; width: auto">
             <el-table-column
@@ -230,12 +230,6 @@
             currentChangeHandle(val) {
                 this.pageIndex = val;
                 this.getDataList()
-            },
-            tableRowClassName({row, rowIndex}) {
-                if (rowIndex % 2 === 1) {
-                    return 'success-row';
-                }
-                return '';
             },
             submitProcess(row) {
                 row.approve = '1';

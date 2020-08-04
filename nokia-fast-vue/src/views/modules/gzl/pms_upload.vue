@@ -32,10 +32,11 @@
             }
         },
         methods: {
-            init(id) {
-                this.url = this.$http.adornUrl(`/api/wf/pmsUpload?token=${this.$cookie.get('token')}`);
+            init() {
+                this.url = this.$http.adornUrl(`/api/wf/station5GDemandUpload?token=${this.$cookie.get('token')}`);
+
+                // pmsUpload
                 this.visible = true;
-                this.groupId = id;
             },
             // 上传之前
             beforeUploadHandle(file) {

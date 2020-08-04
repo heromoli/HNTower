@@ -515,6 +515,22 @@ public class zhzyglController extends BaseController {
         return rData;
     }
 
+    @GetMapping("/getStatusGroupCity")
+    public RData getStatusGroupCity() {
+        List<StationInfoAmount> amountListWhf = stationAmountService.selectStatusGroupCity("未回复");
+        List<StationInfoAmount> amountListYxxq = stationAmountService.selectStatusGroupCity("已下需求");
+        List<StationInfoAmount> amountListDts = stationAmountService.selectStatusGroupCity("待推送");
+        List<StationInfoAmount> amountListDxxq = stationAmountService.selectStatusGroupCity("待下需求");
+
+        RData rData = new RData().ok();
+        rData.put("amountListWhf", amountListWhf);
+        rData.put("amountListYxxq", amountListYxxq);
+        rData.put("amountListDts", amountListDts);
+        rData.put("amountListDxxq", amountListDxxq);
+
+        return rData;
+    }
+
     @GetMapping("/getProjectType")
     public RData getProjectType(@RequestParam String cityBranchCompany) {
         List<StationInfoAmount> amountList = stationAmountService.selectByProjectType(cityBranchCompany);
@@ -526,6 +542,22 @@ public class zhzyglController extends BaseController {
 
         rData.put("nameList", nameList);
         rData.put("amountList", amountList);
+
+        return rData;
+    }
+
+    @GetMapping("/getProjectTypeGroupCity")
+    public RData getProjectTypeGroupCity() {
+        List<StationInfoAmount> amountListYys = stationAmountService.selectProjectTypeGroupCity("运营商需求");
+        List<StationInfoAmount> amountListYysqz = stationAmountService.selectProjectTypeGroupCity("运营商潜在需求");
+        List<StationInfoAmount> amountListWy = stationAmountService.selectProjectTypeGroupCity("物业需求");
+        List<StationInfoAmount> amountListZf= stationAmountService.selectProjectTypeGroupCity("政府需求");
+
+        RData rData = new RData().ok();
+        rData.put("amountListYys", amountListYys);
+        rData.put("amountListYysqz", amountListYysqz);
+        rData.put("amountListWy", amountListWy);
+        rData.put("amountListZf", amountListZf);
 
         return rData;
     }
@@ -670,6 +702,102 @@ public class zhzyglController extends BaseController {
         rData.put("nameList", nameList);
         rData.put("amountList", amountList);
         rData.put("totalData", totalData);
+        return rData;
+    }
+
+    @GetMapping("/getCityGuihuaByBuildType")
+    public RData getCityGuihuaByBuildType() {
+        List<StationInfoAmount> amountListCllj = stationAmountService.selectCityGhCllj();
+        List<StationInfoAmount> amountListXjzd = stationAmountService.selectCityGhXjzd();
+
+        RData rData = new RData().ok();
+        rData.put("amountListCllj", amountListCllj);
+        rData.put("amountListXjzd", amountListXjzd);
+        return rData;
+    }
+
+    @GetMapping("/getCityGuihuaByStationType")
+    public RData getCityGuihuaByStationType() {
+        List<StationInfoAmount> amountListHz = stationAmountService.selectCityGhHzwldw();
+        List<StationInfoAmount> amountListWz = stationAmountService.selectCityGhWzwldw();
+        List<StationInfoAmount> amountListSf = stationAmountService.selectCityGhSfwldw();
+
+        RData rData = new RData().ok();
+        rData.put("amountListHz", amountListHz);
+        rData.put("amountListWz", amountListWz);
+        rData.put("amountListSf", amountListSf);
+        return rData;
+    }
+
+    @GetMapping("/getCityGuihuaByOperator")
+    public RData getCityGuihuaByOperator() {
+        List<StationInfoAmount> amountListYd= stationAmountService.selectCityGhYddw();
+        List<StationInfoAmount> amountListLt = stationAmountService.selectCityGhLtdw();
+        List<StationInfoAmount> amountListDx= stationAmountService.selectCityGhDxdw();
+
+        RData rData = new RData().ok();
+        rData.put("amountListYd", amountListYd);
+        rData.put("amountListLt", amountListLt);
+        rData.put("amountListDx", amountListDx);
+        return rData;
+    }
+
+    @GetMapping("/getCityGuihuaByNetType")
+    public RData getCityGuihuaByNetType() {
+        List<StationInfoAmount> amountList4G = stationAmountService.selectCityGh4Gdw();
+        List<StationInfoAmount> amountList5G = stationAmountService.selectCityGh5Gdw();
+
+        RData rData = new RData().ok();
+        rData.put("amountList4G", amountList4G);
+        rData.put("amountList5G", amountList5G);
+        return rData;
+    }
+
+    @GetMapping("/getCityXuqiuByBuildType")
+    public RData getCityXuqiuByBuildType() {
+        List<StationInfoAmount> amountListCllj = stationAmountService.selectCityXqCllj();
+        List<StationInfoAmount> amountListXjzd = stationAmountService.selectCityXqXjzd();
+
+        RData rData = new RData().ok();
+        rData.put("amountListCllj", amountListCllj);
+        rData.put("amountListXjzd", amountListXjzd);
+        return rData;
+    }
+
+    @GetMapping("/getCityXuqiuByStationType")
+    public RData getCityXuqiuByStationType() {
+        List<StationInfoAmount> amountListHz = stationAmountService.selectCityXqHzwldw();
+        List<StationInfoAmount> amountListWz = stationAmountService.selectCityXqWzwldw();
+        List<StationInfoAmount> amountListSf = stationAmountService.selectCityXqSfwldw();
+
+        RData rData = new RData().ok();
+        rData.put("amountListHz", amountListHz);
+        rData.put("amountListWz", amountListWz);
+        rData.put("amountListSf", amountListSf);
+        return rData;
+    }
+
+    @GetMapping("/getCityXuqiuByOperator")
+    public RData getCityXuqiuByOperator() {
+        List<StationInfoAmount> amountListYd= stationAmountService.selectCityXqYddw();
+        List<StationInfoAmount> amountListLt = stationAmountService.selectCityXqLtdw();
+        List<StationInfoAmount> amountListDx= stationAmountService.selectCityXqDxdw();
+
+        RData rData = new RData().ok();
+        rData.put("amountListYd", amountListYd);
+        rData.put("amountListLt", amountListLt);
+        rData.put("amountListDx", amountListDx);
+        return rData;
+    }
+
+    @GetMapping("/getCityXuqiuByNetType")
+    public RData getCityXuqiuByNetType() {
+        List<StationInfoAmount> amountList4G = stationAmountService.selectCityXq4Gdw();
+        List<StationInfoAmount> amountList5G = stationAmountService.selectCityXq5Gdw();
+
+        RData rData = new RData().ok();
+        rData.put("amountList4G", amountList4G);
+        rData.put("amountList5G", amountList5G);
         return rData;
     }
 }

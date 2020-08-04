@@ -47,13 +47,9 @@ public interface StationAmountDao extends BaseMapper<StationInfoAmount> {
 
     List<StationInfoAmount> selectProvinceTuisong();
 
-    List<StationInfoAmount> selectHaikouTuisong();
+    List<StationInfoAmount> selectStatusGroupCity(@Param("planStatus") String planStatus);
 
-    List<StationInfoAmount> selectSanyaTuisong();
-
-    List<StationInfoAmount> selectQionghaiTuisong();
-
-    List<StationInfoAmount> selectDanzhouTuisong();
+    List<StationInfoAmount> selectProjectTypeGroupCity(@Param("projectType") String projectType);
 
     List<StationInfoAmount> selectByProjectType(@Param("cityBranchCompany") String cityBranchCompany);
 
@@ -73,6 +69,43 @@ public interface StationAmountDao extends BaseMapper<StationInfoAmount> {
 
     List<StationInfoAmount> selectXqNetType(@Param("cityBranchCompany") String cityBranchCompany);
 
+    List<StationInfoAmount> selectCityGhCllj();
 
+    List<StationInfoAmount> selectCityGhXjzd();
 
+    List<StationInfoAmount> selectCityGhHzwldw();
+
+    List<StationInfoAmount> selectCityGhWzwldw();
+
+    List<StationInfoAmount> selectCityGhSfwldw();
+
+    List<StationInfoAmount> selectCityGhYddw();
+
+    List<StationInfoAmount> selectCityGhLtdw();
+
+    List<StationInfoAmount> selectCityGhDxdw();
+
+    List<StationInfoAmount> selectCityGh4Gdw();
+
+    List<StationInfoAmount> selectCityGh5Gdw();
+
+    List<StationInfoAmount> selectCityXqCllj();
+
+    List<StationInfoAmount> selectCityXqXjzd();
+
+    List<StationInfoAmount> selectCityXqHzwldw();
+
+    List<StationInfoAmount> selectCityXqWzwldw();
+
+    List<StationInfoAmount> selectCityXqSfwldw();
+
+    List<StationInfoAmount> selectCityXqYddw();
+
+    List<StationInfoAmount> selectCityXqLtdw();
+
+    List<StationInfoAmount> selectCityXqDxdw();
+
+    List<StationInfoAmount> selectCityXq4Gdw();
+
+    List<StationInfoAmount> selectCityXq5Gdw();
 }

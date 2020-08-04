@@ -1,6 +1,5 @@
 <template>
     <div class="mod-log">
-
         <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
                 <el-input size="mini" v-model="dataForm.demandNum" placeholder="需求编号" clearable></el-input>
@@ -28,7 +27,7 @@
                 :data="dataList"
                 border
                 v-loading="dataListLoading"
-                :row-class-name="tableRowClassName"
+                stripe
                 size="mini"
                 style="height: auto; width: auto">
             <el-table-column
@@ -40,6 +39,7 @@
                     label="ID">
             </el-table-column>
             <el-table-column
+                    fixed
                     prop="demandNum"
                     header-align="center"
                     align="center"
@@ -47,6 +47,7 @@
                     label="需求编号">
             </el-table-column>
             <el-table-column
+                    fixed
                     prop="operatorName"
                     header-align="center"
                     align="center"
@@ -54,6 +55,7 @@
                     label="电信企业">
             </el-table-column>
             <el-table-column
+                    fixed
                     prop="branchCompany"
                     header-align="center"
                     align="center"
@@ -61,6 +63,7 @@
                     label="分公司">
             </el-table-column>
             <el-table-column
+                    fixed
                     prop="stationName"
                     header-align="center"
                     align="center"
@@ -69,6 +72,7 @@
             </el-table-column>
             <!--<el-table-column fixed align="center" label="站点位置及要求">-->
                 <el-table-column
+                        fixed
                         prop="longitude"
                         header-align="center"
                         align="center"
@@ -76,6 +80,7 @@
                         label="经度">
                 </el-table-column>
                 <el-table-column
+                        fixed
                         prop="latitude"
                         header-align="center"
                         align="center"
@@ -83,6 +88,7 @@
                         label="纬度">
                 </el-table-column>
                 <el-table-column
+                        fixed
                         prop="address"
                         header-align="center"
                         align="center"
@@ -91,6 +97,7 @@
                         label="详细地址">
                 </el-table-column>
                 <el-table-column
+                        fixed
                         prop="deviateRadius"
                         header-align="center"
                         align="center"
@@ -100,6 +107,7 @@
             <!--</el-table-column>-->
             <!--<el-table-column align="center" label="共享共建信息">-->
             <el-table-column
+                    fixed
                     prop="ifCanOrder"
                     header-align="center"
                     align="center"
@@ -107,6 +115,7 @@
                     label="能否形成订单">
             </el-table-column>
             <el-table-column
+                    fixed="right"
                     prop="cantOrderReason"
                     header-align="center"
                     align="center"
@@ -213,12 +222,6 @@
             currentChangeHandle(val) {
                 this.pageIndex = val;
                 this.getDataList()
-            },
-            tableRowClassName({row, rowIndex}) {
-                if (rowIndex % 2 === 1) {
-                    return 'success-row';
-                }
-                return '';
             },
             submitProcess(row) {
                 row.approve = '1';
