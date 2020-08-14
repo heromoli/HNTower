@@ -20,7 +20,7 @@
             initChartBar() {
                 var option = {
                     title: {
-                        text: '规划点位分类',
+                        text: '规划点位运营商分类',
                         textStyle: {
                             color: '#460064'
                         }

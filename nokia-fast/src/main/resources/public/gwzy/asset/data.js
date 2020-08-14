@@ -9,10 +9,10 @@ var getYearlyStationIncrease = {"msg":"success","code":0,"amountList":[{"name":"
 var getStationAmount = {"msg":"success","code":0,"amountList":[{"name":"海口市","value":4347},{"name":"三亚市","value":2355},{"name":"儋州市","value":1409},{"name":"文昌市","value":1135},{"name":"琼海市","value":1128},{"name":"万宁市","value":997},{"name":"乐东黎族自治县","value":834},{"name":"澄迈县","value":802},{"name":"东方市","value":778},{"name":"陵水黎族自治县","value":726},{"name":"临高县","value":616},{"name":"昌江黎族自治县","value":541},{"name":"定安县","value":423},{"name":"屯昌县","value":399},{"name":"琼中黎族苗族自治县","value":388},{"name":"白沙黎族自治县","value":374},{"name":"保亭黎族自治县","value":277},{"name":"五指山市","value":259},{"name":"南海诸岛","value":23}],"regionNameList":["海口市","三亚市","儋州市","文昌市","琼海市","万宁市","乐东黎族自治县","澄迈县","东方市","陵水黎族自治县","临高县","昌江黎族自治县","定安县","屯昌县","琼中黎族苗族自治县","白沙黎族自治县","保亭黎族自治县","五指山市","南海诸岛"]};
 
 var datacenter12 = [
-    {'name': '总任务','value': 2234},
-    {'name': '征址','value': 1016},
-    {'name': '开工','value': 961},
-    {'name': '完工','value': 967}
+    {'name': '总任务','value': 7238},
+    {'name': '征址','value': 2825},
+    {'name': '开工','value': 2641},
+    {'name': '完工','value': 2532}
 ]
 
 var getStation5GAmount = {"msg":"success","countyList":["海口","三亚","琼海","澄迈","儋州","昌江","保亭","五指山","临高","文昌","白沙","陵水","屯昌","东方","乐东","琼中","万宁","定安"],"code":0,"amountList":[{"name":"海口","value":632},{"name":"三亚","value":221},{"name":"琼海","value":205},{"name":"澄迈","value":11},{"name":"儋州","value":9},{"name":"昌江","value":8},{"name":"保亭","value":7},{"name":"五指山","value":7},{"name":"临高","value":6},{"name":"文昌","value":6},{"name":"白沙","value":5},{"name":"陵水","value":4},{"name":"屯昌","value":4},{"name":"东方","value":3},{"name":"乐东","value":3},{"name":"琼中","value":3},{"name":"万宁","value":3},{"name":"定安","value":3}]}

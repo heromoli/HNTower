@@ -244,14 +244,14 @@
                 }
             },
             massSearch() {
-                var map = this.amapManager.getMap();
+                let map = this.amapManager.getMap();
                 map.clearMap();  //清除所有覆盖物
                 if (window.pointSimplifierIns) {
                     //清空上次查询的海量点
                     window.pointSimplifierIns.setData([]);
                 }
 
-                var pointsData = [];
+                let pointsData = [];
                 this.dataListLoading = true;
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/queryStationAddressManagement'),
@@ -265,15 +265,27 @@
                     if (data.page != null && data.code === 0) {
                         this.dataList = data.page.list;
                         this.dataList.forEach(element => {
+                            // let gps = [element.longitude, element.latitude];
+                            // let lnglats = [];
+                            // AMap.convertFrom(gps, 'gps', function (status, result) {  //坐标系转换
+                            //     if (result.info === 'ok') {
+                            //         // lnglats = [result.locations[0].lng, result.locations[0].lat];
+                            //         pointsData.push({
+                            //             title: element.stationName,
+                            //             position: [result.locations[0].lng, result.locations[0].lat],
+                            //             address: element.address,
+                            //             operatorShare: element.ifOperatorShare
+                            //         })
+                            //     }
+                            //
+                            // });
                             pointsData.push({
                                 title: element.stationName,
-                                icon: base_station,
                                 position: [element.longitude, element.latitude],
                                 address: element.address,
                                 operatorShare: element.ifOperatorShare
                             })
                         });
-
                         AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
                             if (!PointSimplifier.supportCanvas) {
                                 alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
@@ -297,7 +309,7 @@
                                 },
                                 renderOptions: {
                                     pointStyle: {
-                                        fillStyle: '#f08200', //颜色填充 blue
+                                        fillStyle: '#f08200', //颜色填充
                                         // content: PointSimplifier.Render.Canvas.getImageContent(base_station,
                                         //     function onload() {
                                         //         pointSimplifierIns.renderLater();
@@ -315,9 +327,6 @@
                                 },
                             });
 
-
-                            window.pointSimplifierIns = pointSimplifierIns;
-
                             pointSimplifierIns.setData(pointsData);
                             pointSimplifierIns.on('pointClick', function (event, point) {
                                 let info = [];
@@ -332,14 +341,20 @@
                                 });
                                 infoWindow.open(map, point.data.position);
                             });
-
+                            window.pointSimplifierIns = pointSimplifierIns;
                         });
+
+
+                        // var start = new Date().getTime();
+                        // while (new Date().getTime() < start + 10000);
+
+
                     }
                     this.dataListLoading = false
                 });
 
                 if (this.queryParam.latitude != '' && this.queryParam.longitude != '') {
-                    var circle = new AMap.Circle({
+                    let circle = new AMap.Circle({
                         center: [this.queryParam.longitude, this.queryParam.latitude],
                         radius: this.queryParam.rangeValue, //半径
                         borderWeight: 3,

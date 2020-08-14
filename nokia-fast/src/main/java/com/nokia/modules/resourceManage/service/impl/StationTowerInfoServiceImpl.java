@@ -4,22 +4,21 @@ package com.nokia.modules.resourceManage.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.nokia.modules.resourceManage.dao.StationAddressInfoDao;
-import com.nokia.modules.workflow.entity.PMS;
-import com.nokia.modules.resourceManage.entity.StationAddressInfo;
-import com.nokia.modules.resourceManage.service.StationAddressInfoService;
+import com.nokia.modules.resourceManage.dao.StationTowerInfoDao;
+import com.nokia.modules.resourceManage.entity.StationTowerInfo;
+import com.nokia.modules.resourceManage.service.StationTowerInfoService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-@Service("StationAddressInfoService")
-public class StationAddressInfoServiceImpl extends ServiceImpl<StationAddressInfoDao, StationAddressInfo> implements StationAddressInfoService {
+@Service("StationTowerInfoService")
+public class StationTowerInfoServiceImpl extends ServiceImpl<StationTowerInfoDao, StationTowerInfo> implements StationTowerInfoService {
 
     @Override
     public PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams) {
-        QueryWrapper queryWrapper = new QueryWrapper<StationAddressInfo>();
+        QueryWrapper queryWrapper = new QueryWrapper<StationTowerInfo>();
         for (String key : queryParams.keySet()) {
             if (key.equals("city")) {
                 queryWrapper.eq(key, queryParams.get(key));
@@ -33,9 +32,8 @@ public class StationAddressInfoServiceImpl extends ServiceImpl<StationAddressInf
                 }
             }
         }
-        IPage<StationAddressInfo> page = this.page(new Query<StationAddressInfo>().getPage(pageParams), queryWrapper);
+        IPage<StationTowerInfo> page = this.page(new Query<StationTowerInfo>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }
-
 
 }

@@ -288,12 +288,21 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
-
                     <el-row>
                         <el-col :span="6">
                             <el-form-item label="交付完成时间" prop="deliverFinishTime">
                                 <el-date-picker
                                         v-model="dataForm.deliverFinishTime"
+                                        type="date" style="width: 100%"
+                                        placeholder="选择日期"
+                                        value-format="yyyy-MM-dd">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="起租时间" prop="startHireTime">
+                                <el-date-picker
+                                        v-model="dataForm.startHireTime"
                                         type="date" style="width: 100%"
                                         placeholder="选择日期"
                                         value-format="yyyy-MM-dd">
@@ -318,6 +327,8 @@
                                 <el-input type="text" v-model="dataForm.projectStateDescribe"></el-input>
                             </el-form-item>
                         </el-col>
+                    </el-row>
+                    <el-row>
                         <el-col :span="6">
                             <el-form-item label="任务年份" prop="projectYear">
                                 <el-input type="text" v-model="dataForm.projectYear"></el-input>

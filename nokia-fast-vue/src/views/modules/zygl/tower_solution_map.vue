@@ -10,7 +10,7 @@
             :visible.sync="mapVisible">
         <div id="container" class="amap-demo">
             <el-amap ref="map" vid="'amap-vue'" :amap-manager="amapManager" :center="center" :zoom="zoom"
-                     :plugin="plugin"  v-loading="dataListLoading">
+                     :plugin="plugin" v-loading="dataListLoading">
             </el-amap>
         </div>
     </el-dialog>
@@ -22,6 +22,7 @@
     import {AMapManager, lazyAMapApiLoaderInstance} from 'vue-amap';
     import {isLongitude, isLatitude} from '@/utils/validate';
     import base_station from '@/icons/base_station.png';
+    import base_station_green from '@/icons/base_station_green.png';
 
     let amapManager = new AMapManager();
     export default {
@@ -54,15 +55,6 @@
             };
         },
         methods: {
-            initMapUI(){
-                let map = this.amapManager.getMap();
-                AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
-                        let pointSimplifierIns1 = new PointSimplifier({
-                            map: map
-                        });
-                    window.pointSimplifierIns = pointSimplifierIns1;
-                });
-            },
             init(dataList) {
                 this.mapVisible = true;
                 this.dataList = dataList;
@@ -72,11 +64,13 @@
                     window.pointSimplifierIns.setData([]);
                 }
                 let pointsData = [];
+
                 this.dataList.forEach(element => {
                     pointsData.push({
                         title: element.projectName,
                         position: [element.longitude, element.latitude],
-                        address: element.planningStationName
+                        address: element.planningStationName,
+                        buildType: element.buildType
                     })
                 });
 
@@ -85,6 +79,53 @@
                         alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
                         return;
                     }
+                    let groupStyleMap = {
+                        '0': {
+                            pointStyle: {
+                                //绘制点占据的矩形区域
+                                content: PointSimplifier.Render.Canvas.getImageContent(
+                                    base_station, function onload() {
+                                        pointSimplifierIns.renderLater();
+                                    },
+                                    function onerror(e) {
+                                        alert('图片加载失败！');
+                                    }),
+                                //宽度
+                                width: 18,
+                                //高度
+                                height: 18,
+                                //定位点为中心
+                                offset: ['-50%', '-50%'],
+                                fillStyle: null,
+                            }, pointHardcoreStyle: {
+                                width: 16,
+                                height: 16
+                            }
+                        },
+                        '1': {
+                            pointStyle: {
+                                //绘制点占据的矩形区域
+                                content: PointSimplifier.Render.Canvas.getImageContent(
+                                    base_station_green, function onload() {
+                                        pointSimplifierIns.renderLater();
+                                    },
+                                    function onerror(e) {
+                                        alert('图片加载失败！');
+                                    }),
+                                //宽度
+                                width: 18,
+                                //高度
+                                height: 18,
+                                //定位点为中心
+                                offset: ['-50%', '-50%'],
+                                fillStyle: null,
+                            }, pointHardcoreStyle: {
+                                width: 16,
+                                height: 16
+                            }
+                        }
+                    };
+
                     let pointSimplifierIns = new PointSimplifier({
                         map: map,
                         // zIndex: 200, //绘制用图层的叠加顺序值,选高一点的
@@ -101,24 +142,27 @@
                             //返回数据项的Title信息，鼠标hover时显示
                             return '' + dataItem.title;
                         },
+                        renderConstructor: PointSimplifier.Render.Canvas.GroupStyleRender,
                         renderOptions: {
                             pointStyle: {
-                                // fillStyle: '#f08200', //颜色填充 blue
-                                content: PointSimplifier.Render.Canvas.getImageContent(
-                                    base_station,
-                                    function onload() {
-                                        pointSimplifierIns.renderLater();
-                                    },
-                                    function onerror(e) {
-                                        alert('图片加载失败！');
-                                    }),
-                                width: 18,
-                                //高度
-                                height: 18,
+                                fillStyle: '#f08200',
+                                width: 16,
+                                height: 16
+                            },
+                            getGroupId: function (item, idx) {
+                                if (item.buildType == '存量利旧') {
+                                    return 0
+                                } else {
+                                    return 1;
+                                }
+                            },
+                            groupStyleOptions: function (gid) {
+                                console.log(gid);
+                                return groupStyleMap[gid]
                             },
                             hoverTitleStyle: {
                                 position: 'top'
-                            },
+                            }
                         },
                     });
 
@@ -130,7 +174,7 @@
                         info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>" + point.data.title + "</b>");
                         info.push("坐标：" + point.data.position);
                         info.push("地址： " + point.data.address);
-                        info.push("共享情况： " + point.data.operatorShare);
+                        info.push("建设方式： " + point.data.buildType);
 
                         let infoWindow = new AMap.InfoWindow({
                             content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容

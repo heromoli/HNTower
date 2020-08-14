@@ -908,7 +908,7 @@ function loadright2(divid, data) {
         "#FF515A",
         "#8B5CFF",
         "#00CA69"
-    ]
+    ];
     var hexToRgba = (hex, opacity) => {
         let rgbaColor = "";
         let reg = /^#[\da-f]{6}$/i;
@@ -918,7 +918,7 @@ function loadright2(divid, data) {
     )},${parseInt("0x" + hex.slice(5, 7))},${opacity})`;
         }
         return rgbaColor;
-    }
+    };
     var option = {
         // color: ['#1cdade'],
         grid: {
@@ -933,7 +933,6 @@ function loadright2(divid, data) {
             formatter: function (params) {
                 let html = '';
                 params.forEach(v => {
-                    console.log(v)
                     html += `<div style="color: #666;font-size: 14px;line-height: 24px">
                 <span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${color[v.componentIndex]};"></span>
                 ${v.name} </br> ${v.value}

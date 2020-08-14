@@ -22,14 +22,17 @@
                 :data="dataList"
                 size="small"
                 border
+                stripe
                 v-loading="dataListLoading"
                 style="width: 100%;margin-top:-15px"
                 @selection-change="handleSelectionChange">
             <el-table-column
+                    fixed="left"
                     type="selection"
                     width="40">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="projectNumber"
                     header-align="center"
                     align="center"
@@ -37,6 +40,7 @@
                     label="项目编号">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="projectName"
                     header-align="center"
                     align="center"
@@ -45,6 +49,7 @@
                     label="项目名称">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="planningStationName"
                     header-align="center"
                     align="center"
@@ -59,6 +64,7 @@
                 <!--</template>-->
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="longitude"
                     header-align="center"
                     align="center"
@@ -66,6 +72,7 @@
                     label="经度">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="latitude"
                     header-align="center"
                     align="center"
@@ -73,6 +80,7 @@
                     label="纬度">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="netType"
                     header-align="center"
                     align="center"
@@ -80,6 +88,7 @@
                     label="网络类型">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="demandOperator"
                     header-align="center"
                     align="center"
@@ -87,6 +96,7 @@
                     label="需求运营商">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="stationType"
                     header-align="center"
                     align="center"
@@ -94,6 +104,7 @@
                     label="基站类型">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="towerType"
                     header-align="center"
                     align="center"
@@ -101,6 +112,7 @@
                     label="铁塔类型">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="height"
                     header-align="center"
                     align="center"
@@ -108,6 +120,7 @@
                     label="高度">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="buildType"
                     header-align="center"
                     align="center"
@@ -115,6 +128,7 @@
                     label="建设方式">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="mobile"
                     header-align="center"
                     align="center"
@@ -122,6 +136,7 @@
                     label="移动">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="telecom"
                     header-align="center"
                     align="center"
@@ -129,12 +144,22 @@
                     label="电信">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="unicom"
                     header-align="center"
                     align="center"
                     width="80"
                     label="联通">
             </el-table-column>
+            <el-table-column
+                    fixed="right"
+                    prop="remarks"
+                    header-align="center"
+                    align="center"
+
+                    label="备注">
+            </el-table-column>
+
 
         </el-table>
         <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>

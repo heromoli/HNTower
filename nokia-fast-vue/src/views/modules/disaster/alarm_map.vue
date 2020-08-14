@@ -98,13 +98,27 @@
                             </el-button>
                         </el-form-item>
                     </el-form>
-                    <el-form v-if="typhoonDateVisible" style="margin-top: 680px; margin-left: 980px">
+                    <el-form style="margin-top: 705px; margin-left: 10px">
                         <el-form-item>
-                            <div class="info">
-                                云图拍摄时间: {{this.typhoonDate}}
-                            </div>
+                            <div class="divStyle1"></div>
+                            <div style="display: inline-block;margin-right:12px"><h3>L1-运营商传输节点站</h3></div>
+                            <div class="divStyle2"></div>
+                            <div style="display: inline-block;margin-right:12px"><h3>L2-党政军重保站</h3></div>
+                            <div class="divStyle3"></div>
+                            <div style="display: inline-block;margin-right:12px"><h3>L3-运营商重保站</h3></div>
+                            <div class="divStyle4"></div>
+                            <div style="display: inline-block;margin-right:12px"><h3>L4-运营商高等级站</h3></div>
+                            <div class="divStyle5"></div>
+                            <div style="display: inline-block;margin-right:12px"><h3>L5-普通站址</h3></div>
                         </el-form-item>
                     </el-form>
+                    <!--<el-form v-if="typhoonDateVisible" style="margin-bottom: 0px; margin-left: 980px">-->
+                        <!--<el-form-item>-->
+                            <!--<div class="infoWin">-->
+                                <!--云图拍摄时间: {{this.typhoonDate}}-->
+                            <!--</div>-->
+                        <!--</el-form-item>-->
+                    <!--</el-form>-->
                 </div>
             </el-col>
             <el-col :span="6">
@@ -356,6 +370,7 @@
                                 '#f3ee0e',
                                 '#7af366'
                             ];
+
                             AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
                                 if (!PointSimplifier.supportCanvas) {
                                     alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
@@ -415,7 +430,7 @@
                                         },
                                         hoverTitleStyle: {
                                             position: 'top'
-                                        },
+                                        }
                                     },
                                 });
 
@@ -586,7 +601,7 @@
 
 <style scoped>
     .amap-demo {
-        height: 94%;
+        height: 92%;
         width: 70%;
         position: absolute;
     }
@@ -603,6 +618,55 @@
         font-size: 16px;
         font-weight: 600;
         color: rgb(250, 0, 0);
+    }
+
+    .infoWin {
+        padding: .75rem 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: .25rem;
+        position: fixed;
+        top: 1rem;
+        background-color: white;
+        width: auto;
+        min-width: 22rem;
+        border-width: 0;
+        right: 1rem;
+        box-shadow: 0 2px 6px 0 rgba(114, 124, 245, .5);
+    }
+
+    .divStyle1 {
+        width: 16px;
+        height: 16px;
+        background-color: #7030a0;
+        display: inline-block;
+    }
+
+    .divStyle2 {
+        width: 16px;
+        height: 16px;
+        background-color: #fa0000;
+        display: inline-block;
+    }
+
+    .divStyle3 {
+        width: 16px;
+        height: 16px;
+        background-color: #ff9a07;
+        display: inline-block;
+    }
+
+    .divStyle4 {
+        width: 16px;
+        height: 16px;
+        background-color: #f3ee0e;
+        display: inline-block;
+    }
+
+    .divStyle5 {
+        width: 16px;
+        height: 16px;
+        background-color: #7af366;
+        display: inline-block;
     }
 
 </style>

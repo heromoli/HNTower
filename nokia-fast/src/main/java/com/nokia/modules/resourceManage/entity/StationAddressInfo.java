@@ -13,7 +13,6 @@ import java.io.Serializable;
 @TableName("STATION_ADDRESS_INFO")
 public class StationAddressInfo extends RowModel implements Serializable {
 
-    @TableId
     private Long id;
 
     @ExcelProperty(value = {"站址名称"}, index = 0)

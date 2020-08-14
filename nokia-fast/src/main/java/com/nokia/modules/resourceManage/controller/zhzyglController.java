@@ -33,6 +33,15 @@ public class zhzyglController extends BaseController {
     private StationAddressManagementService stationManageService;
 
     @Autowired
+    private StationAddressInfoService stationInfoService;
+
+    @Autowired
+    private StationAddressInfoNewService stationInfoNewService;
+
+    @Autowired
+    private StationTowerInfoService stationTowerService;
+
+    @Autowired
     private StationAmountService stationAmountService;
 
     @Autowired
@@ -61,8 +70,10 @@ public class zhzyglController extends BaseController {
         }
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        logger.info("文件后缀："+suffix);
         long startTime = System.currentTimeMillis();
-        List<StationAddressManagement> list = ExcelUtil.readExcel(file, StationAddressManagement.class, 1, 2);
+        List<StationAddressManagement> list = ExcelUtil.readExcel(file, StationAddressManagement.class, 1, 1);
+        logger.info("文件条数："+list.size());
         try {
             for (StationAddressManagement stationManagement : list) {
                 stationManageService.save(stationManagement);
@@ -96,6 +107,76 @@ public class zhzyglController extends BaseController {
         PageUtils page = stationManageService.selectDataByParam(pageParams, queryParams);
         List<StationAddressManagement> checkList = BeanCopyUtils.convert(page.getList(), StationAddressManagement.class);
         ExcelUtil.writeExcel(response, checkList, "stationManagement_export", "sheet1", ExcelTypeEnum.XLSX, StationAddressManagement.class);
+    }
+
+
+    @PostMapping("/stationInfoUpload")
+    public RData stationInfoUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+        //上传文件
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        long startTime = System.currentTimeMillis();
+        List<StationAddressInfo> list = ExcelUtil.readExcel(file, StationAddressInfo.class, 1, 1);
+        try {
+            for (StationAddressInfo stationAddressInfo : list) {
+                stationInfoService.save(stationAddressInfo);
+            }
+//            stationInfoService.saveBatch(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        long haoshi = (endTime - startTime) / 1000;
+        logger.info("耗时" + haoshi + "秒。");
+        return RData.ok("操作成功,耗时" + haoshi + "秒。");
+    }
+
+    @PostMapping("/stationInfoNewUpload")
+    public RData stationInfoNewUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+        //上传文件
+//        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        long startTime = System.currentTimeMillis();
+        List<StationAddressInfoNew> list = ExcelUtil.readExcel(file, StationAddressInfoNew.class, 1, 1);
+        try {
+            for (StationAddressInfoNew stationAddressInfo : list) {
+                stationInfoNewService.save(stationAddressInfo);
+            }
+//            stationInfoService.saveBatch(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        long haoshi = (endTime - startTime) / 1000;
+        logger.info("耗时" + haoshi + "秒。");
+        return RData.ok("操作成功,耗时" + haoshi + "秒。");
+    }
+
+    @PostMapping("/towerInfoUpload")
+    public RData towerInfoUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+        //上传文件
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        long startTime = System.currentTimeMillis();
+        List<StationTowerInfo> list = ExcelUtil.readExcel(file, StationTowerInfo.class, 1, 1);
+        try {
+//            for (StationAddressInfo stationAddressInfo : list) {
+//                stationInfoService.save(stationAddressInfo);
+//            }
+            stationTowerService.saveBatch(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        long haoshi = (endTime - startTime) / 1000;
+        logger.info("耗时" + haoshi + "秒。");
+        return RData.ok("操作成功,耗时" + haoshi + "秒。");
     }
 
     @GetMapping("/queryStationAddressManagement")
@@ -222,41 +303,15 @@ public class zhzyglController extends BaseController {
 
     @GetMapping("/getYearlyStationAmount")
     public RData getYearlyStationAmount() {
-        List<StationInfoAmount> amountList = new ArrayList<>();
         List<StationInfoAmount> dataList = stationAmountService.selectStationAmountByYear();
-        String[] yearList = new String[10];
-        for (long i = 1L; i <= 10L; i++) {
-            LocalDate localDate = LocalDate.now().minusYears(i);
-            String localYear = localDate.toString().substring(0, 4);
-            yearList[(int) i - 1] = localYear;
-        }
+        List<String> yearList = new ArrayList<>();
 
         for (StationInfoAmount stationInfoAmount : dataList) {
-            if (stationInfoAmount.getName().equals(yearList[0])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[1])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[2])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[3])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[4])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[5])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[6])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[7])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[8])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[9])) {
-                amountList.add(stationInfoAmount);
-            }
+            yearList.add(stationInfoAmount.getName());
         }
 
         RData rData = new RData().ok();
-        rData.put("amountList", amountList);
+        rData.put("amountList", dataList);
         rData.put("nameList", yearList);
 
         return rData;
@@ -264,41 +319,15 @@ public class zhzyglController extends BaseController {
 
     @GetMapping("/getYearlyStationIncrease")
     public RData getYearlyStationIncrease() {
-        List<StationInfoAmount> amountList = new ArrayList<>();
         List<StationInfoAmount> dataList = stationAmountService.selectStationIncreaseByYear();
-        String[] yearList = new String[10];
-        for (long i = 1L; i <= 10L; i++) {
-            LocalDate localDate = LocalDate.now().minusYears(i);
-            String localYear = localDate.toString().substring(0, 4);
-            yearList[(int) i - 1] = localYear;
-        }
+        List<String> yearList = new ArrayList<>();
 
         for (StationInfoAmount stationInfoAmount : dataList) {
-            if (stationInfoAmount.getName().equals(yearList[0])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[1])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[2])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[3])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[4])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[5])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[6])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[7])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[8])) {
-                amountList.add(stationInfoAmount);
-            } else if (stationInfoAmount.getName().equals(yearList[9])) {
-                amountList.add(stationInfoAmount);
-            }
+            yearList.add(stationInfoAmount.getName());
         }
 
         RData rData = new RData().ok();
-        rData.put("amountList", amountList);
+        rData.put("amountList", dataList);
         rData.put("nameList", yearList);
 
         return rData;
@@ -384,12 +413,12 @@ public class zhzyglController extends BaseController {
     @GetMapping("/getMonthlyStation5GAmount")
     public RData getMonthlyStation5GAmount() {
         List<StationInfoAmount> amountList = stationAmountService.selectStation5gAmountByMonth();
-        String[] regionNameList = new String[amountList.size() - 5];
-        for (int i = 5; i < amountList.size(); i++) {
-            regionNameList[i - 5] = amountList.get(i).getName();
+        String[] regionNameList = new String[amountList.size()];
+        for (int i = 0; i < amountList.size(); i++) {
+            regionNameList[i] = amountList.get(i).getName();
         }
         RData rData = new RData().ok();
-        rData.put("amountList", amountList.subList(5, amountList.size()));
+        rData.put("amountList", amountList);
         rData.put("nameList", regionNameList);
         return rData;
     }
@@ -551,7 +580,7 @@ public class zhzyglController extends BaseController {
         List<StationInfoAmount> amountListYys = stationAmountService.selectProjectTypeGroupCity("运营商需求");
         List<StationInfoAmount> amountListYysqz = stationAmountService.selectProjectTypeGroupCity("运营商潜在需求");
         List<StationInfoAmount> amountListWy = stationAmountService.selectProjectTypeGroupCity("物业需求");
-        List<StationInfoAmount> amountListZf= stationAmountService.selectProjectTypeGroupCity("政府需求");
+        List<StationInfoAmount> amountListZf = stationAmountService.selectProjectTypeGroupCity("政府需求");
 
         RData rData = new RData().ok();
         rData.put("amountListYys", amountListYys);
@@ -731,9 +760,9 @@ public class zhzyglController extends BaseController {
 
     @GetMapping("/getCityGuihuaByOperator")
     public RData getCityGuihuaByOperator() {
-        List<StationInfoAmount> amountListYd= stationAmountService.selectCityGhYddw();
+        List<StationInfoAmount> amountListYd = stationAmountService.selectCityGhYddw();
         List<StationInfoAmount> amountListLt = stationAmountService.selectCityGhLtdw();
-        List<StationInfoAmount> amountListDx= stationAmountService.selectCityGhDxdw();
+        List<StationInfoAmount> amountListDx = stationAmountService.selectCityGhDxdw();
 
         RData rData = new RData().ok();
         rData.put("amountListYd", amountListYd);
@@ -779,9 +808,9 @@ public class zhzyglController extends BaseController {
 
     @GetMapping("/getCityXuqiuByOperator")
     public RData getCityXuqiuByOperator() {
-        List<StationInfoAmount> amountListYd= stationAmountService.selectCityXqYddw();
+        List<StationInfoAmount> amountListYd = stationAmountService.selectCityXqYddw();
         List<StationInfoAmount> amountListLt = stationAmountService.selectCityXqLtdw();
-        List<StationInfoAmount> amountListDx= stationAmountService.selectCityXqDxdw();
+        List<StationInfoAmount> amountListDx = stationAmountService.selectCityXqDxdw();
 
         RData rData = new RData().ok();
         rData.put("amountListYd", amountListYd);

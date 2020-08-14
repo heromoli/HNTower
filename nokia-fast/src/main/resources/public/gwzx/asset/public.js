@@ -253,7 +253,7 @@ function loadright3(divid, data) {
     // 基于准备好的dom，初始化echarts实例
     var myChart = echarts.init(document.getElementById(divid));
     var legendarr = [];
-    var c = ['#33b565', '#20cc98', '#2089cf', '#205bcf', '#211fdd'];
+    var c = ['#fa4a4d','#ff9a07', '#f3ee0e', '#92d050', '#33b565', '#06ffa7'];
     var seriesdata = [];
     for (let i = 0; i < data.length; i++) {
         legendarr[data.length - i] = data[i].告警名称;
@@ -264,6 +264,15 @@ function loadright3(divid, data) {
                 normal: {
                     color: c[i]
                 }
+            },
+            label: {
+                show: true,
+                fontSize: 16,
+                lineHeight: 18
+            },
+            labelLine: {
+                ength: 30,
+                show: true
             }
         }
     }

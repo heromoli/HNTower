@@ -59,6 +59,11 @@ public class StationAddressManagementServiceImpl extends ServiceImpl<StationAddr
             queryWrapper.ge("longitude", resultAround[1]);
             queryWrapper.le("latitude", resultAround[2]);
             queryWrapper.ge("latitude", resultAround[3]);
+        }else{
+            queryWrapper.le("longitude", 111.2);
+            queryWrapper.ge("longitude", 108.5);
+            queryWrapper.le("latitude", 20.2);
+            queryWrapper.ge("latitude", 18);
         }
 
         IPage<StationAddressManagement> page = this.page(new Query<StationAddressManagement>().getPage(pageParams), queryWrapper);

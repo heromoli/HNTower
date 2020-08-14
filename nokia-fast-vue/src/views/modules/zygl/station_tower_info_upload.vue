@@ -1,6 +1,6 @@
 <template>
     <el-dialog
-            title="上传站址信息文件"
+            title="上传铁塔信息文件"
             :close-on-click-modal="false"
             @close="closeHandle"
             :visible.sync="visible">
@@ -30,7 +30,7 @@
         },
         methods: {
             init() {
-                this.url = this.$http.adornUrl(`/api/zhzygl/stationInfoNewUpload?token=${this.$cookie.get('token')}`);
+                this.url = this.$http.adornUrl(`/api/zhzygl/towerInfoUpload?token=${this.$cookie.get('token')}`);
                 this.visible = true;
             },
             // 上传之前
@@ -45,7 +45,7 @@
                 this.fileList = fileList;
                 if (response && response.code === 0) {
                     this.$message({
-                        message: response.msg + ",总共条数："+this.fileList,
+                        message: response.msg,
                         type: 'success',
                         duration: 1500,
                         onClose: () => {

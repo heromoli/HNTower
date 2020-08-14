@@ -75,15 +75,17 @@
 		from (select substr(t.delivery_time,1,4) syear,count(t.operandmaint_id) site_number from STATION_ADDRESS_MANAGEMENT t group by substr(t.delivery_time,1,4)) a
 		,(select substr(t.delivery_time,1,4) syear,count(t.operandmaint_id) site_number from STATION_ADDRESS_MANAGEMENT t group by substr(t.delivery_time,1,4)) b
 		where b.syear &lt;= a.syear
+		and  to_number(a.syear) >= 2014
 		group by a.syear
-		order by 1 desc
+		order by 1
 	</select>
 
     <select id="selectStationIncreaseByYear" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
    		select nvl(name, '未知') name, value
-			from (select substr(t.delivery_time,0,4) name,count(*) value from STATION_ADDRESS_MANAGEMENT t
-				group by substr(t.delivery_time,0,4) order by name)
-		order by 1 desc
+      	from (select substr(t.delivery_time,0,4) name,count(*) value from STATION_ADDRESS_MANAGEMENT t
+       	WHERE to_number(substr(t.delivery_time,0,4)) >= 2014
+       	group by substr(t.delivery_time,0,4) order by name)
+    	order by 1
 	</select>
 
     <select id="selectStationAmountByMonth" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
@@ -118,10 +120,10 @@
 	</select>
 
     <select id="selectMonthlyStation5GAmount" resultType="com.nokia.modules.resourceManage.entity.StationInfoAmount">
-		select to_char(to_date(t.delivery_time,'yyyy-mm-dd'),'yyyy-mm') name ,count(t.station_name) value
+		select to_char(t.delivery_time,'yyyy-mm') name ,count(t.station_name) value
 		from STATION5G_DEMAND t
 		where t.delivery_time is not null
-		group by to_char(to_date(t.delivery_time,'yyyy-mm-dd'),'yyyy-mm')
+		group by to_char(t.delivery_time,'yyyy-mm')
 		order by name
 	</select>
 

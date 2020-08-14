@@ -6,7 +6,9 @@
             </el-form-item>
             <el-form-item>
                 <el-button @click="getDataList()">查询</el-button>
-                <el-button type="success" size="mini" @click="uploadHandle()">导入站址数据</el-button>
+                <el-button type="success" @click="managementUploadHandle()">导入站址管理数据</el-button>
+                <el-button type="success" @click="infoUploadHandle()">导入站址信息数据</el-button>
+                <el-button type="success" @click="towerUploadHandle()">导入铁塔信息数据</el-button>
             </el-form-item>
         </el-form>
         <el-table
@@ -80,12 +82,16 @@
                 :total="totalPage"
                 layout="total, sizes, prev, pager, next, jumper">
         </el-pagination>
-        <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
+        <management_upload v-if="managementUploadVisible" ref="management_upload" @refreshDataList="getDataList"></management_upload>
+        <info_upload v-if="infoUploadVisible" ref="info_upload" @refreshDataList="getDataList"></info_upload>
+        <tower_upload v-if="towerUploadVisible" ref="tower_upload" @refreshDataList="getDataList"></tower_upload>
     </div>
 </template>
 
 <script>
-    import Upload from './station_address_info_upload';
+    import info_upload from './station_address_info_upload';
+    import management_upload from './station_address_management_upload';
+    import tower_upload from './station_tower_info_upload';
 
     export default {
         data() {
@@ -94,7 +100,9 @@
                     key: ''
                 },
                 dataList: [],
-                uploadVisible: false,
+                infoUploadVisible: false,
+                managementUploadVisible: false,
+                towerUploadVisible: false,
                 pageIndex: 1,
                 pageSize: 10,
                 totalPage: 0,
@@ -106,7 +114,9 @@
             this.getDataList()
         },
         components: {
-            Upload
+            info_upload,
+            management_upload,
+            tower_upload
         },
         methods: {
             // 获取数据列表
@@ -143,12 +153,24 @@
                 this.getDataList()
             },
             // 上传文件
-            uploadHandle() {
-                this.uploadVisible = true;
+            managementUploadHandle() {
+                this.managementUploadVisible = true;
                 this.$nextTick(() => {
-                    this.$refs.upload.init()
+                    this.$refs.management_upload.init()
                 })
             },
+            infoUploadHandle() {
+                this.infoUploadVisible = true;
+                this.$nextTick(() => {
+                    this.$refs.info_upload.init()
+                })
+            },
+            towerUploadHandle() {
+                this.towerUploadVisible = true;
+                this.$nextTick(() => {
+                    this.$refs.tower_upload.init()
+                })
+            }
         }
     }
 </script>
