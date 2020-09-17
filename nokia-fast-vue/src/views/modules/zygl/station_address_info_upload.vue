@@ -30,7 +30,8 @@
         },
         methods: {
             init() {
-                this.url = this.$http.adornUrl(`/api/zhzygl/stationInfoNewUpload?token=${this.$cookie.get('token')}`);
+                this.url = this.$http.adornUrl(`/api/zhzygl/baseStationInfoUpload?token=${this.$cookie.get('token')}`);
+                // baseStationInfoUpload   stationInfoNewUpload
                 this.visible = true;
             },
             // 上传之前

@@ -63,12 +63,14 @@
                     //清空上次查询的海量点
                     window.pointSimplifierIns.setData([]);
                 }
+
                 let pointsData = [];
 
                 this.dataList.forEach(element => {
+
                     pointsData.push({
                         title: element.projectName,
-                        position: [element.longitude, element.latitude],
+                        position: [element.gcjLongitude, element.gcjLatitude],
                         address: element.planningStationName,
                         buildType: element.buildType
                     })
@@ -157,7 +159,6 @@
                                 }
                             },
                             groupStyleOptions: function (gid) {
-                                console.log(gid);
                                 return groupStyleMap[gid]
                             },
                             hoverTitleStyle: {
@@ -182,7 +183,6 @@
                         infoWindow.open(map, point.data.position);
                     });
                 });
-
             },
             // 弹窗关闭时
             handleClose(done) {

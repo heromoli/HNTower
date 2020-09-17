@@ -1,6 +1,7 @@
 package com.nokia.modules.disaster.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,19 +15,19 @@ import java.util.Date;
 @TableName("V_ALARM_MESSAGE_MANAGEMENT")
 public class AlarmMessageManagement extends RowModel implements Serializable {
 
-    @ExcelProperty(index = 0, value = {"故障单编号"})
+//    @ExcelProperty(index = 0, value = {"故障单编号"})
     private String alarmTicketNumber;
 
-    @ExcelProperty(index = 1, value = {"告警等级"})
+//    @ExcelProperty(index = 1, value = {"告警等级"})
     private String alarmLevel;
 
-    @ExcelProperty(index = 2, value = {"省"})
+//    @ExcelProperty(index = 2, value = {"省"})
     private String province;
 
-    @ExcelProperty(index = 3, value = {"市"})
+//    @ExcelProperty(index = 3, value = {"市"})
     private String city;
 
-    @ExcelProperty(index = 4, value = {"区县"})
+//    @ExcelProperty(index = 4, value = {"区县"})
     private String county;
 
 //    @ExcelProperty(index = 5, value = {"国家行政区县"})
@@ -47,22 +48,22 @@ public class AlarmMessageManagement extends RowModel implements Serializable {
 //    @ExcelProperty(index = 10, value = {"电信"})
 //    private String telecom;
 
-    @ExcelProperty(index = 11, value = {"站址保障等级"})
+//    @ExcelProperty(index = 11, value = {"站址保障等级"})
     private String stationSecurityLevel;
 
-    @ExcelProperty(index = 12, value = {"站址名称"})
+//    @ExcelProperty(index = 12, value = {"站址名称"})
     private String stationName;
 
-    @ExcelProperty(index = 13, value = {"站址状态"})
+//    @ExcelProperty(index = 13, value = {"站址状态"})
     private String stationStatus;
 
 //    @ExcelProperty(index = 14, value = {"站址运维ID"})
 //    private String stationOperationId;
 
-    @ExcelProperty(index = 15, value = {"站址编码"})
+//    @ExcelProperty(index = 15, value = {"站址编码"})
     private String stationCode;
 
-    @ExcelProperty(index = 16, value = {"告警名称"})
+//    @ExcelProperty(index = 16, value = {"告警名称"})
     private String alarmName;
 
 //    @ExcelProperty(index = 17, value = {"FSU名称"})
@@ -80,26 +81,26 @@ public class AlarmMessageManagement extends RowModel implements Serializable {
 //    @ExcelProperty(index = 21, value = {"信号量ID"})
 //    private String signalId;
 
-    @ExcelProperty(index = 22, value = {"告警详情"})
+//    @ExcelProperty(index = 22, value = {"告警详情"})
     private String alarmDetail;
 
-    @ExcelProperty(index = 23, value = {"告警发生时间"})
+//    @ExcelProperty(index = 23, value = {"告警发生时间"})
     @JsonProperty("alarmOccurTime")
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private Date alarmOccurTime;
 
-    @ExcelProperty(index = 24, value = {"告警历时(分钟)"})
+//    @ExcelProperty(index = 24, value = {"告警历时(分钟)"})
     private String alarmDurationTime;
 
-    @ExcelProperty(index = 25, value = {"是否超时"})
+//    @ExcelProperty(index = 25, value = {"是否超时"})
     private String ifTimeout;
 
-    @ExcelProperty(index = 26, value = {"设备告警开始时间"})
+//    @ExcelProperty(index = 26, value = {"设备告警开始时间"})
     @JsonProperty("alarmStartTime")
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private Date alarmStartTime;
 
-    @ExcelProperty(index = 27, value = {"设备告警结束时间"})
+//    @ExcelProperty(index = 27, value = {"设备告警结束时间"})
     @JsonProperty("alarmEndTime")
     @JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
     private Date alarmEndTime;
@@ -168,7 +169,7 @@ public class AlarmMessageManagement extends RowModel implements Serializable {
 //    @ExcelProperty(index = 47, value = {"告警流水号ID"})
 //    private String alarmSerialNumber;
 //
-    @ExcelProperty(index = 48, value = {"所属运营商"})
+
     private String belongOperator;
 //
 //    @ExcelProperty(index = 49, value = {"移动站址名称"})
@@ -200,5 +201,11 @@ public class AlarmMessageManagement extends RowModel implements Serializable {
 
 //    @ExcelProperty(index = 58, value = {"场景"})
     private String bizScene;
+
+    @TableField(exist = false)
+    private double gcjLongitude;
+
+    @TableField(exist = false)
+    private double gcjLatitude;
 
 }

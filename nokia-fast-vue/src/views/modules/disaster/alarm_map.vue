@@ -355,7 +355,7 @@
                             pointsData.push({
                                 stationName: element.stationName,
                                 operator: element.belongOperator,
-                                position: [element.longitude, element.latitude],
+                                position: [element.gcjLongitude, element.gcjLatitude],
                                 alarmName: element.alarmName,
                                 level: element.stationSecurityLevel
                             })
@@ -396,8 +396,8 @@
                                     renderOptions: {
                                         pointStyle: {
                                             fillStyle: '#000000',
-                                            width: 16,
-                                            height: 16
+                                            width: 14,
+                                            height: 14
                                         },
                                         getGroupId: function (item, idx) {
                                             if (item.level == null) {
@@ -407,7 +407,7 @@
                                             }
                                         },
                                         groupStyleOptions: function (gid) {
-                                            let size = 14;
+                                            let size = 12;
                                             return {
                                                 pointStyle: {
                                                     fillStyle: colorGroup[gid],

@@ -210,7 +210,6 @@
         methods: {
             // 获取数据列表
             getDataList() {
-                var params = this.$route.params.serialNumber;
                 this.dataListLoading = true;
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetailPage'),

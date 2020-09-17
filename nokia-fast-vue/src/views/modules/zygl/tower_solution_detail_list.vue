@@ -200,7 +200,6 @@
             },
             // 获取数据列表
             getDataList() {
-                let params = this.$route.params.serialNumber;
                 this.dataListLoading = true;
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetailList'),

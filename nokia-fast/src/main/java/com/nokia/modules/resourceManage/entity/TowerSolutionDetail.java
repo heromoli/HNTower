@@ -1,6 +1,7 @@
 package com.nokia.modules.resourceManage.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.nokia.modules.workflow.entity.RowModel;
@@ -59,4 +60,10 @@ public class TowerSolutionDetail extends RowModel implements Serializable {
 
     @ExcelProperty(index = 15, value = {"备注"})
     private String remarks;
+
+    @TableField(exist = false)
+    private double gcjLongitude;
+
+    @TableField(exist = false)
+    private double gcjLatitude;
 }

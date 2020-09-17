@@ -66,6 +66,7 @@
                 </template>
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="cityBranchCompany"
                     header-align="center"
                     align="center"
@@ -74,6 +75,7 @@
                     label="分公司">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="county"
                     header-align="center"
                     align="center"
@@ -81,6 +83,7 @@
                     label="区县">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="solutionName"
                     header-align="center"
                     align="center"
@@ -88,14 +91,16 @@
                     label="项目名称">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="sceneDivide"
                     header-align="center"
                     align="center"
-                    width="100"
+                    width="150"
                     :show-overflow-tooltip="true"
                     label="场景划分">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="longitude"
                     header-align="center"
                     align="center"
@@ -103,6 +108,7 @@
                     label="中心经度">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="latitude"
                     header-align="center"
                     align="center"
@@ -110,6 +116,7 @@
                     label="中心纬度">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="netType"
                     header-align="center"
                     align="center"
@@ -117,13 +124,15 @@
                     label="网络类型">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="planType"
                     header-align="center"
                     align="center"
-                    width="100"
+                    width="200"
                     label="方案类型">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="planFormTime"
                     header-align="center"
                     align="center"
@@ -131,6 +140,7 @@
                     label="编制时间">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="planStatus"
                     header-align="center"
                     align="center"

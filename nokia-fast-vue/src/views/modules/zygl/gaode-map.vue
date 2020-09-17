@@ -191,8 +191,8 @@
                         'queryParam': this.queryParam
                     })
                 }).then(({data}) => {
-                    if (data.page != null && data.code === 0) {
-                        this.dataList = data.page.list;
+                    if (data.resultList != null && data.code === 0) {
+                        this.dataList = data.resultList;
                         this.dataList.forEach(element => {
                             var marker = new AMap.Marker({
                                 map: map,
@@ -252,6 +252,8 @@
                 }
 
                 let pointsData = [];
+                let lnglats = [];
+
                 this.dataListLoading = true;
                 this.$http({
                     url: this.$http.adornUrl('/api/zhzygl/queryStationAddressManagement'),
@@ -262,95 +264,77 @@
                         'queryParam': this.queryParam
                     })
                 }).then(({data}) => {
-                    if (data.page != null && data.code === 0) {
-                        this.dataList = data.page.list;
+                    if (data.resultList != null && data.code === 0) {
+                        this.dataList = data.resultList;
                         this.dataList.forEach(element => {
-                            // let gps = [element.longitude, element.latitude];
-                            // let lnglats = [];
-                            // AMap.convertFrom(gps, 'gps', function (status, result) {  //坐标系转换
-                            //     if (result.info === 'ok') {
-                            //         // lnglats = [result.locations[0].lng, result.locations[0].lat];
-                            //         pointsData.push({
-                            //             title: element.stationName,
-                            //             position: [result.locations[0].lng, result.locations[0].lat],
-                            //             address: element.address,
-                            //             operatorShare: element.ifOperatorShare
-                            //         })
-                            //     }
-                            //
-                            // });
+                            // lnglats.push([element.longitude, element.latitude]);
                             pointsData.push({
                                 title: element.stationName,
-                                position: [element.longitude, element.latitude],
+                                position: [element.gcjLongitude, element.gcjLatitude],
                                 address: element.address,
                                 operatorShare: element.ifOperatorShare
                             })
                         });
-                        AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
-                            if (!PointSimplifier.supportCanvas) {
-                                alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
-                                return;
-                            }
-                            let pointSimplifierIns = new PointSimplifier({
-                                map: map,
-                                // zIndex: 200, //绘制用图层的叠加顺序值,选高一点的
-                                // data : {},
-                                compareDataItem: function (a, b, aIndex, bIndex) {
-                                    //数据源中靠后的元素优先，index大的排到前面去
-                                    return aIndex > bIndex ? -1 : 1;
-                                },
-                                getPosition: function (dataItem) {
-                                    //返回数据项的经纬度，AMap.LngLat实例或者经纬度数组
-                                    return dataItem.position;
-                                },
-                                getHoverTitle: function (dataItem, idx) {
-                                    //返回数据项的Title信息，鼠标hover时显示
-                                    return '' + dataItem.title;
-                                },
-                                renderOptions: {
-                                    pointStyle: {
-                                        fillStyle: '#f08200', //颜色填充
-                                        // content: PointSimplifier.Render.Canvas.getImageContent(base_station,
-                                        //     function onload() {
-                                        //         pointSimplifierIns.renderLater();
-                                        //     },
-                                        //     function onerror(e) {
-                                        //         alert('图片加载失败！');
-                                        //     }),
-                                        width: 12,
-                                        //高度
-                                        height: 12,
-                                    },
-                                    hoverTitleStyle: {
-                                        position: 'top'
-                                    },
-                                },
-                            });
+                        // AMap.convertFrom(lnglats, 'gps', function (status, result) {  //坐标系转换
+                        //     if (result.info === 'ok') {
+                        //         for(let i = 0; i < result.locations.length; i++) {
+                        //             pointsData[i]["position"] = [result.locations[i].lng,result.locations[i].lat];
+                        //         }
+                        //     }
 
-                            pointSimplifierIns.setData(pointsData);
-                            pointSimplifierIns.on('pointClick', function (event, point) {
-                                let info = [];
-                                info.push("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div> ");
-                                info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>" + point.data.title + "</b>");
-                                info.push("坐标：" + point.data.position);
-                                info.push("地址： " + point.data.address);
-                                info.push("共享情况： " + point.data.operatorShare);
-
-                                let infoWindow = new AMap.InfoWindow({
-                                    content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容
+                            AMapUI.loadUI(['misc/PointSimplifier'], function (PointSimplifier) {
+                                if (!PointSimplifier.supportCanvas) {
+                                    alert('当前环境不支持 Canvas,请使用IE9以上浏览器！');
+                                    return;
+                                }
+                                let pointSimplifierIns = new PointSimplifier({
+                                    map: map,
+                                    // zIndex: 200, //绘制用图层的叠加顺序值,选高一点的
+                                    // data : {},
+                                    compareDataItem: function (a, b, aIndex, bIndex) {
+                                        //数据源中靠后的元素优先，index大的排到前面去
+                                        return aIndex > bIndex ? -1 : 1;
+                                    },
+                                    getPosition: function (dataItem) {
+                                        //返回数据项的经纬度，AMap.LngLat实例或者经纬度数组
+                                        return dataItem.position;
+                                    },
+                                    getHoverTitle: function (dataItem, idx) {
+                                        //返回数据项的Title信息，鼠标hover时显示
+                                        return '' + dataItem.title;
+                                    },
+                                    renderOptions: {
+                                        pointStyle: {
+                                            fillStyle: '#f08200', //颜色填充
+                                            width: 12,
+                                            //高度
+                                            height: 12,
+                                        },
+                                        hoverTitleStyle: {
+                                            position: 'top'
+                                        },
+                                    },
                                 });
-                                infoWindow.open(map, point.data.position);
+
+                                pointSimplifierIns.setData(pointsData);
+                                pointSimplifierIns.on('pointClick', function (event, point) {
+                                    let info = [];
+                                    info.push("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div> ");
+                                    info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>" + point.data.title + "</b>");
+                                    info.push("坐标：" + point.data.position);
+                                    info.push("地址： " + point.data.address);
+                                    info.push("共享情况： " + point.data.operatorShare);
+
+                                    let infoWindow = new AMap.InfoWindow({
+                                        content: info.join("<br/>")  //使用默认信息窗体框样式，显示信息内容
+                                    });
+                                    infoWindow.open(map, point.data.position);
+                                });
+                                window.pointSimplifierIns = pointSimplifierIns;
                             });
-                            window.pointSimplifierIns = pointSimplifierIns;
-                        });
-
-
-                        // var start = new Date().getTime();
-                        // while (new Date().getTime() < start + 10000);
-
-
+                        // });
+                        this.dataListLoading = false;
                     }
-                    this.dataListLoading = false
                 });
 
                 if (this.queryParam.latitude != '' && this.queryParam.longitude != '') {
@@ -375,7 +359,7 @@
 
             },
             exportHandle() {
-                window.location.href = this.$http.adornUrl(`/api/zhzygl/exportStationAddress?county=${this.queryParam.county}&station_name=${this.queryParam.station_name}&address=${this.queryParam.address}&longitude=${this.queryParam.longitude}&latitude=${this.queryParam.latitude}&rangeValue=${this.queryParam.rangeValue}&biz_scene=${this.queryParam.biz_scene}&token=${this.$cookie.get('token')}`)
+                window.location.href = this.$http.adornUrl(`/api/zhzygl/exportStationAddress?county=${this.queryParam.county}&station_name=${this.queryParam.station_name}&address=${this.queryParam.address}&biz_scene=${this.queryParam.biz_scene}&longitude=${this.queryParam.longitude}&latitude=${this.queryParam.latitude}&rangeValue=${this.queryParam.rangeValue}&biz_scene=${this.queryParam.biz_scene}&token=${this.$cookie.get('token')}`)
             },
         }
     }

@@ -17,33 +17,53 @@
                 v-loading="dataListLoading"
                 style="width: 100%">
             <el-table-column
+                    fixed="left"
                     prop="id"
                     header-align="center"
                     align="center"
-                    width="80"
+                    width="70"
                     label="ID">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="stationName"
                     header-align="center"
                     align="center"
                     label="站点名称">
             </el-table-column>
             <el-table-column
+                    fixed="left"
+                    prop="stationNum"
+                    header-align="center"
+                    align="center"
+                    label="站址编码">
+            </el-table-column>
+            <el-table-column
+                    fixed="left"
                     prop="city"
                     header-align="center"
                     align="center"
+                    width="150"
+                    label="地市">
+            </el-table-column>
+            <el-table-column
+                    fixed="left"
+                    prop="county"
+                    header-align="center"
+                    align="center"
+                    width="100"
                     label="区县">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="address"
                     header-align="center"
                     align="center"
-                    width="250"
                     :show-overflow-tooltip="true"
                     label="地址">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="longitude"
                     header-align="center"
                     align="center"
@@ -52,6 +72,7 @@
                     label="经度">
             </el-table-column>
             <el-table-column
+                    fixed="left"
                     prop="latitude"
                     header-align="center"
                     align="center"
@@ -59,6 +80,23 @@
                     label="纬度">
             </el-table-column>
             <el-table-column
+                    fixed="left"
+                    prop="stationStatus"
+                    header-align="center"
+                    align="center"
+                    width="100"
+                    label="站址状态">
+            </el-table-column>
+            <el-table-column
+                    fixed="left"
+                    prop="bizScene"
+                    header-align="center"
+                    align="center"
+                    width="150"
+                    label="业务场景">
+            </el-table-column>
+            <el-table-column
+                    fixed="left"
                     prop="ifOperatorShare"
                     header-align="center"
                     align="center"
@@ -66,6 +104,7 @@
                     label="共享情况">
             </el-table-column>
             <el-table-column
+                    fixed="right"
                     prop="备注"
                     header-align="center"
                     align="center"

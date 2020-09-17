@@ -24,6 +24,15 @@ public class AlarmMessageManagementServiceImpl extends ServiceImpl<AlarmMessageM
     @Override
     public List<AlarmMessageManagement> selectDataByParam(Map<String, Object> queryParams) {
         QueryWrapper queryWrapper = new QueryWrapper<>();
+
+        queryWrapper.ne("longitude", 0);
+        queryWrapper.ne("latitude", 0);
+
+        queryWrapper.le("longitude", 111.2);
+        queryWrapper.ge("longitude", 108.5);
+        queryWrapper.le("latitude", 20.2);
+        queryWrapper.ge("latitude", 18);
+
         String level_value = queryParams.get("level_value").toString().equals("") ? "" : queryParams.get("level_value").toString();
         String operator = queryParams.get("operator").toString().equals("") ? "" : queryParams.get("operator").toString();
         String bizScene = queryParams.get("biz_scene").toString().equals("") ? "" : queryParams.get("biz_scene").toString();

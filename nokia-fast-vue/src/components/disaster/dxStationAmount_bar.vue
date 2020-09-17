@@ -106,6 +106,6 @@
 <style scoped>
     .chart-box {
         height: 320px;
-        background-color: rgb(255, 255, 255);
+        background-color: rgb(151, 252, 255);
     }
 </style>

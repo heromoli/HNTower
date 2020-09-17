@@ -11,6 +11,8 @@ public interface StationAddressManagementService extends IService<StationAddress
 
     PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams);
 
+    List<StationAddressManagement> selectDataByParam(Map<String, Object> queryParams);
+
     List<String> getStationCounty();
 
     List<String> getBizScene();

@@ -7,6 +7,7 @@ import com.nokia.modules.resourceManage.entity.*;
 import com.nokia.modules.resourceManage.service.*;
 import com.nokia.modules.sys.controller.BaseController;
 import com.nokia.modules.sys.service.SftpFileService;
+import com.nokia.utils.Gps;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import com.nokia.utils.excel.BeanCopyUtils;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.nokia.utils.PositionUtils.gps84_To_Gcj02;
 
 @RestController
 @RequestMapping("/api/zhzygl")
@@ -70,10 +73,10 @@ public class zhzyglController extends BaseController {
         }
         //上传文件
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-        logger.info("文件后缀："+suffix);
+        logger.info("文件后缀：" + suffix);
         long startTime = System.currentTimeMillis();
         List<StationAddressManagement> list = ExcelUtil.readExcel(file, StationAddressManagement.class, 1, 1);
-        logger.info("文件条数："+list.size());
+        logger.info("文件条数：" + list.size());
         try {
             for (StationAddressManagement stationManagement : list) {
                 stationManageService.save(stationManagement);
@@ -90,16 +93,18 @@ public class zhzyglController extends BaseController {
 
     @GetMapping("/exportStationAddress")
     public void exportStationAddress(@RequestParam("county") String county, @RequestParam("station_name") String station_name, @RequestParam("address") String address,
-                                     @RequestParam("longitude") String longitude, @RequestParam("latitude") String latitude, @RequestParam("rangeValue") String rangeValue,
+                                     @RequestParam("address") String biz_scene, @RequestParam("longitude") String longitude, @RequestParam("latitude") String latitude,
+                                     @RequestParam("rangeValue") String rangeValue,
                                      HttpServletResponse response) {
         Map<String, Object> queryParams = new HashMap<>();
         Map<String, Object> pageParams = new HashMap<>();
         pageParams.put("page", "1");
-        pageParams.put("limit", "1000");
+        pageParams.put("limit", "10000");
 
         queryParams.put("county", county);
         queryParams.put("station_name", station_name);
         queryParams.put("address", address);
+        queryParams.put("biz_scene", biz_scene);
         queryParams.put("longitude", longitude);
         queryParams.put("latitude", latitude);
         queryParams.put("rangeValue", rangeValue);
@@ -179,12 +184,24 @@ public class zhzyglController extends BaseController {
         return RData.ok("操作成功,耗时" + haoshi + "秒。");
     }
 
+    @Autowired
+    private QueryStationAddressService queryStationAddressService;
+
     @GetMapping("/queryStationAddressManagement")
     public RData queryStationAddressManagement(@RequestParam Map<String, Object> params) {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
-        PageUtils page = stationManageService.selectDataByParam(params, queryParams);
-        return RData.ok().put("page", page);
+        List<QueryStationAddress> dataList = queryStationAddressService.selectDataByParam(queryParams);
+        List<QueryStationAddress> resultList = new ArrayList<>();
+
+        for (QueryStationAddress address : dataList) {
+            Gps gps = gps84_To_Gcj02(address.getLatitude(), address.getLongitude());
+            address.setGcjLatitude(gps.getWgLat());
+            address.setGcjLongitude(gps.getWgLon());
+            resultList.add(address);
+        }
+
+        return RData.ok().put("resultList", resultList);
     }
 
     @GetMapping("/stationAddressManagementList")
@@ -513,12 +530,20 @@ public class zhzyglController extends BaseController {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         List<TowerSolutionDetail> towerSolutionDetailList = towerSolutionDetailService.selectDataByParam(queryParams);
-        return RData.ok().put("list", towerSolutionDetailList);
+
+        List<TowerSolutionDetail> resultList = new ArrayList<>();
+        for (TowerSolutionDetail address : towerSolutionDetailList) {
+
+            Gps gps = gps84_To_Gcj02(Double.valueOf(address.getLatitude()), Double.valueOf(address.getLongitude()));
+            address.setGcjLatitude(gps.getWgLat());
+            address.setGcjLongitude(gps.getWgLon());
+            resultList.add(address);
+        }
+        return RData.ok().put("list", resultList);
     }
 
     @GetMapping("/downloadFile")
     public void downloadFile(@RequestParam("county") String county, @RequestParam("solution_name") String solution_name, @RequestParam("plan_form_time") String plan_form_time, HttpServletResponse response) {
-        logger.info(county + " " + solution_name + " " + plan_form_time);
         sftpFileService.downloadFile(county, solution_name, plan_form_time, response);
 
     }
@@ -828,5 +853,36 @@ public class zhzyglController extends BaseController {
         rData.put("amountList4G", amountList4G);
         rData.put("amountList5G", amountList5G);
         return rData;
+    }
+
+    @Autowired
+    private BaseStationInfoService baseStationInfoService;
+
+    @PostMapping("/baseStationInfoUpload")
+    public RData supervisionUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new RRException("上传文件不能为空");
+        }
+
+        //上传文件
+//        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+
+        StringBuilder message = new StringBuilder();
+        long startTime = System.currentTimeMillis();
+        List<BaseStationInfo> list = ExcelUtil.readExcel(file, BaseStationInfo.class, 2, 1);
+
+        for (BaseStationInfo info : list) {
+            try {
+                baseStationInfoService.saveOrUpdate(info);
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+
+        long endTime = System.currentTimeMillis();
+        long haoshi = (endTime - startTime) / 1000;
+        logger.info("操作成功,耗时" + haoshi + "秒。");
+        return RData.ok("操作成功,耗时" + haoshi + "秒。其中异常数据：{" + message + "}");
     }
 }

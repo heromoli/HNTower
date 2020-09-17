@@ -10,6 +10,7 @@ import com.nokia.modules.disaster.service.AlarmMessageManagementService;
 import com.nokia.modules.disaster.service.DisasterSufferDataService;
 import com.nokia.modules.disaster.service.DisasterSufferMessageService;
 import com.nokia.modules.sys.controller.BaseController;
+import com.nokia.utils.Gps;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import com.nokia.utils.excel.ExcelUtil;
@@ -17,8 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.nokia.utils.PositionUtils.gps84_To_Gcj02;
 
 @RestController
 @RequestMapping("/api/disaster")
@@ -49,7 +53,17 @@ public class disasterSufferController extends BaseController {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         List<AlarmMessageManagement>  list = ammService.selectDataByParam(queryParams);
-        return RData.ok().put("list", list);
+
+        List<AlarmMessageManagement> resultList = new ArrayList<>();
+        for (AlarmMessageManagement address : list) {
+//            logger.info("纬度：" + address.getLatitude() + "   经度：" + address.getLongitude());
+            Gps gps = gps84_To_Gcj02(Double.valueOf(address.getLatitude()), Double.valueOf(address.getLongitude()));
+            address.setGcjLatitude(gps.getWgLat());
+            address.setGcjLongitude(gps.getWgLon());
+            resultList.add(address);
+        }
+
+        return RData.ok().put("list", resultList);
     }
 
     @GetMapping("/queryAmmPage")
