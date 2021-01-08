@@ -113,11 +113,11 @@
                         </el-form-item>
                     </el-form>
                     <!--<el-form v-if="typhoonDateVisible" style="margin-bottom: 0px; margin-left: 980px">-->
-                        <!--<el-form-item>-->
-                            <!--<div class="infoWin">-->
-                                <!--云图拍摄时间: {{this.typhoonDate}}-->
-                            <!--</div>-->
-                        <!--</el-form-item>-->
+                    <!--<el-form-item>-->
+                    <!--<div class="infoWin">-->
+                    <!--云图拍摄时间: {{this.typhoonDate}}-->
+                    <!--</div>-->
+                    <!--</el-form-item>-->
                     <!--</el-form>-->
                 </div>
             </el-col>
@@ -537,17 +537,17 @@
                 let map = this.amapManager.getMap();
                 map.clearMap();
                 this.$http({
-                    url: this.$http.adornUrl('/api/weather/typhoon_list'),
+                    url: this.$http.adornUrl('/api/weather/typhoon_default'),
                     method: 'get',
                 }).then(({data}) => {
                     if (data.json != null && data.code === 0) {
                         this.typhoonList = data.json.typhoonList;
-                        this.typhoonList.forEach(element => {
+                        for (let i = 0; i < 5; i++) {
                             this.$http({
                                 url: this.$http.adornUrl('/api/weather/typhoon_info'),
                                 method: 'get',
                                 params: this.$http.adornParams({
-                                    'id': element[0]
+                                    'id':this.typhoonList[i][0]
                                 })
                             }).then(({data}) => {
                                 let pointPath = [];
@@ -557,7 +557,7 @@
                                         offset: new AMap.Pixel(-8, -8),  //图标基准位置在右上角，要根据大小调整到正中间
                                         position: [item[4], item[5]],
                                         icon: typhoon,
-                                        title: item[12][1]
+                                        title: data.json.typhoon[2] + "(" + data.json.typhoon[1] + "):"+item[12][1]
                                     });
                                     typhoonMarker.on('click', function () {
                                         let info = [];
@@ -591,7 +591,10 @@
                                     map.add(polyline);
                                 })
                             });
-                        })
+                        }
+                        // this.typhoonList.forEach(element => {
+
+                        // })
                     }
                 });
             }

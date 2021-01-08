@@ -1,9 +1,7 @@
 package com.nokia.modules.workflow.entity;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 //import com.uetty.common.excel.anno.ColumnWidth;
@@ -100,33 +98,33 @@ public class Supervision extends RowModel implements Serializable {
 //    @ExplicitConstraint(source = {"新址独享", "新建共享", "共址独享", "共址共享"})
     private String mobileBuildType;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 24, value = {"征址完成时间"})
-    @JsonProperty("locationFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date locationFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 25, value = {"进场时间"})
-    @JsonProperty("intoTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date intoTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 26, value = {"土建完成时间"})
-    @JsonProperty("buildFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date buildFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 27, value = {"铁塔完成时间"})
-    @JsonProperty("towerFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date towerFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 28, value = {"引电完成时间"})
-    @JsonProperty("electricFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date electricFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 29, value = {"配套完成时间"})
-    @JsonProperty("matchingFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date matchingFinishTime;
 
@@ -135,23 +133,23 @@ public class Supervision extends RowModel implements Serializable {
 //    @JsonFormat(pattern = "yyyy-MM-dd")
 //    private Date dhInstallFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 30, value = {"总体完工时间"})
-    @JsonProperty("totalFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date totalFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 31, value = {"内验完成时间"})
-    @JsonProperty("checkFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date checkFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 32, value = {"交付完成时间"})
-    @JsonProperty("deliverFinishTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date deliverFinishTime;
 
+    @TableField(strategy = FieldStrategy.IGNORED)
     @ExcelProperty(index = 33, value = {"起租时间"})
-    @JsonProperty("startHireTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startHireTime;
 

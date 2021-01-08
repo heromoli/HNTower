@@ -522,6 +522,16 @@ public class zhzyglController extends BaseController {
         String queryParamString = params.get("queryParam").toString();
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         PageUtils page = towerSolutionDetailService.selectDataByParam(params, queryParams);
+
+        List<TowerSolutionDetail> resultList = new ArrayList<>();
+        for (TowerSolutionDetail address : (List<TowerSolutionDetail>)page.getList()) {
+
+            Gps gps = gps84_To_Gcj02(Double.valueOf(address.getLatitude()), Double.valueOf(address.getLongitude()));
+            address.setGcjLatitude(gps.getWgLat());
+            address.setGcjLongitude(gps.getWgLon());
+            resultList.add(address);
+        }
+        page.setList(resultList);
         return RData.ok().put("page", page);
     }
 

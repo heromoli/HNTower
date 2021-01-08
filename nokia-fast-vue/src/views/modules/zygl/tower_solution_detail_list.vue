@@ -159,9 +159,16 @@
 
                     label="备注">
             </el-table-column>
-
-
         </el-table>
+        <el-pagination
+                @size-change="sizeChangeHandle"
+                @current-change="currentChangeHandle"
+                :current-page="pageIndex"
+                :page-sizes="[10, 20, 50, 100]"
+                :page-size="pageSize"
+                :total="totalPage"
+                layout="total, sizes, prev, pager, next, jumper">
+        </el-pagination>
         <upload v-if="uploadVisible" ref="upload" @refreshDataList="getDataList"></upload>
         <towerMap v-if="mapVisible" ref="towerMap" @refreshDataList="drawMarkerHandle"></towerMap>
     </div>
@@ -180,6 +187,9 @@
                     planning_Station_Name: ''
                 },
                 dataList: [],
+                pageIndex: 1,
+                pageSize: 50,
+                totalPage: 0,
                 multipleSelection: [],
                 uploadVisible: false,
                 mapVisible: false,
@@ -194,6 +204,17 @@
             towerMap
         },
         methods: {
+            // 每页数
+            sizeChangeHandle(val) {
+                this.pageSize = val;
+                this.pageIndex = 1;
+                this.getDataList()
+            },
+            // 当前页
+            currentChangeHandle(val) {
+                this.pageIndex = val;
+                this.getDataList()
+            },
             handleSelectionChange(val) {
                 // console.log(val);
                 this.multipleSelection = val;
@@ -202,7 +223,7 @@
             getDataList() {
                 this.dataListLoading = true;
                 this.$http({
-                    url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetailList'),
+                    url: this.$http.adornUrl('/api/zhzygl/queryTowerSolutionDetailPage'),
                     method: 'get',
                     params: this.$http.adornParams({
                         'page': this.pageIndex,
@@ -210,12 +231,12 @@
                         'queryParam': this.dataForm
                     })
                 }).then(({data}) => {
-                    if (data && data.code === 0) {
-                        this.dataList = data.list;
-                        // this.totalPage = data.page.totalCount
+                    if (data.page && data.code === 0) {
+                        this.dataList = data.page.list;
+                        this.totalPage = data.page.totalCount
                     } else {
                         this.dataList = [];
-                        // this.totalPage = 0
+                        this.totalPage = 0
                     }
                     this.dataListLoading = false
                 })

@@ -292,7 +292,6 @@
                 // })
             },
             showProcessesHiList(row) {
-                console.log(row);
                 this.showProcessesVisible = true;
                 this.$nextTick(() => {
                     this.$refs.showProcesses.init(row);

@@ -1,11 +1,13 @@
 package com.nokia.utils.excel;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.EasyExcelFactory;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.BaseRowModel;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.nokia.common.exception.RRException;
 import com.nokia.common.listener.ExcelListener;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +21,7 @@ import java.util.List;
 /**
  * Created by wow on 2019/7/15.
  */
-public class ExcelUtil<T> {
+public class ExcelUtil {
 
     /**
      * 私有化构造方法
@@ -103,6 +105,7 @@ public class ExcelUtil<T> {
             ExcelWriter writer = EasyExcelFactory.getWriterWithTemp(null,
                     getOutputStream(fileName, response, excelTypeEnum), excelTypeEnum, true);
             Sheet sheet = new Sheet(1, 0, classType);
+
             sheet.setSheetName(sheetName);
             try {
                 writer.write(list, sheet);
@@ -122,26 +125,42 @@ public class ExcelUtil<T> {
 //                writer.close();
             }
         }
-
     }
 
     /**
      * 导出 Excel ：多个 sheet，带表头
-     *
-     * @param response  HttpServletResponse
-     * @param list      数据 list，每个元素为一个 BaseRowModel
-     * @param fileName  导出的文件名
-     * @param sheetName 导入文件的 sheet 名
-     * @param object    映射实体类，Excel 模型
      */
-    public static ExcelWriter writeExcelWithSheets(HttpServletResponse response, List<? extends BaseRowModel> list,
-                                                   String fileName, String sheetName, BaseRowModel object, ExcelTypeEnum excelTypeEnum) throws RRException {
-//        ExcelWriterFactory writer = new ExcelWriterFactory(getOutputStream(fileName, response,excelTypeEnum), excelTypeEnum);
-        ExcelWriter writer = EasyExcelFactory.getWriter(getOutputStream(fileName, response, excelTypeEnum), excelTypeEnum, true);
-        Sheet sheet = new Sheet(1, 0, object.getClass());
-        sheet.setSheetName(sheetName);
-        writer.write(list, sheet);
-        return writer;
+    public static <T0 extends BaseRowModel, T1 extends BaseRowModel> void writeExcelWithSheets(HttpServletResponse response, ExcelTypeEnum excelTypeEnum, String fileName,
+                                                                          List<T0> list0, String sheetName0, Class<T0> classType0, List<T1> list1, String sheetName1, Class<T1> classType1) throws RRException {
+//        ExcelWriter excelWriter = null;
+//        try {
+//            excelWriter = EasyExcel.write(getOutputStream(fileName, response, excelTypeEnum)).build();
+//            WriteSheet writeSheet0 = EasyExcel.writerSheet(0, sheetName0).head(classType0).build();
+//            WriteSheet writeSheet1 = EasyExcel.writerSheet(1, sheetName1).head(classType1).build();
+//
+//            excelWriter.write(list0, writeSheet0);
+//            excelWriter.write(list1, writeSheet1);
+//        } finally {
+//            if (excelWriter != null) {
+//                excelWriter.finish();
+//            }
+//        }
+
+        ExcelWriter writer = EasyExcelFactory.getWriterWithTemp(null,
+                getOutputStream(fileName, response, excelTypeEnum), excelTypeEnum, true);
+        Sheet sheet0 = new Sheet(1, 0, classType0);
+
+        sheet0.setSheetName(sheetName0);
+
+        Sheet sheet1 = new Sheet(2, 0, classType1);
+
+        sheet1.setSheetName(sheetName1);
+        try {
+            writer.write(list0, sheet0);
+            writer.write(list1, sheet1);
+        } finally {
+            writer.finish();
+        }
     }
 
     /**

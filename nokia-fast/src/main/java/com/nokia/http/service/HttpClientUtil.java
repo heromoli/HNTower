@@ -326,6 +326,10 @@ public class HttpClientUtil {
         return toGet(url, headers);
     }
 
+    public Map<String, Object> toGetGBK(String url) {
+        return toGetGBK(url, headers);
+    }
+
     public Map<String, Object> toGet(String url, Header[] heads) {
         Map<String, Object> rMap = new HashMap<>();
 //        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
@@ -343,17 +347,18 @@ public class HttpClientUtil {
         HttpGet httpGet = new HttpGet(url);
         //将参数进行封装，提交到服务器端
         if (heads != null)
-            httpGet.setHeaders(heads);
+//            httpGet.setHeaders(heads);
         //设置请求的报文头部的编码
 //        httpGet.setHeader(
 //                new BasicHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8"));
         httpGet.setHeader(
                 new BasicHeader("Content-Type", "text/plain; charset=UTF-8"));
         //设置期望服务端返回的编码
-        httpGet.setHeader(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"));
+        httpGet.setHeader(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"));
+        httpGet.setHeader(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.9,ja;q=0.8,en;q=0.7"));
         httpGet.setHeader(new BasicHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"));
-        httpGet.setHeader(new BasicHeader("Cache-Control", "keep-alive"));
-        httpGet.setHeader(new BasicHeader("Connection", "no-cache"));
+        httpGet.setHeader(new BasicHeader("Cache-Control", "no-cache"));
+        httpGet.setHeader(new BasicHeader("Connection", "keep-alive"));
         try {
             CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpGet);
             Integer statusCode = httpResponse.getStatusLine().getStatusCode();
@@ -366,8 +371,59 @@ public class HttpClientUtil {
 //                String result = new BufferedReader(new InputStreamReader(inputStream))
 //                        .lines().collect(Collectors.joining(System.lineSeparator()));
                 //result = result.substring(result.indexOf("<html lang")).replaceAll("&nbsp;","");
+//                                log.info("内容为：" + result) ;
                 result = gbkToUtf8(result);
-//                log.info("内容为：" + result) ;
+                rMap.put("result", result);
+//                analysisHtml(result);
+                if (cookieStore == null) {
+//                    setCookieStore(httpResponse);
+                }
+//                setCookieStore(httpResponse);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            httpGet.abort();      //释放资源
+        }
+        return rMap;
+    }
+
+    public Map<String, Object> toGetGBK(String url, Header[] heads) {
+        Map<String, Object> rMap = new HashMap<>();
+
+        CloseableHttpClient closeableHttpClient = null;
+        if (cookieStore != null) {
+            closeableHttpClient = HttpClients.custom()
+                    .setDefaultCookieStore(cookieStore).build();
+        } else {
+            closeableHttpClient = HttpClients.createDefault();
+
+        }
+        //创建Post请求实例
+        HttpGet httpGet = new HttpGet(url);
+        //将参数进行封装，提交到服务器端
+        if (heads != null)
+            //设置请求的报文头部的编码
+//        httpGet.setHeader(
+//                new BasicHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8"));
+            httpGet.setHeader(
+                    new BasicHeader("Content-Type", "text/plain; charset=UTF-8"));
+        //设置期望服务端返回的编码
+        httpGet.setHeader(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"));
+        httpGet.setHeader(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.9,ja;q=0.8,en;q=0.7"));
+        httpGet.setHeader(new BasicHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.84 Safari/537.36"));
+        httpGet.setHeader(new BasicHeader("Cache-Control", "no-cache"));
+        httpGet.setHeader(new BasicHeader("Connection", "keep-alive"));
+        try {
+            CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpGet);
+            Integer statusCode = httpResponse.getStatusLine().getStatusCode();
+            rMap.put("statusCode", statusCode);
+            if (statusCode == 200) {
+                Header[] headers = httpResponse.getAllHeaders();
+                rMap.put("headers", headers);
+                String result = EntityUtils.toString(httpResponse.getEntity());
+//
+//                result = gbkToUtf8(result);
                 rMap.put("result", result);
 //                analysisHtml(result);
                 if (cookieStore == null) {
