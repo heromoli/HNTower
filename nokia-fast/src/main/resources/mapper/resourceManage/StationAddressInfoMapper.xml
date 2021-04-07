@@ -4,7 +4,13 @@
 <mapper namespace="com.nokia.modules.resourceManage.dao.StationAddressInfoDao">
 
 	<select id="queryByParams" parameterType="map" resultType="com.nokia.modules.resourceManage.entity.StationAddressInfo">
-		select ID,STATION_NAME,CITY,ADDRESS,LONGITUDE,LATITUDE from STATION_ADDRESS_INFO
+		select
+			ID,
+			STATION_NAME,
+			CITY,ADDRESS,
+			LONGITUDE,
+			LATITUDE
+		from STATION_ADDRESS_INFO
 		where param_key = #{paramKey}
 	</select>
 

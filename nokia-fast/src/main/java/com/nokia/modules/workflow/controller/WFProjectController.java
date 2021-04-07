@@ -166,6 +166,7 @@ public class WFProjectController extends BaseController {
 
         Map<String, Object> var = new HashMap<>();
         var.put("user", sysUserEntity);
+
         if (groupId.equals("3")) {
             if ("2".equals(actProcStatus)) {
                 var.put("approve", "1");
@@ -540,7 +541,6 @@ public class WFProjectController extends BaseController {
         Supervisor supervisor = supervisorService.selectDataByInsId(actProcInstId);
         return RData.ok().put("returnData", supervisor);
     }
-
 
     //获取表单填充数据
     @GetMapping("/fillSupervisorForm")

@@ -127,7 +127,6 @@
                     url: this.$http.adornUrl('/api/weather/typhoonActivity'),
                     method: 'get',
                 }).then(({data}) => {
-                    console.log(data);
                     if (data.json != null && data.code === 0) {
                         this.typhoonList = data.json.typhoonList;
                     }
@@ -143,7 +142,6 @@
                         'year': this.year
                     })
                 }).then(({data}) => {
-                    console.log(data);
                     if (data.json != null && data.code === 0) {
                         this.typhoonList = data.json;
                     }

@@ -13,7 +13,7 @@
 			sum(message_numer_for_alarm) message_numer_for_alarm,
 			sum(oil_power_product_number) oil_power_product_number
 			from shouzhai_loss_operator
-			where sdate in (select max(sdate) from shouzhai_loss_operator)
+		where sdate in (select max(sdate) from shouzhai_loss_operator)
 	</select>
 
 	<select id="getCentreDown" parameterType="map" resultType="java.util.Map">
@@ -23,25 +23,23 @@
 		  round(Outage_current_rate*100,2) value
 		from site_shouzhai_biao_county
 		where sdate in (select max(sdate) from site_shouzhai_biao_county)
-		ORDER BY 4 desc
+		order by 4 desc
 	</select>
 
 	<select id="getLeftUp" parameterType="map" resultType="java.util.Map">
-			select
+		select
 			sum(owner) owner,
 			sum(owner_cut) owner_cut,
 			sum(owner_cut_outage_current) owner_cut_outage_current,
 			decode(sum(owner),0,0,round(sum(owner_cut_outage_current)/sum(owner)*100,2)) owner_cut_outage_current_rate,
-
 			sum(break_opt_total) break_opt_total,
 			sum(repair_opt_total) repair_opt_total,
 			decode(sum(break_opt_total),0,0,round(sum(repair_opt_total)/sum(break_opt_total)*100,2)) repair_opt_rate,
-
 			sum(site_number) site_number,
 			sum(Outage_current) Outage_current,
 			decode(sum(site_number),0,0,round(sum(Outage_current)/sum(site_number)*100,2)) Outage_current_rate
-			from site_shouzhai_biao_operator
-			where sdate in (select max(sdate) from site_shouzhai_biao_operator)
+		from site_shouzhai_biao_operator
+		where sdate in (select max(sdate) from site_shouzhai_biao_operator)
 	</select>
 	<select id="getLeftCentre" parameterType="map" resultType="java.util.LinkedHashMap">
 		select operator as 运营商,
@@ -52,31 +50,30 @@
 		where sdate in (select max(sdate) from site_shouzhai_biao_operator)
 			  and site_number > 0
 		order by 2 desc
-
 	</select>
 	<select id="getLeftDown" parameterType="map" resultType="java.util.LinkedHashMap">
 		with  a as (
 		select operator 运营商,
-		  owner 产权基站,
-		  owner_cut 停电,
-		  round(owner_cut_rate*100,2) 停电率,
-		  owner_cut_outage_current 退服,
-		  round(owner_cut_outage_current_rate*100,2) 退服率
+		owner 产权基站,
+		owner_cut 停电,
+		round(owner_cut_rate*100,2) 停电率,
+		owner_cut_outage_current 退服,
+		round(owner_cut_outage_current_rate*100,2) 退服率
 		from site_shouzhai_biao_operator
 		where sdate in (select max(sdate) from site_shouzhai_biao_operator)
-	  ORDER BY 2 desc
-	)
-	select * from a
-	union all
-	select '合计' ,
-		   sum(产权基站) owner,
-		   sum(停电) owner_cut,
-		   decode(sum(产权基站),0,0,round(sum(停电)/sum(产权基站) * 100,2)) owner_cut_rate,
-		   sum(退服) owner_cut_outage_current,
-		   decode(sum(产权基站),0,0,round(sum(退服)/sum(产权基站) * 100,2)) owner_cut_outage_current_rate
-	from a
-
+		order by 2 desc
+		)
+		select * from a
+		union all
+		select '合计' ,
+			   sum(产权基站) owner,
+			   sum(停电) owner_cut,
+			   decode(sum(产权基站),0,0,round(sum(停电)/sum(产权基站) * 100,2)) owner_cut_rate,
+			   sum(退服) owner_cut_outage_current,
+			   decode(sum(产权基站),0,0,round(sum(退服)/sum(产权基站) * 100,2)) owner_cut_outage_current_rate
+		from a
 	</select>
+
 	<select id="getRightDown" parameterType="map" resultType="java.util.LinkedHashMap">
 		select a.item 告警名称,a.amount 告警基站数量,round(decode(a.amount,0,0,a.amount/site_num)*100,2) 告警基站占比
 
@@ -86,7 +83,6 @@
 								when ALARM_NAME='烟雾告警' then '烟雾'
 								when ALARM_NAME='水浸告警' then '水浸'
 								else ALARM_NAME end alarm_name,
-
 								count(a.ALARM_NAME) amount
 						 from v_alarm_message_management a
 						 group by a.ALARM_NAME )

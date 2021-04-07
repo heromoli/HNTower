@@ -28,7 +28,7 @@ public class PositionUtils {
      */
     public static Gps gps84_To_Gcj02(double lat, double lon) {
         if (outOfChina(lat, lon)) {
-            return null;
+            return new Gps(lat, lon);
         }
         double dLat = transformLat(lon - 105.0, lat - 35.0);
         double dLon = transformLon(lon - 105.0, lat - 35.0);

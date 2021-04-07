@@ -324,7 +324,9 @@
         data() {
             return {
                 visible: false,
-                dataForm: {},
+                dataForm: {
+                    groupId: '5'
+                },
                 historyList: [],
                 operatorOptions: [{
                     value: '移动',
@@ -508,9 +510,9 @@
                         'processInstanceId': id,
                     })
                 }).then(({data}) => {
-
                     if (data && data.code === 0) {
                         this.dataForm = data.returnData;
+                        this.dataForm.groupId = "5";
                     } else {
                         this.$message.error(data.msg)
                     }

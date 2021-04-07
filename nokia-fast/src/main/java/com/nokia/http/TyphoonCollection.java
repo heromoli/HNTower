@@ -28,8 +28,8 @@ import java.util.*;
 @RequestMapping("/api/weather")
 public class TyphoonCollection {
     private static final Logger logger = LoggerFactory.getLogger(TyphoonCollection.class);
-    //台风列表
 
+    //台风列表
     private static String TYPHOON_DEFAULT_URL = "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/list_default?t=%s";
     private static String TYPHOON_LIST_URL = "http://typhoon.nmc.cn/weatherservice/typhoon/jsons/list_%s?t=%s";
     //单个台风路径及详细信息
@@ -45,7 +45,7 @@ public class TyphoonCollection {
 
     //台风信息导出模块链接
     //当前活跃台风
-    private static String ACTIVITY_URL = " http://typhoon.zjwater.gov.cn/Api/TyhoonActivity";
+    private static String ACTIVITY_URL = "http://typhoon.zjwater.gov.cn/Api/TyhoonActivity";
     //获取台风列表
     private static String LIST_URL = "http://typhoon.zjwater.gov.cn/Api/TyphoonList/%s";
     //获取台风信息
@@ -77,7 +77,7 @@ public class TyphoonCollection {
     @GetMapping("/typhoon_info")
     public RData getTyphoon_info(@RequestParam String id) {
         String url = String.format(TYPHOON_INFO_URL, id, System.currentTimeMillis());
-        JSONObject jsonObject = getJson(url);
+        JSONObject jsonObject = getInfoJson(url);
         RData rData = RData.ok();
         rData.put("json", jsonObject);
         return rData;
@@ -87,7 +87,7 @@ public class TyphoonCollection {
     public RData getCloudsImg() {
         //CLOUDS_LIST_URL
         String url = String.format(CLOUDS_LIST_URL, System.currentTimeMillis());
-        JSONObject jsonObject = getJson(url);
+        JSONObject jsonObject = getInfoJson(url);
         String time = String.valueOf(jsonObject.get("time"));
         String imgUrl = "http://typhoon.nmc.cn/weatherservice/imgs/satellite/%s.png";
         List<String> list = new ArrayList<>();
@@ -149,7 +149,7 @@ public class TyphoonCollection {
     @GetMapping("/typhoonActivity")
     public RData typhoonActivity() {
         String landUrl = String.format(ACTIVITY_URL);
-        logger.info("landUrl:" + landUrl);
+//        logger.info("landUrl:" + landUrl);
 //        JSONObject landObject = getZjwaterInfoJson(landUrl);
 //        logger.info("" + landObject);
         RData rData = RData.ok();
@@ -160,7 +160,7 @@ public class TyphoonCollection {
     @GetMapping("/typhoonList")
     public RData typhoonList(@RequestParam String year) {
         String listUrl = String.format(LIST_URL, year);
-        logger.info("landUrl:" + listUrl);
+//        logger.info("landUrl:" + listUrl);
         RData rData = RData.ok();
         rData.put("json", getZjwaterTyphoonList(listUrl));
         return rData;
@@ -169,7 +169,6 @@ public class TyphoonCollection {
     @GetMapping("/typhoonInfo")
     public void getTyphoonInfo(@RequestParam("tfid")  String tfid, HttpServletResponse response) {
         String infoUrl = String.format(INFO_URL, tfid);
-        logger.info("infoUrl:" + infoUrl);
         Map<String, Object> detailMap = getZjwaterInfoDetail(infoUrl);
         String name = (String) detailMap.get("name");
         List<ZjwaterLandInfo> landInfos = (List<ZjwaterLandInfo>) detailMap.get("landInfos");

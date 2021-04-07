@@ -595,7 +595,9 @@
         data() {
             return {
                 visible: false,
-                dataForm: {},
+                dataForm: {
+                    groupId: '3'
+                },
                 historyList: [],
                 operatorOptions: [{
                     value: '移动',
@@ -716,6 +718,7 @@
                 }).then(({data}) => {
                     if (data && data.code === 0) {
                         this.dataForm = data.returnData;
+                        this.dataForm.groupId = "3";
                     } else {
                         this.$message.error(data.msg)
                     }

@@ -33,12 +33,15 @@ VueAMap.initAMapApiLoader({
 
 //echarts的引入
 import echarts from 'echarts'
-
 Vue.prototype.$echarts = echarts;
+
 //highcharts的引入
 import VueHighcharts from 'vue-highcharts';
-
 Vue.use(VueHighcharts);
+
+//抽奖插件
+import LuckDraw from 'vue-luck-draw'
+Vue.use(LuckDraw);
 
 // 挂载全局
 Vue.prototype.$http = httpRequest; // ajax请求方法

@@ -194,6 +194,11 @@ public class zhzyglController extends BaseController {
         List<QueryStationAddress> dataList = queryStationAddressService.selectDataByParam(queryParams);
         List<QueryStationAddress> resultList = new ArrayList<>();
 
+        double longitude = Double.valueOf(queryParams.get("longitude").toString().equals("") ? "0" : queryParams.get("longitude").toString());
+        double latitude = Double.valueOf(queryParams.get("latitude").toString().equals("") ? "0" : queryParams.get("latitude").toString());
+
+        Gps queryGps = gps84_To_Gcj02(latitude, longitude);
+
         for (QueryStationAddress address : dataList) {
             Gps gps = gps84_To_Gcj02(address.getLatitude(), address.getLongitude());
             address.setGcjLatitude(gps.getWgLat());
@@ -201,7 +206,11 @@ public class zhzyglController extends BaseController {
             resultList.add(address);
         }
 
-        return RData.ok().put("resultList", resultList);
+        RData rData = new RData().ok();
+        rData.put("queryLat", queryGps.getWgLat());
+        rData.put("queryLon", queryGps.getWgLon());
+        rData.put("resultList", resultList);
+        return rData;
     }
 
     @GetMapping("/stationAddressManagementList")
@@ -524,7 +533,7 @@ public class zhzyglController extends BaseController {
         PageUtils page = towerSolutionDetailService.selectDataByParam(params, queryParams);
 
         List<TowerSolutionDetail> resultList = new ArrayList<>();
-        for (TowerSolutionDetail address : (List<TowerSolutionDetail>)page.getList()) {
+        for (TowerSolutionDetail address : (List<TowerSolutionDetail>) page.getList()) {
 
             Gps gps = gps84_To_Gcj02(Double.valueOf(address.getLatitude()), Double.valueOf(address.getLongitude()));
             address.setGcjLatitude(gps.getWgLat());

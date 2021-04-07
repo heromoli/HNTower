@@ -4,11 +4,18 @@
 <mapper namespace="com.nokia.modules.resourceManage.dao.TowerSolutionStatisticsDao">
 
     <select id="selectStatistic" resultType="com.nokia.modules.resourceManage.entity.TowerSolutionStatistics">
-		select t.* from ZHJJFA_MON_REPORT t,branch_county_summary a
-		where a.branch=t.branch
-		and a.county=t.county
-		and t.smonth = #{smonth}
-		order by t.smonth,a.id3,a.id4
+		select t.*
+		from
+			ZHJJFA_MON_REPORT t,
+			branch_county_summary a
+		where
+			a.branch=t.branch and
+		 	a.county=t.county and
+		 	t.smonth = #{smonth}
+		order by
+			t.smonth,
+			a.id3,
+			a.id4
 	</select>
 
 </mapper>
