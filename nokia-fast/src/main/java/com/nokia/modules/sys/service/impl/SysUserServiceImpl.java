@@ -25,9 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by wow on 2019/6/8.
- */
 @Service("sysUserService")
 public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> implements SysUserService {
     @Autowired
@@ -66,6 +63,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     public SysUserEntity queryByUserName(String username) {
         return baseMapper.queryByUserName(username);
+    }
+
+    @Override
+    public SysUserEntity queryByUserId(Long userid) {
+        QueryWrapper queryWrapper = new QueryWrapper<SysUserEntity>();
+        queryWrapper.eq("user_id", userid);
+        return getOne(queryWrapper);
     }
 
     @Override
@@ -118,7 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 
     @Override
     public boolean updatePassword(Long userId, String password, String newPassword) {
-        SysUserEntity userEntity = new SysUserEntity();
+        SysUserEntity userEntity = queryByUserId(userId);
         userEntity.setPassword(newPassword);
         return this.update(userEntity,
                 new QueryWrapper<SysUserEntity>().eq("user_id", userId).eq("password", password));

@@ -4,10 +4,6 @@ import org.apache.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by wow on 2019/6/6.
- *
- */
 public class RData extends HashMap<String, Object> {
     public RData() {
         put("code", 0);

@@ -11,23 +11,18 @@ import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
-import org.activiti.engine.task.TaskQuery;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
-/**
- * Created by wow on 2019/6/26.
- */
 @Service("simpleRuntimeService")
 public class SimpleRuntimeServiceImpl implements SimpleRuntimeService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SimpleRuntimeServiceImpl.class);
+    private static final Logger logger = Logger.getLogger(SimpleRuntimeServiceImpl.class);
 
     @Autowired
     private RepositoryService repositoryService;
@@ -51,7 +46,7 @@ public class SimpleRuntimeServiceImpl implements SimpleRuntimeService {
             }
         }
         if (processDefinition == null) {
-            logger.error("process definition {} is not exists", processDefinitionId);
+            logger.error("process definition {" + processDefinitionId + "} is not exists");
             return RData.error("流程定义" + processDefinitionId + "不存在");
         }
         SysUserEntity sysUserEntity = (SysUserEntity) variables.get("user");
@@ -172,7 +167,7 @@ public class SimpleRuntimeServiceImpl implements SimpleRuntimeService {
     public RData cancel(String processInstanceId, String reason) {
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
         if (processInstance == null) {
-            logger.error("process instance {} is not exists", processInstanceId);
+            logger.error("process instance {" + processInstanceId + "} is not exists");
             return RData.error("流程实例不存在");
         }
 

@@ -16,11 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 @Service("BuildOrderConfirmService")
 public class BuildOrderConfirmServiceImpl extends ServiceImpl<
         BuildOrderConfirmDao, BuildOrderConfirm> implements BuildOrderConfirmService {
-
 
     @Override
     public PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params, Map<String, Object> queryParams) {

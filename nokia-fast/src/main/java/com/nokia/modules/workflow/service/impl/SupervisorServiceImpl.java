@@ -9,16 +9,12 @@ import com.nokia.modules.workflow.entity.Supervisor;
 import com.nokia.modules.workflow.service.SupervisorService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service("SupervisorService")
 public class SupervisorServiceImpl extends ServiceImpl<SupervisorDao, Supervisor> implements SupervisorService {
-    private static final Logger logger = LoggerFactory.getLogger(SupervisorServiceImpl.class);
-
     @Override
     public Supervisor selectDataById(String id) {
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();

@@ -1,8 +1,6 @@
 package com.nokia.modules.gwzx.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.nokia.modules.gwzx.service.GwzxService;
-import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
-
-/**
- * Created by Administrator on 2020/6/15 0015.
- */
 @RestController
 @RequestMapping("/api/gwzx")
 public class GwzxController {

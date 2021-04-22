@@ -17,6 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/sys/config")
 public class SysConfigController extends BaseController {
+
     @Autowired
     private SysConfigService sysConfigService;
 

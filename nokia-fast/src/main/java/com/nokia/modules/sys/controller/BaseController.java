@@ -1,8 +1,8 @@
 package com.nokia.modules.sys.controller;
 
 import com.nokia.modules.sys.entity.SysUserEntity;
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
  */
 
 public class BaseController {
-    protected Logger logger = LoggerFactory.getLogger(getClass());
-
     protected SysUserEntity getUser() {
         return (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
     }

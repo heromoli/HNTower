@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-/**
- * Created by wow on 2019/6/6.
- */
 @Service
 public class ShiroServiceImpl implements ShiroService {
     @Autowired

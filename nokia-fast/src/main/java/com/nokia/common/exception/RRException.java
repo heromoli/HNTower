@@ -1,8 +1,5 @@
 package com.nokia.common.exception;
 
-/**
- * Created by wow on 2019/6/6.
- */
 public class RRException extends RuntimeException {
     private String msg;
     private int code = 500;

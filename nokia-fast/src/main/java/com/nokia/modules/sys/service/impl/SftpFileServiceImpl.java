@@ -1,22 +1,19 @@
 package com.nokia.modules.sys.service.impl;
 
-import com.nokia.modules.resourceManage.controller.zhzyglController;
 import com.nokia.modules.sys.service.SftpFileService;
 import com.nokia.utils.RData;
 import com.nokia.utils.SFtpUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 @Service("SftpFileService")
 public class SftpFileServiceImpl implements SftpFileService {
-    private static final Logger logger = LoggerFactory.getLogger(SftpFileServiceImpl.class);
+    private static final Logger logger = Logger.getLogger(SftpFileServiceImpl.class);
 
     @Value("${spring.sftp.host}")
     private String sftpHost;
@@ -51,7 +48,6 @@ public class SftpFileServiceImpl implements SftpFileService {
 
     @Override
     public RData downloadFile(String county, String plan_name, String plan_form_time, HttpServletResponse response) {
-        //        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         String countyFolder = "";
         if (county.equals("海口")) {

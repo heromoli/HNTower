@@ -1,6 +1,5 @@
 package com.nokia.modules.sys.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,17 +12,12 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by wow on 2019/6/8.
- */
 @Service("ProjectRightConfigService")
 public class ProjectRightConfigServiceImpl extends ServiceImpl<ProjectRightConfigDao, ProjectRightConfigEntity> implements ProjectRightConfigService {
-
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

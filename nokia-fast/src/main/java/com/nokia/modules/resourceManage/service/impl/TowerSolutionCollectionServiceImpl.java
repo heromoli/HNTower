@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nokia.modules.resourceManage.dao.TowerSolutionCollectionDao;
 import com.nokia.modules.resourceManage.entity.TowerSolutionCollection;
-import com.nokia.modules.workflow.entity.PlanningTask;
 import com.nokia.modules.resourceManage.service.TowerSolutionCollectionService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;

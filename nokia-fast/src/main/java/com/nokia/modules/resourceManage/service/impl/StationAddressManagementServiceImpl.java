@@ -9,8 +9,6 @@ import com.nokia.modules.resourceManage.service.StationAddressManagementService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +18,6 @@ import static com.nokia.utils.LatLonUtils.GetAround;
 
 @Service("StationAddressManagementService")
 public class StationAddressManagementServiceImpl extends ServiceImpl<StationAddressManagementDao, StationAddressManagement> implements StationAddressManagementService {
-    private static final Logger logger = LoggerFactory.getLogger(StationAddressManagementServiceImpl.class);
 
     @Override
     public PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams) {

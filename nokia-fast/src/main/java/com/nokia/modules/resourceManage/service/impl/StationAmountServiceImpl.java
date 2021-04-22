@@ -5,20 +5,13 @@ import com.nokia.modules.resourceManage.dao.StationAmountDao;
 import com.nokia.modules.resourceManage.entity.StationInfoAmount;
 import com.nokia.modules.resourceManage.entity.VennEntity;
 import com.nokia.modules.resourceManage.service.StationAmountService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 @Service("StationAmountService")
 public class StationAmountServiceImpl extends ServiceImpl<StationAmountDao, StationInfoAmount> implements StationAmountService {
-
-    private static final Logger logger = LoggerFactory.getLogger(StationAmountServiceImpl.class);
 
     @Override
     public List<StationInfoAmount> selectStationAmountData() {

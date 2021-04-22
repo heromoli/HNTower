@@ -8,7 +8,6 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.SequenceFlow;
 import org.activiti.engine.IdentityService;
-import org.activiti.engine.ProcessEngineConfiguration;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.*;
@@ -17,8 +16,7 @@ import org.activiti.engine.task.Comment;
 import org.activiti.image.ProcessDiagramGenerator;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,13 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by wow on 2019/6/26.
- */
 @Service("simpleHistoryService")
 public class SimpleHistoryServiceImpl implements SimpleHistoryService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SimpleHistoryServiceImpl.class);
+    private static final Logger logger = Logger.getLogger(SimpleHistoryServiceImpl.class);
 
     @Autowired
     private org.activiti.engine.HistoryService historyService;

@@ -1,6 +1,5 @@
 package com.nokia.common.advice;
 
-
 import com.nokia.utils.RData;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -12,9 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import com.nokia.common.annotation.IgnoreResponse;
 
-/**
- * Created by wow on 2019/6/6.
- */
 @RestControllerAdvice
 public class CommonResponseData implements ResponseBodyAdvice<Object> {
     /**

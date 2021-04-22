@@ -14,6 +14,7 @@ import com.nokia.utils.Gps;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import com.nokia.utils.excel.ExcelUtil;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +28,7 @@ import static com.nokia.utils.PositionUtils.gps84_To_Gcj02;
 @RestController
 @RequestMapping("/api/disaster")
 public class disasterSufferController extends BaseController {
-
-    @Autowired
-    private DisasterSufferDataService dsdService;
+    private static final Logger logger = Logger.getLogger(disasterSufferController.class);
 
     @Autowired
     private DisasterSufferMessageService messageService;
@@ -56,7 +55,6 @@ public class disasterSufferController extends BaseController {
 
         List<AlarmMessageManagement> resultList = new ArrayList<>();
         for (AlarmMessageManagement address : list) {
-//            logger.info("纬度：" + address.getLatitude() + "   经度：" + address.getLongitude());
             Gps gps = gps84_To_Gcj02(Double.valueOf(address.getLatitude()), Double.valueOf(address.getLongitude()));
             address.setGcjLatitude(gps.getWgLat());
             address.setGcjLongitude(gps.getWgLon());

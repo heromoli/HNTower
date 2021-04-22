@@ -15,7 +15,6 @@ import java.util.List;
 @Service("StationInfoRateService")
 public class StationInfoRateServiceImpl extends ServiceImpl<StationInfoRateDao, StationInfoRate> implements StationInfoRateService {
 
-
     @Override
     public double[] calculateShareRate() {
         double[] stationRate = new double[4];

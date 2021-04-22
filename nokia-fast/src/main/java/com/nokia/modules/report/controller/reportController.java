@@ -11,8 +11,7 @@ import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import com.nokia.utils.excel.BeanCopyUtils;
 import com.nokia.utils.excel.ExcelUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/report")
 public class reportController extends BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(reportController.class);
+    private static final Logger logger = Logger.getLogger(reportController.class);
 
     @Autowired
     private TietaChuzhangXdService tietaChuzhangXdService;

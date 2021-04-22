@@ -16,8 +16,7 @@ import com.nokia.utils.excel.BeanCopyUtils;
 import com.nokia.utils.excel.ExcelUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -32,14 +31,10 @@ import java.util.*;
 
 import static com.nokia.utils.DateUtils.getMonthLastDay;
 
-/**
- * Created by wow on 2019/6/26.
- * 工程管理控制器
- */
 @RestController
 @RequestMapping("/api/wf")
 public class WFProjectController extends BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(WFProjectController.class);
+    private static final Logger logger = Logger.getLogger(WFProjectController.class);
 
     @Autowired
     private SimpleTaskService simpleTaskService;
@@ -718,7 +713,7 @@ public class WFProjectController extends BaseController {
                     if (customerDemand.getActProcStatus() == null || customerDemand.getActProcStatus().equals("")) {
                         RData rData = startProcesses(customerDemand);
                         if ("0".equals(String.valueOf(rData.get("code"))) && StringUtils.isNotEmpty(String.valueOf(rData.get("processInstanceId")))) {
-                            logger.info("建站需求流程ID[{}] 创建成功", rData.get("processInstanceId"));
+                            logger.info("建站需求流程ID[{" + rData.get("processInstanceId") + "}] 创建成功");
                         } else if ("450".equals(String.valueOf(rData.get("code")))) {
                             dnViolationsList.add(customerDemand.getDemandNum());
                         } else if ("451".equals(String.valueOf(rData.get("code")))) {
@@ -736,7 +731,7 @@ public class WFProjectController extends BaseController {
                         }
                         RData rData = checkProcesses(addressCheck);
                         if ("0".equals(String.valueOf(rData.get("code")))) {
-                            logger.info("审批工单ID[{}] 成功", customerDemand.getActProcInstId());
+                            logger.info("审批工单ID[{" + customerDemand.getActProcInstId() + "}] 成功");
                         }
 //                        }
                     }
@@ -754,7 +749,7 @@ public class WFProjectController extends BaseController {
                     RData rData = checkProcesses(addressCheck);
 
                     if ("0".equals(String.valueOf(rData.get("code")))) {
-                        logger.info("建站需求确认[{}] 成功", addressCheck.getActProcInstId());
+                        logger.info("建站需求确认[{" + addressCheck.getActProcInstId() + "}] 成功");
                     }
                 }
             } else if ("5".equals(groupId)) {
@@ -769,7 +764,7 @@ public class WFProjectController extends BaseController {
                     }
                     RData rData = checkProcesses(orderConfirm);
                     if ("0".equals(String.valueOf(rData.get("code")))) {
-                        logger.info("建站工程[{}] 状态确认", orderConfirm.getActProcInstId());
+                        logger.info("建站工程[{" + orderConfirm.getActProcInstId() + "}] 状态确认");
                     }
                 }
             }
@@ -1079,8 +1074,6 @@ public class WFProjectController extends BaseController {
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("STATION_NAME", params.get("queryParam"));
 
-//        String queryParamString = params.get("queryParam").toString();
-//        Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         PageUtils page = origBuildDemandCollectionService.selectDataByParam(params, queryParams);
         return RData.ok().put("page", page);
     }

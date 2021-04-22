@@ -1,6 +1,5 @@
 package com.nokia.modules.resourceManage.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -25,8 +24,7 @@ public class TowerSolutionDetailServiceImpl extends ServiceImpl<TowerSolutionDet
         for (String key : queryParams.keySet()) {
             queryWrapper.like(key, queryParams.get(key));
         }
-//        String projectName = queryParams.get("project_name").toString();
-//        queryWrapper.eq("project_Name",projectName);
+
         IPage<TowerSolutionDetail> page = this.page(new Query<TowerSolutionDetail>().getPage(pageParams), queryWrapper);
         return new PageUtils(page);
     }

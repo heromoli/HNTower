@@ -12,8 +12,7 @@ import com.nokia.utils.PageUtils;
 import com.nokia.utils.RData;
 import com.nokia.utils.excel.BeanCopyUtils;
 import com.nokia.utils.excel.ExcelUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +29,7 @@ import static com.nokia.utils.PositionUtils.gps84_To_Gcj02;
 @RestController
 @RequestMapping("/api/zhzygl")
 public class zhzyglController extends BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(zhzyglController.class);
+    private static final Logger logger = Logger.getLogger(zhzyglController.class);
 
     @Autowired
     private StationAddressManagementService stationManageService;
@@ -190,6 +189,7 @@ public class zhzyglController extends BaseController {
     @GetMapping("/queryStationAddressManagement")
     public RData queryStationAddressManagement(@RequestParam Map<String, Object> params) {
         String queryParamString = params.get("queryParam").toString();
+        logger.info(queryParamString);
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         List<QueryStationAddress> dataList = queryStationAddressService.selectDataByParam(queryParams);
         List<QueryStationAddress> resultList = new ArrayList<>();

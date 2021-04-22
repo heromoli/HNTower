@@ -8,9 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-/**
- * Created by wow on 2019/7/17.
- */
+
 public class ExcelListener extends AnalysisEventListener {
 
     private List<Object> dataList = new ArrayList<>();

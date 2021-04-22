@@ -1,6 +1,5 @@
 package com.nokia.modules.sys.service.impl;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -18,12 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.Map;
 
-/**
- * Created by wow on 2019/6/8.
- */
 @Service("SysConfigService")
 public class SysConfigServiceImpl extends ServiceImpl<SysConfigDao, SysConfigEntity> implements SysConfigService {
-
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {

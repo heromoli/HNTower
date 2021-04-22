@@ -11,12 +11,8 @@ import com.nokia.utils.Query;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Map;
 
-/**
- * Created by wow on 2019/6/8.
- */
 @Service("sysLogService")
 public class SysLogServiceImpl extends ServiceImpl<SysLogDao, SysLogEntity> implements SysLogService {
     @Override

@@ -1,6 +1,5 @@
 package com.nokia.common.aspect;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.nokia.common.annotation.SysLog;
 import com.nokia.modules.sys.entity.SysLogEntity;
@@ -21,9 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-/**
- * Created by wow on 2019/6/6.
- */
 @Aspect
 @Component
 public class SysLogAspect {

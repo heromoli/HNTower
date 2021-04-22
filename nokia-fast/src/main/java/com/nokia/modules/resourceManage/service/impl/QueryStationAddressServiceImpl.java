@@ -1,19 +1,10 @@
 package com.nokia.modules.resourceManage.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nokia.modules.resourceManage.dao.QueryStationAddressDao;
-import com.nokia.modules.resourceManage.dao.StationAddressManagementDao;
 import com.nokia.modules.resourceManage.entity.QueryStationAddress;
-import com.nokia.modules.resourceManage.entity.StationAddressManagement;
 import com.nokia.modules.resourceManage.service.QueryStationAddressService;
-import com.nokia.modules.resourceManage.service.StationAddressManagementService;
-import com.nokia.utils.PageUtils;
-import com.nokia.utils.Query;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +14,6 @@ import static com.nokia.utils.LatLonUtils.GetAround;
 
 @Service("QueryStationAddressService")
 public class QueryStationAddressServiceImpl extends ServiceImpl<QueryStationAddressDao, QueryStationAddress> implements QueryStationAddressService {
-    private static final Logger logger = LoggerFactory.getLogger(QueryStationAddressServiceImpl.class);
 
     @Override
     public List<QueryStationAddress> selectDataByParam(Map<String, Object> queryParams) {

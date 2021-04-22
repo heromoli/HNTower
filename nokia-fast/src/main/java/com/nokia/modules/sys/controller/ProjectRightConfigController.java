@@ -23,7 +23,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/sys/project/config")
 public class ProjectRightConfigController extends BaseController {
-    private static final Logger logger = LoggerFactory.getLogger(ProjectRightConfigController.class);
 
     @Autowired
     private ProjectRightConfigService projectRightConfigService;

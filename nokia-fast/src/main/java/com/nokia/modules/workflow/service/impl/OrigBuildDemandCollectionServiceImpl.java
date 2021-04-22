@@ -15,7 +15,6 @@ import java.util.Map;
 @Service("OrigBuildDemandCollectionService")
 public class OrigBuildDemandCollectionServiceImpl extends ServiceImpl<OrigBuildDemandCollectionDao, OrigBuildDemandCollection> implements OrigBuildDemandCollectionService {
 
-
     @Override
     public PageUtils selectDataByParam(Map<String, Object> pageParams, Map<String, Object> queryParams) {
         QueryWrapper queryWrapper = new QueryWrapper<OrigBuildDemandCollection>();

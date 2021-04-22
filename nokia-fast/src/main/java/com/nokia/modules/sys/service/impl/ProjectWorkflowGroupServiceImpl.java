@@ -1,6 +1,5 @@
 package com.nokia.modules.sys.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -14,16 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-/**
- * Created by wow on 2019/6/8.
- */
 @Service("ProjectWorkflowGroupService")
 public class ProjectWorkflowGroupServiceImpl extends ServiceImpl<ProjectWorkflowGroupDao, ProjectWorkflowGroupEntity> implements ProjectWorkflowGroupService {
 
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        String queryValue = (String)params.get("queryValue");
 
         IPage<ProjectWorkflowGroupEntity> page = this.page(
                 new Query<ProjectWorkflowGroupEntity>().getPage(params),

@@ -20,7 +20,6 @@ import java.util.Set;
 @Service("BuildDemandChangeConfirmService")
 public class BuildDemandChangeConfirmServiceImpl extends ServiceImpl<BuildDemandChangeConfirmDao, BuildDemandChangeConfirm> implements BuildDemandChangeConfirmService {
 
-
     @Override
     public BuildDemandChangeConfirm selectDataByInsId(String actProcInstId) {
         QueryWrapper queryWrapper = new QueryWrapper<Supervisor>();

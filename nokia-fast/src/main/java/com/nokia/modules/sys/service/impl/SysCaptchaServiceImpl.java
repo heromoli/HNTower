@@ -15,9 +15,6 @@ import org.springframework.stereotype.Service;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 
-/**
- * Created by wow on 2019/6/8.
- */
 @Service("sysCaptchaService")
 public class SysCaptchaServiceImpl  extends ServiceImpl<SysCaptchaDao, SysCaptchaEntity> implements SysCaptchaService {
 

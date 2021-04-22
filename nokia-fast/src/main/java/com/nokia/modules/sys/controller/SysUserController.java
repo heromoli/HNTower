@@ -20,11 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 系统用户
- *
- * @author Mark sunlightcs@gmail.com
- */
 @RestController
 @RequestMapping("/sys/user")
 public class SysUserController extends BaseController {

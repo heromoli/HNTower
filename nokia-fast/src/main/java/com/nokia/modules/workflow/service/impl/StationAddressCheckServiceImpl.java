@@ -9,8 +9,6 @@ import com.nokia.modules.workflow.entity.StationAddressCheck;
 import com.nokia.modules.workflow.service.StationAddressCheckService;
 import com.nokia.utils.PageUtils;
 import com.nokia.utils.Query;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,13 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by wow on 2019/7/10.
- */
 @Service("StationAddressCheckService")
 public class StationAddressCheckServiceImpl extends ServiceImpl<StationAddressCheckDao, StationAddressCheck> implements StationAddressCheckService {
-
-    private static final Logger logger = LoggerFactory.getLogger(StationAddressCheckServiceImpl.class);
 
     @Override
     public PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params, Map<String, Object> queryParams) {

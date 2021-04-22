@@ -9,10 +9,15 @@
                 <el-input v-model="dataForm.userName" placeholder="登录帐号"></el-input>
             </el-form-item>
             <el-form-item label="密码" prop="password" :class="{ 'is-required': !dataForm.id }">
-                <el-input v-model="dataForm.password" type="password" placeholder="密码"></el-input>
+                <el-input show-password v-model="dataForm.password" type="password" minlength="8" maxlength="20"
+                          placeholder="长度为8-20位字符，包含数字、小写、大写字母、特殊字符中至少3种"></el-input>
             </el-form-item>
             <el-form-item label="确认密码" prop="comfirmPassword" :class="{ 'is-required': !dataForm.id }">
-                <el-input v-model="dataForm.comfirmPassword" type="password" placeholder="确认密码"></el-input>
+                <el-input v-model="dataForm.comfirmPassword" type="password" minlength="8" maxlength="20"
+                          placeholder="长度为8-20位字符，包含数字、小写、大写字母、特殊字符中至少3种"></el-input>
+            </el-form-item>
+            <el-form-item label="密码强度">
+                <password-strength v-model="dataForm.password" style="padding-top: 10px;"></password-strength>
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="dataForm.email" placeholder="邮箱"></el-input>
@@ -54,6 +59,7 @@
 
 <script>
     import {isEmail, isMobile} from '@/utils/validate'
+    import PasswordStrength from '@/components/sys/PasswordStrength'
 
     export default {
         data() {
@@ -122,6 +128,9 @@
                     ]
                 }
             }
+        },
+        components: {
+            PasswordStrength
         },
         methods: {
             init(id) {

@@ -19,14 +19,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-/**
- * Created by wow on 2019/7/10.
- */
 @Service("CustomerDemandCollectionService")
 public class CustomerDemandCollectionServiceImpl extends ServiceImpl<
         CustomerDemandCollectionDao, CustomerDemandCollection> implements CustomerDemandCollectionService {
-
-    private static final Logger logger = LoggerFactory.getLogger(CustomerDemandCollectionServiceImpl.class);
 
     @Override
     public PageUtils findData(List<ProjectRightConfigEntity> prcList, Set<String> processInstanceId, Map<String, Object> params, Map<String, Object> queryParams) {

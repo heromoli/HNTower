@@ -18,6 +18,7 @@ import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -26,12 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
-/**
- * Created by Administrator on 2020/6/10 0010.
- */
-@Slf4j
 public class HttpClientUtil {
+    private static final Logger logger = Logger.getLogger(HttpClientUtil.class);
     private String domain = "";
 
     private static String FILE_CODE = "";
@@ -237,7 +234,7 @@ public class HttpClientUtil {
 
         }
         Long l1 = System.currentTimeMillis();
-        log.info("创建连接-----------------------------" + fileName);
+        logger.info("创建连接-----------------------------" + fileName);
         //创建Post请求实例
         HttpPost httpPost = new HttpPost(url);
         //创建参数列表
@@ -269,7 +266,7 @@ public class HttpClientUtil {
             System.out.println(httpResponse.getStatusLine());
             HttpEntity httpEntity = httpResponse.getEntity();
             Long l2 = System.currentTimeMillis();
-            log.info("连接成功准备下载-----------------------------" + fileName + ":" + (l2 - l1));
+            logger.info("连接成功准备下载-----------------------------" + fileName + ":" + (l2 - l1));
 //            Header[] h =  httpResponse.getAllHeaders();
 //            String result = EntityUtils.toString(httpEntity);
 //            result = StringUtil.gbkToUtf8(result);
@@ -308,7 +305,7 @@ public class HttpClientUtil {
             output.close();
             fos.close();
             EntityUtils.consume(httpEntity);
-            log.info("下载完成-----------------------------" + fileName + ":" + (System.currentTimeMillis() - l2));
+            logger.info("下载完成-----------------------------" + fileName + ":" + (System.currentTimeMillis() - l2));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
@@ -348,11 +345,11 @@ public class HttpClientUtil {
         //将参数进行封装，提交到服务器端
         if (heads != null)
 //            httpGet.setHeaders(heads);
-        //设置请求的报文头部的编码
+            //设置请求的报文头部的编码
 //        httpGet.setHeader(
 //                new BasicHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8"));
-        httpGet.setHeader(
-                new BasicHeader("Content-Type", "text/plain; charset=UTF-8"));
+            httpGet.setHeader(
+                    new BasicHeader("Content-Type", "text/plain; charset=UTF-8"));
         //设置期望服务端返回的编码
         httpGet.setHeader(new BasicHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8"));
         httpGet.setHeader(new BasicHeader("Accept-Language", "zh-CN,zh;q=0.9,ja;q=0.8,en;q=0.7"));
