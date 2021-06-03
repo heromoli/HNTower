@@ -99,6 +99,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     @Transactional
     public void update(SysUserEntity user) {
+        user.setUpdateTime(new Date());
         if (StringUtils.isBlank(user.getPassword())) {
             user.setPassword(null);
         } else {

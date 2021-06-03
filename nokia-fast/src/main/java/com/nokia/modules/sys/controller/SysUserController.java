@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -113,7 +114,6 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sys:user:save")
     public RData save(@RequestBody SysUserEntity user) {
 //		ValidatorUtils.validateEntity(user, AddGroup.class);
-
         user.setCreateUserId(getUserId());
         sysUserService.saveUser(user);
 
@@ -128,7 +128,6 @@ public class SysUserController extends BaseController {
     @RequiresPermissions("sys:user:update")
     public RData update(@RequestBody SysUserEntity user) {
 //		ValidatorUtils.validateEntity(user, UpdateGroup.class);
-
         user.setCreateUserId(getUserId());
         sysUserService.update(user);
 

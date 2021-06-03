@@ -42,6 +42,14 @@ public class SysUserEntity implements Serializable {
 	 */
 	private String salt;
 
+	//用户姓名
+	@NotBlank(message="姓名不能为空")
+	private String name;
+
+	//分公司
+	@NotBlank(message="分公司不能为空")
+	private String branch;
+
 	/**
 	 * 邮箱
 	 */
@@ -74,6 +82,11 @@ public class SysUserEntity implements Serializable {
 	 * 创建时间
 	 */
 	private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
 	/**
 	 * 分组列表

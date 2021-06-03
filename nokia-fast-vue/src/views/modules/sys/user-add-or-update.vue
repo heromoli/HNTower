@@ -10,14 +10,20 @@
             </el-form-item>
             <el-form-item label="密码" prop="password" :class="{ 'is-required': !dataForm.id }">
                 <el-input show-password v-model="dataForm.password" type="password" minlength="8" maxlength="20"
-                          placeholder="长度为8-20位字符，包含数字、小写、大写字母、特殊字符中至少3种"></el-input>
+                          placeholder="请输入8-20位英文字母、数字或者符号（除空格），且大小写字母、数字和标点符号至少包含三种"></el-input>
             </el-form-item>
             <el-form-item label="确认密码" prop="comfirmPassword" :class="{ 'is-required': !dataForm.id }">
                 <el-input v-model="dataForm.comfirmPassword" type="password" minlength="8" maxlength="20"
-                          placeholder="长度为8-20位字符，包含数字、小写、大写字母、特殊字符中至少3种"></el-input>
+                          placeholder="请输入8-20位英文字母、数字或者符号（除空格），且大小写字母、数字和标点符号至少包含三种"></el-input>
             </el-form-item>
             <el-form-item label="密码强度">
                 <password-strength v-model="dataForm.password" style="padding-top: 10px;"></password-strength>
+            </el-form-item>
+            <el-form-item label="姓名" prop="name">
+                <el-input v-model="dataForm.name" placeholder="姓名"></el-input>
+            </el-form-item>
+            <el-form-item label="分公司" prop="branch">
+                <el-input v-model="dataForm.branch" placeholder="分公司"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="email">
                 <el-input v-model="dataForm.email" placeholder="邮箱"></el-input>
@@ -63,14 +69,18 @@
 
     export default {
         data() {
-            var validatePassword = (rule, value, callback) => {
+            let validatePassword = (rule, value, callback) => {
                 if (!this.dataForm.id && !/\S/.test(value)) {
                     callback(new Error('密码不能为空'))
-                } else {
+                }
+                else if(!!/\S/.test(value) && !/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W])[A-Za-z0-9\W]{8,20}$/.test(value)){
+                    callback(new Error('请输入8-20位英文字母、数字或者符号（除空格），且大小写字母、数字和标点符号至少包含三种'))
+                }
+                else {
                     callback()
                 }
             };
-            var validateComfirmPassword = (rule, value, callback) => {
+            let validateComfirmPassword = (rule, value, callback) => {
                 if (!this.dataForm.id && !/\S/.test(value)) {
                     callback(new Error('确认密码不能为空'))
                 } else if (this.dataForm.password !== value) {
@@ -79,14 +89,21 @@
                     callback()
                 }
             };
-            var validateEmail = (rule, value, callback) => {
+            let validatePsdReg = (rule, value, callback) => {
+                if (!/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W])[A-Za-z0-9\W]{8,20}$/.test(value)) {
+                    callback(new Error('请输入8-20位英文字母、数字或者符号（除空格），且大小写字母、数字和标点符号至少包含三种'))
+                } else {
+                    callback()
+                }
+            };
+            let validateEmail = (rule, value, callback) => {
                 if (!isEmail(value)) {
                     callback(new Error('邮箱格式错误'))
                 } else {
                     callback()
                 }
             };
-            var validateMobile = (rule, value, callback) => {
+            let validateMobile = (rule, value, callback) => {
                 if (!isMobile(value)) {
                     callback(new Error('手机号格式错误'))
                 } else {
@@ -102,6 +119,8 @@
                     password: '',
                     comfirmPassword: '',
                     salt: '',
+                    name: '',
+                    branch: '',
                     email: '',
                     mobile: '',
                     roleIdList: [],
@@ -113,10 +132,12 @@
                         {required: true, message: '用户名不能为空', trigger: 'blur'}
                     ],
                     password: [
-                        {validator: validatePassword, trigger: 'blur'}
+                        {validator: validatePassword, trigger: 'blur'},
+                        // {validator: validatePsdReg, trigger: 'blur'}
                     ],
                     comfirmPassword: [
-                        {validator: validateComfirmPassword, trigger: 'blur'}
+                        {validator: validateComfirmPassword, trigger: 'blur'},
+                        // {validator: validatePsdReg, trigger: 'blur'}
                     ],
                     email: [
                         {required: true, message: '邮箱不能为空', trigger: 'blur'},
@@ -155,6 +176,8 @@
                         }).then(({data}) => {
                             if (data && data.code === 0) {
                                 this.dataForm.userName = data.user.username;
+                                this.dataForm.name = data.user.name;
+                                this.dataForm.branch = data.user.branch;
                                 this.dataForm.salt = data.user.salt;
                                 this.dataForm.email = data.user.email;
                                 this.dataForm.mobile = data.user.mobile;
@@ -178,6 +201,8 @@
                                 'username': this.dataForm.userName,
                                 'password': this.dataForm.password,
                                 'salt': this.dataForm.salt,
+                                'name': this.dataForm.name,
+                                'branch': this.dataForm.branch,
                                 'email': this.dataForm.email,
                                 'mobile': this.dataForm.mobile,
                                 'status': this.dataForm.status,
