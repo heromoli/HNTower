@@ -5,10 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
-/**
- * Created by wow on 2019/6/6.
- *
- */
 @Configuration
 public class FilterConfig {
     /*
@@ -23,6 +19,7 @@ public class FilterConfig {
         registration.setEnabled(true);
         registration.setOrder(Integer.MAX_VALUE - 1);
         registration.addUrlPatterns("/*");
+        registration.setName("paramsFilter");
         return registration;
     }
 }
