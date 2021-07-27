@@ -19,7 +19,6 @@ public class FilterConfig {
         registration.setEnabled(true);
         registration.setOrder(Integer.MAX_VALUE - 1);
         registration.addUrlPatterns("/*");
-        registration.setName("paramsFilter");
         return registration;
     }
 }

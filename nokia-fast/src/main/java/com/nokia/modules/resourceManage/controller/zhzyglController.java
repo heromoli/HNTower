@@ -189,7 +189,6 @@ public class zhzyglController extends BaseController {
     @GetMapping("/queryStationAddressManagement")
     public RData queryStationAddressManagement(@RequestParam Map<String, Object> params) {
         String queryParamString = params.get("queryParam").toString();
-        logger.info(queryParamString);
         Map<String, Object> queryParams = JSON.parseObject(queryParamString, Map.class);
         List<QueryStationAddress> dataList = queryStationAddressService.selectDataByParam(queryParams);
         List<QueryStationAddress> resultList = new ArrayList<>();

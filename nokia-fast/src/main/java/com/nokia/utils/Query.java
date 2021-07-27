@@ -2,7 +2,7 @@ package com.nokia.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nokia.common.filter.SQLFilter;
+import com.nokia.common.filter.XssAndSqlFilter;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.Map;
@@ -36,7 +36,7 @@ public class Query<T> {
 
         //排序字段
         //防止SQL注入
-        String orderField = SQLFilter.sqlInject((String) params.get(Constant.ORDER_FIELD));
+        String orderField = XssAndSqlFilter.sqlInject((String) params.get(Constant.ORDER_FIELD));
         String order = (String) params.get(Constant.ORDER);
 
         //前端字段排序
