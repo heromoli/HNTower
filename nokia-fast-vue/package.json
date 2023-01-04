@@ -15,7 +15,7 @@
     "highcharts": "^7.2.2",
     "node-sass": "^4.14.1",
     "sass-loader": "^7.1.0",
-    "svg-sprite-loader": "^4.1.6",
+    "svg-sprite-loader": "^6.0.11",
     "ueditor": "^1.2.3",
     "vue": "^2.6.10",
     "vue-amap": "^0.5.10",
@@ -27,9 +27,9 @@
     "vuex": "^3.1.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.7.0",
+    "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^3.7.0",
-    "@vue/cli-service": "^3.7.0",
+    "@vue/cli-service": "^5.0.8",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
